@@ -10,7 +10,8 @@
     arrivi: {},          // chiave "giorno-replica-scuola" -> 'ok' | 'late'
     todo: { 0: true, 1: true },
     check: {},
-    selDay: D.OGGI, selRep: 0, calMode: 'mese', teatro: null
+    selDay: D.OGGI, selRep: 0, calMode: 'mese', teatro: null,
+    bp: { prezzo: 9, scen: 1, sala: 800, paga: 120, camera: 70 }
   };
 
   var IC = {
@@ -25,11 +26,12 @@
     squadra: '<circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M3 20a6 6 0 0 1 12 0M14 20a4.5 4.5 0 0 1 8 0"/>',
     documenti: '<path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9Z"/><path d="M14 3v6h6"/>',
     permessi: '<path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3Z"/><path d="M9 12l2 2 4-4"/>',
+    budget: '<path d="M16.5 7.5A5.5 5.5 0 1 0 16.5 16.5"/><path d="M5 10.5h8M5 13.5h8"/>',
     telefono: '<rect x="7" y="2" width="10" height="20" rx="3"/><path d="M11 18h2"/>'
   };
   var MENU = {
     tm: [['oggi', 'Oggi'], ['tournee', 'Tournée'], ['piantine', 'Piantine'], ['accoglienza', 'Accoglienza'], ['mappa', 'Mappa'], ['teatri', 'Teatri'], ['checklist', 'Checklist'], ['squadra', 'Squadra'], ['documenti', 'Documenti']],
-    dir: [['controllo', 'Controllo'], ['tournee', 'Tournée'], ['mappa', 'Mappa'], ['piantine', 'Piantine'], ['teatri', 'Teatri'], ['squadra', 'Squadra e accessi'], ['permessi', 'Permessi e diritti'], ['documenti', 'Documenti']],
+    dir: [['controllo', 'Controllo'], ['budget', 'Business plan'], ['tournee', 'Tournée'], ['mappa', 'Mappa'], ['piantine', 'Piantine'], ['teatri', 'Teatri'], ['squadra', 'Squadra e accessi'], ['permessi', 'Permessi e diritti'], ['documenti', 'Documenti']],
     cast: [['telefono', 'App del cast']]
   };
   var CHI = { tm: ['Giulia Rossi', 'Tour manager', 'GR'], dir: ['Marco Bianchi', 'Direzione', 'MB'], cast: ['Sara Verdi', 'Cast artistico', 'SV'] };
@@ -272,6 +274,114 @@
         return '<tr><td>' + esc(g.data + ' ' + g.mese) + '</td><td>' + esc(g.citta) + '</td><td class="hide">' + esc(g.teatro.nome) + '</td><td>' + st + '</td></tr>';
       }).join('') + '</tbody></table></section>';
   };
+
+
+  /* ---------- business plan ---------- */
+  var SCEN = [['Prudente', 0.85], ['Atteso', 1], ['Ottimo', 1.1]];
+  var BP_CTRL = [
+    ['prezzo', 'Biglietto per studente', 5, 15, 0.5, '€'],
+    ['sala', 'Affitto sala per giornata', 0, 2000, 50, '€'],
+    ['paga', 'Paga giornaliera attori (lordo)', 80, 200, 5, '€'],
+    ['camera', 'Hotel per camera a notte', 40, 140, 5, '€']
+  ];
+  function num(v) { return String(Math.round(Math.abs(v))).replace(/\B(?=(\d{3})+(?!\d))/g, '.'); }
+  function eur(v) { return (v < 0 ? '−' : '') + '€ ' + num(v); }
+  function bpCalc() {
+    var p = ST.bp, f = SCEN[p.scen][1];
+    var ATT = 3, TEC = 2, CAMERE = 5, IN_VIAGGIO = 6;
+    var FISSI = { scena: 5000, assic: 1200 }, FURGONE = 90, EUR_KM = 0.16, PEDAGGI_KM = 0.07, DIARIA = 25, TM = 125, TEC_PAGA = 130, PROVV = 0.08, DIRITTI = 0.10;
+    var giorni = D.date.length, prev = null, rows = [], cumR = 0, cumC = FISSI.scena + FISSI.assic, curve = [[0, 0, cumC]], be = null;
+    var T = { ric: 0, sala: 0, hotel: 0, diaria: 0, km: 0, carb: 0, ped: 0, furgone: FURGONE * giorni, att: 0, tec: 0, tm: 0, provv: 0, dir: 0, rep: 0, spett: 0 };
+    D.date.forEach(function (g, i) {
+      var r = 0, c = FURGONE;
+      if (g.citta) {
+        var spett = g.repliche.reduce(function (s, x) { return s + x.tot; }, 0) * f, k = km(prev, g.citta); prev = g.citta;
+        r = spett * p.prezzo;
+        var d = { sala: p.sala, hotel: CAMERE * p.camera, diaria: IN_VIAGGIO * DIARIA, carb: k * EUR_KM, ped: k * PEDAGGI_KM, att: ATT * p.paga, tec: TEC * TEC_PAGA, tm: TM, provv: r * PROVV, dir: r * DIRITTI };
+        Object.keys(d).forEach(function (x) { T[x] += d[x]; c += d[x]; });
+        T.km += k; T.ric += r; T.rep += g.repliche.length; T.spett += spett;
+        rows.push({ i: i, g: g, r: r, c: c, m: r - c });
+      }
+      cumR += r; cumC += c; curve.push([i + 1, cumR, cumC]);
+      if (be === null && cumR >= cumC && r > 0) be = i;
+    });
+    var costi = cumC;
+    return { T: T, F: FISSI, costi: costi, ric: T.ric, marg: T.ric - costi, rows: rows, curve: curve, be: be, giorni: giorni };
+  }
+  function bpChart(R) {
+    var sm = window.innerWidth < 780, W = sm ? 360 : 640, H = sm ? 230 : 250, L = 40, B = 26, max = Math.max(R.ric, R.costi) * 1.05;
+    var x = function (d) { return L + d / R.giorni * (W - L - 10); }, y = function (v) { return H - B - v / max * (H - B - 12); };
+    var line = function (k) { return R.curve.map(function (p, j) { return (j ? 'L' : 'M') + x(p[0]).toFixed(1) + ' ' + y(p[k]).toFixed(1); }).join(''); };
+    var s = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Ricavi e costi cumulati lungo la tournée">';
+    for (var t = 0; t <= 4; t++) { var v = max / 4 * t; s += '<line x1="' + L + '" x2="' + (W - 10) + '" y1="' + y(v) + '" y2="' + y(v) + '" class="bp-grid"/><text x="' + (L - 8) + '" y="' + (y(v) + 3) + '" class="bp-ax" text-anchor="end">' + Math.round(v / 1000) + 'k</text>'; }
+    (sm ? [0, 14, 28, 42] : [0, 7, 14, 21, 28, 35, 42]).forEach(function (d) { s += '<text x="' + x(d) + '" y="' + (H - 8) + '" class="bp-ax" text-anchor="' + (d === 42 ? 'end' : d ? 'middle' : 'start') + '">' + (d ? 'g. ' + d : 'inizio') + '</text>'; });
+    s += '<path d="' + line(2) + '" class="bp-c"/><path d="' + line(1) + '" class="bp-r"/>';
+    if (R.be !== null) { var px = x(R.be + 1), py = y(R.curve[R.be + 1][1]); s += '<line x1="' + px + '" x2="' + px + '" y1="12" y2="' + (H - B) + '" class="bp-be"/><circle cx="' + px + '" cy="' + py + '" r="5" class="bp-dot"/>'; }
+    return s + '</svg>';
+  }
+  function bpResults() {
+    var R = bpCalc(), T = R.T, rep = T.rep, pct = R.ric ? R.marg / R.ric * 100 : 0;
+    var be = R.be !== null ? D.date[R.be] : null;
+    var kpi = [['Ricavi previsti', eur(R.ric), num(T.spett) + ' spettatori'], ['Costi previsti', eur(R.costi), eur(R.costi / rep) + ' a replica'],
+      ['Margine', eur(R.marg), (pct < 0 ? '−' : '') + Math.abs(pct).toFixed(1).replace('.', ',') + '% dei ricavi', R.marg >= 0 ? 'pos' : 'neg'],
+      ['Pareggio', be ? be.data + ' ' + be.mese : 'non raggiunto', be ? 'giorno ' + (R.be + 1) + ' di ' + R.giorni : 'servono più spettatori o meno costi', be ? '' : 'neg']];
+    var h = '<div class="bp-kpi">' + kpi.map(function (k) { return '<section class="card"><div class="sub" style="margin:0">' + k[0] + '</div><div class="bp-n ' + (k[3] || '') + '">' + k[1] + '</div><small>' + k[2] + '</small></section>'; }).join('') + '</div>';
+    var voci = [
+      ['Persone', [['Attori (3)', T.att], ['Tecnici (2)', T.tec], ['Tour manager', T.tm], ['Vendite (provvigione 8%)', T.provv]]],
+      ['Viaggio e soggiorno', [['Hotel (5 camere)', T.hotel], ['Vitto e diarie', T.diaria], ['Noleggio furgone (' + R.giorni + ' giorni)', T.furgone], ['Carburante (' + Math.round(T.km).toLocaleString('it-IT') + ' km)', T.carb], ['Pedaggi', T.ped]]],
+      ['Teatri e diritti', [['Affitto sale', T.sala], ['Diritti d’autore (10%)', T.dir]]],
+      ['Costi fissi', [['Scenografia e costumi', R.F.scena], ['Assicurazioni e varie', R.F.assic]]]
+    ];
+    var tb = '<table class="tbl bp-tbl"><thead><tr><th>Voce</th><th class="r">Totale</th><th class="r hide">A replica</th><th class="hide">Peso</th></tr></thead><tbody>';
+    tb += '<tr class="bp-in"><td><b>Ricavi da biglietti</b></td><td class="r"><b>' + eur(R.ric) + '</b></td><td class="r hide">' + eur(R.ric / rep) + '</td><td class="hide"></td></tr>';
+    voci.forEach(function (gr) {
+      var sub = gr[1].reduce(function (s, v) { return s + v[1]; }, 0);
+      tb += '<tr class="bp-gr"><td>' + gr[0] + '</td><td class="r">' + eur(sub) + '</td><td class="r hide">' + eur(sub / rep) + '</td><td class="hide"></td></tr>';
+      gr[1].forEach(function (v) {
+        tb += '<tr><td class="bp-sub">' + esc(v[0]) + '</td><td class="r">' + eur(v[1]) + '</td><td class="r hide">' + eur(v[1] / rep) + '</td><td class="hide"><span class="bp-bar"><i style="width:' + Math.max(2, v[1] / R.costi * 100 * 3).toFixed(0) + '%"></i></span></td></tr>';
+      });
+    });
+    tb += '<tr class="bp-tot"><td>Margine</td><td class="r ' + (R.marg >= 0 ? 'pos' : 'neg') + '">' + eur(R.marg) + '</td><td class="r hide">' + eur(R.marg / rep) + '</td><td class="hide"></td></tr></tbody></table>';
+    var peggio = R.rows.slice().sort(function (a, b) { return a.m - b.m; }).slice(0, 5);
+    var uno = R.rows.filter(function (x) { return x.g.repliche.length === 1; }), perse = uno.filter(function (x) { return x.m < 0; }).length;
+    var li = peggio.map(function (x) {
+      return '<li class="row" data-day="' + x.i + '"><div class="d"><b>' + x.g.data + '</b><small>' + esc(x.g.giorno.slice(0, 3)) + '</small></div><div class="m"><b>' + esc(x.g.citta) + '</b><small>' + x.g.repliche.length + (x.g.repliche.length === 1 ? ' replica' : ' repliche') + ' · ' + eur(x.r) + ' di ricavi</small></div><span class="bp-m ' + (x.m >= 0 ? 'pos' : 'neg') + '">' + eur(x.m) + '</span></li>';
+    }).join('');
+    return {
+      kpi: h, tbl: tb, chart: bpChart(R) + '<div class="legend"><span class="lg"><i style="background:var(--bp-r)"></i>Ricavi cumulati</span><span class="lg"><i style="background:var(--bp-c)"></i>Costi cumulati</span>' + (be ? '<span class="lg"><i style="background:var(--straw)"></i>Pareggio il ' + be.data + ' ' + be.mese + '</span>' : '') + '</div>',
+      date: '<ul class="list">' + li + '</ul><p class="note">' + (perse ? '<b>' + perse + ' delle ' + uno.length + ' date con una sola replica sono in perdita.</b> Accorparle o aggiungere una seconda replica sposta il pareggio in avanti.' : 'Con queste ipotesi anche le date con una sola replica coprono i costi.') + '</p>'
+    };
+  }
+  function bpPaint() {
+    var o = bpResults();
+    ['kpi', 'tbl', 'chart', 'date'].forEach(function (k) { var el = document.getElementById('bp-' + k); if (el) el.innerHTML = o[k]; });
+    BP_CTRL.forEach(function (c) { var el = document.getElementById('bpv-' + c[0]); if (el) el.textContent = eur(ST.bp[c[0]]); });
+  }
+  V.budget = function () {
+    var p = ST.bp;
+    var ctrl = BP_CTRL.map(function (c) {
+      return '<label class="bp-ctl"><span>' + c[1] + '<b id="bpv-' + c[0] + '">' + eur(p[c[0]]) + '</b></span><input type="range" data-bp="' + c[0] + '" min="' + c[2] + '" max="' + c[3] + '" step="' + c[4] + '" value="' + p[c[0]] + '" style="--p:' + ((p[c[0]] - c[2]) / (c[3] - c[2]) * 100).toFixed(1) + '%"></label>';
+    }).join('');
+    var h = '<div class="top"><div><div class="eyebrow">Business plan</div><h1>Tournée di primavera</h1><div class="sub">Ricavi, costi e margine della tournée, ricalcolati appena cambi un’ipotesi.</div></div>' +
+      '<div class="chips"><button class="chip" data-toast="Nella versione completa carichi il tuo Excel e TourNeat riconosce le voci di costo">Importa da Excel</button><button class="chip" data-toast="Nella versione completa esporti il PDF per banca, bandi e soci">Esporta PDF</button></div></div>';
+    h += '<div id="bp-kpi"></div>';
+    h += '<div class="grid"><section class="card c4"><div class="ch"><h2>Ipotesi</h2></div>' +
+      '<div class="bp-ctl"><span>Presenze</span><div class="seg" role="group" aria-label="Scenario">' + SCEN.map(function (s, i) { return '<button data-scen="' + i + '" class="' + (p.scen === i ? 'on' : '') + '">' + s[0] + '</button>'; }).join('') + '</div></div>' +
+      ctrl + '<p class="note">Altre voci (furgone, carburante, provvigioni, diritti) si impostano una volta sola. Le date e i chilometri arrivano dal calendario della tournée.</p></section>' +
+      '<section class="card c8"><div class="ch"><h2>Ricavi e costi lungo la tournée</h2></div><div id="bp-chart" class="bp-chart"></div></section>' +
+      '<section class="card c8"><div class="ch"><h2>Conto economico</h2><span class="tag">' + D.date.filter(function (g) { return g.citta; }).length + ' date</span></div><div id="bp-tbl"></div></section>' +
+      '<section class="card c4"><div class="ch"><h2>Date meno redditizie</h2></div><div id="bp-date"></div></section></div>';
+    setTimeout(bpPaint, 0);
+    return h;
+  };
+  document.addEventListener('input', function (e) {
+    var k = e.target.getAttribute && e.target.getAttribute('data-bp');
+    if (k) { var t = e.target; ST.bp[k] = +t.value; t.style.setProperty('--p', ((t.value - t.min) / (t.max - t.min) * 100).toFixed(1) + '%'); bpPaint(); }
+  });
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-scen]');
+    if (b) { ST.bp.scen = +b.getAttribute('data-scen'); document.querySelectorAll('[data-scen]').forEach(function (x) { x.classList.toggle('on', x === b); }); bpPaint(); }
+  });
 
   V.telefono = function () {
     var i = prossimaData(D.OGGI), g = giorno(i), dom = giorno(prossimaData(i + 1));
