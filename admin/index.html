@@ -1,0 +1,1291 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>TourNeat · Amministrazione</title>
+<style>
+:root{--bg:#F5F5F7;--card:#fff;--ink:#1D1D1F;--muted:#6E6E73;--line:#E5E5EA;--line2:#D2D2D7;--straw:#F2DC8C;--straw-soft:#FBF4D9;--straw-text:#8A6A00;--ok:#34C759;--shadow:0 1px 2px rgba(0,0,0,.04),0 6px 20px rgba(0,0,0,.05);--font:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif;color-scheme:light}
+@media (prefers-color-scheme:dark){:root{--bg:#000;--card:#1C1C1E;--ink:#F5F5F7;--muted:#A1A1A6;--line:#2C2C2E;--line2:#3A3A3C;--straw-soft:#2A2614;--straw-text:#F2DC8C;--shadow:none;color-scheme:dark}}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 var(--font);letter-spacing:-.01em;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1120px;margin:0 auto;padding:28px 20px 60px}
+.top{position:sticky;top:0;z-index:30;display:flex;align-items:center;justify-content:space-between;gap:16px;margin:0 -20px 16px;padding:10px 20px;background:color-mix(in srgb,var(--bg) 86%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+h1{margin:2px 0 0;font-size:30px;letter-spacing:-.03em}
+h2{margin:0 0 4px;font-size:17px;letter-spacing:-.02em}
+.muted{color:var(--muted)}.small{font-size:12.5px}
+.btn{border:0;border-radius:999px;padding:8px 16px;font:600 13px var(--font);cursor:pointer;background:var(--ink);color:var(--bg);white-space:nowrap}
+.btn.ghost{background:var(--card);color:var(--ink);box-shadow:inset 0 0 0 1px var(--line2)}
+.btn.gold{background:var(--straw);color:#1D1D1F}
+.btn:disabled{opacity:.4;cursor:default}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.card{background:var(--card);border-radius:16px;box-shadow:var(--shadow);padding:16px;border:1px solid var(--line)}
+.pr .row{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.pill{display:inline-block;background:var(--straw-soft);color:var(--straw-text);border-radius:999px;padding:2px 9px;font-size:11.5px;font-weight:600}
+.empty{text-align:center;padding:34px 16px}
+.ed{display:grid;grid-template-columns:1fr 300px;gap:16px;align-items:start;margin-top:22px}
+.ed[hidden]{display:none}
+label.f{display:block;font-size:12px;font-weight:600;color:var(--muted);margin:0 0 4px}
+input[type=text],input[type=password]{width:100%;border:1px solid var(--line2);border-radius:10px;padding:9px 12px;font:14px var(--font);background:var(--bg);color:var(--ink)}
+.two{display:grid;grid-template-columns:1fr 180px;gap:10px;margin-bottom:6px}
+.area{margin-top:16px}
+.area h3{margin:0 0 6px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.mods{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:6px}
+.m{display:flex;gap:9px;align-items:flex-start;padding:8px 10px;border-radius:10px;border:1px solid var(--line);cursor:pointer;background:var(--card)}
+.m input{margin:2px 0 0;accent-color:#1D1D1F;width:15px;height:15px;flex:none}
+@media (prefers-color-scheme:dark){.m input{accent-color:var(--straw)}}
+.m.on{border-color:var(--straw);background:var(--straw-soft)}
+.m.fix{cursor:default;opacity:.75}
+.m b{display:block;font-size:13px;font-weight:600}
+.m span{display:block;font-size:11.5px;color:var(--muted)}
+.side{position:sticky;top:16px}
+.side .num{font-size:28px;font-weight:700;letter-spacing:-.03em}
+.side .acts{display:flex;flex-direction:column;gap:8px;margin-top:14px}
+.login{max-width:380px}
+.tabs{display:flex;gap:4px;overflow-x:auto;margin:-4px 0 16px;padding:3px;background:var(--card);border:1px solid var(--line);border-radius:999px;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tabs button{border:0;background:none;font:600 13px var(--font);color:var(--muted);padding:7px 14px;border-radius:999px;cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:6px}
+.tabs button.on{background:var(--ink);color:var(--bg)}
+.tabs .pill{padding:0 7px;font-size:11px}
+.kpi{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:12px}
+.tile{display:flex;flex-direction:column;gap:2px;text-align:left;font:inherit;color:inherit;cursor:default}
+button.tile[data-vai]{cursor:pointer}button.tile[data-vai]:hover{border-color:var(--line2)}
+.tile b{font-size:26px;letter-spacing:-.03em;line-height:1.15}
+.spazio{display:flex;flex-direction:column;gap:12px}
+.bar-h{display:flex;justify-content:space-between;font-size:13px;margin-bottom:5px}
+.bar-b{height:8px;border-radius:99px;background:var(--bg);overflow:hidden}.bar-b i{display:block;height:100%;background:var(--ink);border-radius:99px}
+.bar-b i.giallo{background:#E8B400}.bar-b i.rosso{background:#FF3B30}
+.cl-k{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;margin-top:8px;padding-top:8px;border-top:1px solid var(--line);font-size:13px}.cl-k select{border:1px solid var(--line2);border-radius:10px;padding:5px 8px;font:12.5px var(--font);background:var(--card);color:var(--ink);max-width:100%}
+.cl-n{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:13px;margin:8px 0 2px}
+.arch-h{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:10px}.arch-h b{flex:1 1 200px}
+.arch-h input,.arch-h select,.arch-t select{border:1px solid var(--line2);border-radius:10px;padding:7px 10px;font:13px var(--font);background:var(--bg);color:var(--ink)}
+.arch-h input{width:220px}
+.arch-t{width:100%;border-collapse:collapse;font-size:13px}.arch-t th{text-align:left;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding:6px 8px;border-bottom:1px solid var(--line)}
+.arch-t td{padding:7px 8px;border-bottom:1px solid var(--line)}
+.tar-h{display:flex;justify-content:space-between;gap:16px;align-items:flex-start}
+.tar-g{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:14px}
+.tar-b{border:1px solid var(--line);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:8px}
+.tar-t{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.tar-in{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--muted)}
+.tar-in input{width:74px;padding:7px 10px;text-align:right;font-weight:600}
+.tar-tab{width:100%;border-collapse:collapse;font-size:13px}.tar-tab th{text-align:left;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding:4px 0;border-bottom:1px solid var(--line)}
+.tar-tab td{padding:6px 0;border-bottom:1px solid var(--line)}.tar-tab th:not(:first-child),.tar-tab td:not(:first-child){text-align:right}
+.tar-b p{margin:0}.avv{color:#C2410C;font-weight:600}
+.pano-ve{display:flex;flex-direction:column;gap:0;margin-bottom:0}.pv-h{display:flex;justify-content:space-between;align-items:center;gap:10px}.pv-n{display:flex;flex-wrap:wrap;gap:4px 22px;font-size:14px}.pv-r{display:flex;flex-direction:column;gap:2px}
+.pv-it{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:10px;align-items:center;text-align:left;font:inherit;color:inherit;background:none;border:0;border-top:1px solid var(--line);padding:8px 2px;cursor:pointer}
+.ve-bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:12px}.ve-bar input{flex:1 1 220px;max-width:320px;border:1px solid var(--line2);border-radius:10px;padding:8px 12px;font:14px var(--font);background:var(--card);color:var(--ink)}
+.ve-vista{display:inline-flex;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:3px}.ve-vista button{border:0;background:none;font:600 13px var(--font);color:var(--muted);padding:6px 14px;border-radius:999px;cursor:pointer}.ve-vista button.on{background:var(--ink);color:var(--bg)}
+.ve-kan{display:grid;grid-template-columns:repeat(6,minmax(214px,1fr));gap:10px;overflow-x:auto;padding-bottom:6px;align-items:start}
+.ve-col{background:rgba(127,127,127,.08);border-radius:16px;padding:10px;min-height:110px;display:flex;flex-direction:column;gap:7px}.ve-col.over{box-shadow:inset 0 0 0 2px var(--ink)}
+.ve-ch{display:flex;align-items:center;gap:7px;padding:2px 4px;font-size:14px}.ve-ch .muted{margin-left:auto;white-space:nowrap}.ve-ch b{white-space:nowrap}
+.ve-dot{width:9px;height:9px;border-radius:99px;background:var(--muted)}.ve-dot.g{background:#8E8E93}.ve-dot.y{background:#E8B400}.ve-dot.ok{background:var(--ok)}.ve-dot.bad{background:#FF3B30}
+.ve-card{display:flex;flex-direction:column;gap:2px;padding:10px 12px;cursor:grab;border-radius:12px}.ve-card.drag{opacity:.45}.ve-card b,.ve-card>span:not(.ve-cf){overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ve-cf .pill{white-space:nowrap}.ve-cf{display:flex;justify-content:space-between;align-items:center;gap:6px;margin-top:4px}
+.pill.y{background:var(--straw-soft);color:var(--straw-text)}.pill.ok{background:rgba(52,199,89,.14);color:#1E7F3A}.pill.bad{background:rgba(255,59,48,.12);color:#C4251B}.pill.g{background:rgba(142,142,147,.16)}
+.ve-el{padding:8px}.ve-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center;padding:9px 8px;border-radius:10px;cursor:pointer}.ve-row:hover{background:rgba(127,127,127,.08)}.ve-row+.ve-row{border-top:1px solid var(--line);border-radius:0}
+.ve-rn{display:flex;flex-direction:column;min-width:0}.ve-rn b,.ve-rn span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.ve-rs{display:flex;align-items:center;gap:8px;justify-content:flex-end}
+.ve-az{display:inline-flex;gap:4px}.ve-az a{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:99px;border:1px solid var(--line);color:var(--ink)}.ve-az a:hover{background:var(--ink);color:var(--bg)}
+body.ve-aperto{overflow:hidden}
+.ve-ov{position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.3);display:flex;justify-content:flex-end}.ve-ov[hidden]{display:none}
+.ve-sh{width:min(560px,100%);height:100%;overflow-y:auto;border-radius:0;padding:20px 22px 28px;display:flex;flex-direction:column;gap:14px;animation:veS .22s cubic-bezier(.2,.8,.2,1)}
+@keyframes veS{from{transform:translateX(30px);opacity:.4}}
+.ve-hd{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.ve-hd h2{margin:2px 0 0;font-size:22px;letter-spacing:-.02em}
+.ve-x{border:0;background:rgba(127,127,127,.14);width:34px;height:34px;border-radius:99px;font-size:22px;line-height:1;cursor:pointer;color:var(--ink);flex:none}
+.ve-fasi,.ve-chips,.ve-ric,.ve-tags{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.ve-fasi button,.ve-chips button,.ve-ric button{border:1px solid var(--line2);background:var(--card);font:600 13px var(--font);padding:6px 12px;border-radius:999px;color:var(--muted);cursor:pointer}
+.ve-fasi button.on{color:var(--ink);border-color:var(--ink)}.ve-fasi button.on.ok{background:var(--ok);border-color:var(--ok);color:#fff}.ve-fasi button.on.bad{background:#FF3B30;border-color:#FF3B30;color:#fff}.ve-fasi button.on.y{background:var(--straw);border-color:#C9A227;color:#1D1D1F}.ve-fasi button.on.g{background:rgba(142,142,147,.2)}
+.ve-chips button.on,.ve-ric button.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.ve-ric input{border:1px solid var(--line2);border-radius:10px;padding:5px 10px;font:13px var(--font);background:var(--card);color:var(--ink)}
+.ve-num{display:flex;flex-wrap:wrap;gap:4px 16px;font-size:14px;align-items:baseline}.ve-num a{color:var(--ink)}
+.ve-prj{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:10px 12px;border-radius:12px;background:var(--straw-soft);color:#1D1D1F;font-size:14px}.ve-prj span{flex:1 1 200px}.ve-prj select{border:1px solid var(--line2);border-radius:10px;padding:7px 10px;font:13px var(--font)}
+.ve-s{display:flex;flex-direction:column;gap:7px;border-top:1px solid var(--line);padding-top:12px}
+.ve-st{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.ve-ref{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center}
+.ve-s textarea,.ve-f textarea{border:1px solid var(--line2);border-radius:10px;padding:8px 10px;font:14px var(--font);background:var(--card);color:var(--ink);resize:vertical;width:100%;box-sizing:border-box}
+.ve-btns{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.ve-tl{list-style:none;margin:0;padding:0 0 0 14px;border-left:2px solid var(--line);display:flex;flex-direction:column;gap:10px}.ve-tl li{position:relative;display:flex;flex-direction:column;gap:2px;font-size:14px}.ve-tl li:before{content:'';position:absolute;left:-19px;top:6px;width:8px;height:8px;border-radius:99px;background:var(--ink)}
+.ve-tx{white-space:pre-wrap}
+.ve-f{display:flex;flex-direction:column;gap:10px}.ve-f label.f{display:flex;flex-direction:column;gap:4px}.ve-f input,.ve-f select{border:1px solid var(--line2);border-radius:10px;padding:8px 10px;font:14px var(--font);background:var(--card);color:var(--ink);width:100%;box-sizing:border-box}
+.ve-g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.ve-pr{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin-bottom:6px}.ve-piu{align-self:flex-start}
+.ve-mods{display:flex;flex-wrap:wrap;gap:6px}.ve-mods label{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line2);border-radius:999px;padding:5px 11px;font-size:13px;cursor:pointer}.ve-mods label.on{border-color:var(--ink);background:rgba(127,127,127,.1)}.ve-mods input{width:auto;margin:0}
+@media (max-width:780px){.ve-kan{grid-template-columns:repeat(6,82vw);scroll-snap-type:x mandatory}.ve-col{scroll-snap-align:center}.ve-ov{align-items:flex-end}.ve-sh{height:auto;max-height:92vh;border-radius:22px 22px 0 0;padding:18px 16px 26px}.ve-row{grid-template-columns:1fr}.ve-rs{justify-content:flex-start;flex-wrap:wrap}.ve-pr{grid-template-columns:1fr 1fr}.ve-g2{grid-template-columns:1fr}.ve-bar input{max-width:none;order:3;flex-basis:100%}}
+
+/* ---- pannello: menu laterale ---- */
+.wrap.pannello{max-width:1360px}
+.shell{display:grid;grid-template-columns:200px minmax(0,1fr);gap:24px;align-items:start}
+.menu{position:sticky;top:16px;display:flex;flex-direction:column;gap:2px}
+.menu .grp{font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:14px 10px 4px}
+.menu .grp:first-child{margin-top:0}
+.menu button{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;border:0;background:none;font:600 14px var(--font);color:var(--ink);padding:8px 10px;border-radius:10px;cursor:pointer;text-align:left}
+.menu button:hover{background:rgba(127,127,127,.1)}
+.menu button.on{background:var(--ink);color:var(--bg)}
+.menu .pill{padding:0 7px;font-size:11px;background:#FF3B30;color:#fff}
+.main{min-width:0}
+.pg-h{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;margin:0 0 14px;flex-wrap:wrap}
+.pg-h h2{font-size:24px;margin:0;letter-spacing:-.03em}.pg-h p{margin:2px 0 0}
+/* ---- pipeline ---- */
+.pn-strip{display:flex;align-items:center;gap:4px;overflow-x:auto;margin-bottom:12px;scrollbar-width:none}
+.pn-strip::-webkit-scrollbar{display:none}
+.pn-st{flex:1 0 auto;display:flex;flex-direction:column;align-items:flex-start;gap:0;border:1px solid var(--line);background:var(--card);border-radius:12px;padding:8px 12px;font:inherit;color:inherit;cursor:pointer;min-width:96px}
+.pn-st b{font-size:20px;letter-spacing:-.02em}.pn-st span{font-size:12px;color:var(--muted);white-space:nowrap}
+.pn-st.ok{border-color:var(--ok)}.pn-st.y{border-color:#E8C547}
+.pn-fr{font-style:normal;color:var(--muted);font-size:16px;flex:none}
+.pn-fun{display:flex;align-items:stretch;gap:4px;flex-wrap:wrap}
+.pn-fs{flex:1 1 120px;display:flex;flex-direction:column;align-items:flex-start;border:1px solid var(--line);background:var(--card);border-radius:12px;padding:10px 12px;font:inherit;color:inherit;cursor:pointer;text-align:left}
+.pn-fs b{font-size:22px;letter-spacing:-.02em}.pn-fs span{font-size:13px}
+.pn-fun .pn-fr{align-self:center}
+.pn-box{display:flex;flex-direction:column;gap:2px;padding:12px;margin-bottom:12px}
+.pn-bh{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:0 4px 6px;flex-wrap:wrap}
+.pn-row{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center;padding:8px;border-radius:10px;cursor:pointer}
+.pn-row:not(:has(.pn-chk)){grid-template-columns:minmax(0,1fr) auto}
+.pn-sol{background:var(--straw-soft)}.pn-sol b{white-space:normal!important}
+.pn-row:hover{background:rgba(127,127,127,.08)}.pn-row+.pn-row{border-top:1px solid var(--line);border-radius:0}
+.pn-rn{display:flex;flex-direction:column;min-width:0}.pn-rn>b,.pn-rn>span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pn-rs{display:flex;align-items:center;gap:8px;justify-content:flex-end}
+.pn-az{display:inline-flex;gap:4px}.pn-az a{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:99px;border:1px solid var(--line);color:var(--ink)}.pn-az a:hover{background:var(--ink);color:var(--bg)}
+.pn-kan{display:grid;grid-template-columns:repeat(var(--n),minmax(190px,1fr));gap:10px;overflow-x:auto;padding-bottom:6px;align-items:start}
+.pn-col{background:rgba(127,127,127,.08);border-radius:16px;padding:10px;min-height:120px;display:flex;flex-direction:column;gap:7px}.pn-col.over{box-shadow:inset 0 0 0 2px var(--ink)}
+.pn-ch{display:flex;align-items:center;gap:7px;padding:2px 4px;font-size:14px}.pn-ch b{white-space:nowrap}.pn-ch .muted{margin-left:auto;white-space:nowrap}
+.pn-cp{margin:0 4px 2px;line-height:1.3}
+.pn-dot{width:9px;height:9px;border-radius:99px;background:var(--muted);flex:none}.pn-dot.g{background:#8E8E93}.pn-dot.y{background:#E8B400}.pn-dot.ok{background:var(--ok)}.pn-dot.bad{background:#FF3B30}
+.pn-card{display:flex;flex-direction:column;gap:2px;padding:10px 12px;cursor:grab;border-radius:12px}.pn-card.drag{opacity:.45}
+.pn-card>b,.pn-card>span.muted{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pn-cf{display:flex;flex-wrap:wrap;align-items:center;gap:4px 6px;margin-top:3px}.pn-cf:empty{display:none}.pn-cf .pill{white-space:nowrap}
+.pn-v{margin:4px}
+.pn-persi{display:inline-flex;gap:6px;align-items:center;margin-top:8px;font-size:13px;color:var(--muted)}
+/* ---- invii ---- */
+.pn-t{width:100%;border-collapse:collapse;font-size:13px}.pn-t th{text-align:left;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding:6px 8px;border-bottom:1px solid var(--line)}
+.pn-t td{padding:7px 8px;border-bottom:1px solid var(--line)}.pn-t tr[data-pbl]{cursor:pointer}.pn-t tr[data-pbl]:hover,.pn-t tr.on{background:rgba(127,127,127,.08)}
+.pn-t th:not(:first-child),.pn-t td:not(:first-child){text-align:right}
+.pn-bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px}
+.pn-bar input,.pn-bar select{border:1px solid var(--line2);border-radius:10px;padding:8px 10px;font:13px var(--font);background:var(--card);color:var(--ink)}
+.pn-bar input{flex:1 1 200px;max-width:300px}.pn-bar .btn{margin-left:auto}
+.pn-bulk{position:sticky;top:8px;z-index:5;display:flex;align-items:center;gap:10px;padding:8px 12px;margin-bottom:10px;border-radius:12px;background:var(--ink);color:var(--bg)}
+.pn-bulk .btn{background:var(--bg);color:var(--ink)}.pn-bulk .btn.ghost{background:none;color:var(--bg);box-shadow:inset 0 0 0 1px rgba(255,255,255,.4)}
+.pn-all{display:inline-flex;gap:6px;align-items:center}
+.pn-chk{width:16px;height:16px;margin:0}
+/* ---- questionario ---- */
+.pn-q2{display:grid;grid-template-columns:1fr 1fr;gap:12px}.pn-q2>.pn-box{margin-bottom:12px}
+.pn-pz{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:2px 4px 8px}.pn-pz>div{display:flex;flex-direction:column}.pn-pz b{font-size:20px;letter-spacing:-.02em}
+.pn-avv{color:#C2410C;margin:2px 4px 8px}
+.pn-st2{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700;margin:6px 4px 4px}
+.pn-qb{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(60px,1fr) 28px;gap:8px;align-items:center;padding:3px 4px;font-size:13px}
+.pn-qb>span:first-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pn-qb i{display:block;height:8px;border-radius:99px;background:rgba(127,127,127,.14);overflow:hidden}.pn-qb i b{display:block;height:100%;background:var(--ink);border-radius:99px}
+.pn-qr{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;padding:10px 4px;border-top:1px solid var(--line)}
+.pn-qr:first-of-type{border-top:0}.pn-cit{font-style:italic;white-space:normal!important;margin-top:2px}
+/* ---- prodotti ---- */
+.pn-ig{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:0 4px}
+.pn-ig label{display:flex;flex-direction:column;gap:4px;font-weight:600;font-size:13px}
+.pn-in{display:flex;align-items:center;gap:6px;font-weight:400;color:var(--muted)}
+.pn-in input,.pn-pr{width:80px;border:1px solid var(--line2);border-radius:10px;padding:7px 10px;font:600 14px var(--font);text-align:right;background:var(--card);color:var(--ink)}
+.pn-rif{margin:10px 4px 2px}
+.pn-lt td{vertical-align:middle}.pn-lt td:first-child{max-width:420px}.pn-fd{display:block;white-space:normal;line-height:1.3;margin-top:1px}
+.pn-lt td:nth-child(3),.pn-lt th:nth-child(3){text-align:center}
+/* ---- scheda ---- */
+.pn-pp{display:flex;flex-direction:column;gap:8px;padding:12px 14px;border-radius:14px;background:rgba(127,127,127,.08);border-left:4px solid var(--muted)}
+.pn-pp.y{border-left-color:#E8B400}.pn-pp.ok{border-left-color:var(--ok)}.pn-pp.bad{border-left-color:#FF3B30}.pn-pp.g{border-left-color:#8E8E93}
+.pn-pp p{margin:2px 0 0;font-size:14px}.pn-pp select{border:1px solid var(--line2);border-radius:10px;padding:7px 10px;font:13px var(--font);background:var(--card);color:var(--ink)}
+.pn-dl{display:grid;grid-template-columns:150px minmax(0,1fr);gap:4px 12px;margin:0;font-size:13.5px}.pn-dl dt{color:var(--muted)}.pn-dl dd{margin:0}
+.ve-s details summary{cursor:pointer;color:var(--muted);margin-top:4px}
+.pn-mods{display:flex;flex-wrap:wrap;gap:6px}.pn-mods label{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line2);border-radius:999px;padding:5px 11px;font-size:13px;cursor:pointer}
+.pn-mods label.on{border-color:var(--ink);background:rgba(127,127,127,.1)}.pn-mods input{width:auto;margin:0}
+.pn-tot{display:flex;flex-wrap:wrap;gap:4px 18px;font-size:14px;padding:8px 0 2px}
+.ve-g3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.ve-btns a.btn{text-decoration:none;display:inline-block}
+@media (max-width:980px){
+  .shell{grid-template-columns:1fr;gap:10px}
+  .menu{position:sticky;top:0;z-index:20;flex-direction:row;overflow-x:auto;gap:4px;padding:6px 0;background:var(--bg);scrollbar-width:none;margin:0 -20px;padding-left:20px;padding-right:20px}
+  .menu::-webkit-scrollbar{display:none}.menu .grp{display:none}
+  .menu button{width:auto;white-space:nowrap;padding:7px 13px;border-radius:999px;background:var(--card);box-shadow:inset 0 0 0 1px var(--line)}
+  .menu button.on{box-shadow:none}
+}
+@media (max-width:780px){
+  .pn-kan{grid-template-columns:repeat(var(--n),82vw);scroll-snap-type:x mandatory}.pn-col{scroll-snap-align:center}
+  .pn-q2,.pn-ig{grid-template-columns:1fr}.pn-pz{grid-template-columns:1fr 1fr}
+  .pn-row{grid-template-columns:auto minmax(0,1fr)}.pn-row:not(:has(.pn-chk)){grid-template-columns:1fr}.pn-rs{grid-column:1/-1;justify-content:flex-start;flex-wrap:wrap}
+  .pn-t th:nth-child(6),.pn-t td:nth-child(6){display:none}
+  .pn-lt th:nth-child(2),.pn-lt td:nth-child(2),.pn-lt th:nth-child(5),.pn-lt td:nth-child(5){display:none}.pn-fd{display:none}
+  .pn-dl{grid-template-columns:1fr}.pn-dl dt{margin-top:6px}.ve-g3{grid-template-columns:1fr}
+  .pn-bar input{max-width:none;flex-basis:100%}.pn-bar .btn{margin-left:0}
+}
+/* ---- barra in alto, ricerca ---- */
+.tb-brand{display:flex;align-items:baseline;gap:8px;font-size:15px;letter-spacing:-.01em}.tb-brand span{color:var(--muted);font-size:13px}
+.tb-cerca{position:relative;flex:1 1 auto;max-width:460px}
+.tb-cerca input{width:100%;box-sizing:border-box;border:1px solid var(--line2);border-radius:10px;padding:8px 12px;font:14px var(--font);background:var(--card);color:var(--ink)}
+.gq-r{position:absolute;top:calc(100% + 6px);left:0;right:0;background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:0 12px 40px rgba(0,0,0,.14);padding:6px;max-height:70vh;overflow:auto;z-index:40}
+.gq-s{font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:8px 10px 4px}
+.gq-r button{display:flex;justify-content:space-between;gap:10px;width:100%;border:0;background:none;text-align:left;font:inherit;color:inherit;padding:8px 10px;border-radius:8px;cursor:pointer}
+.gq-r button:hover,.gq-r button:focus{background:rgba(127,127,127,.1)}.gq-r button span{color:var(--muted);font-size:12.5px;white-space:nowrap}
+.menu button.pr{color:var(--muted);font-weight:500}.menu button.pr i{font-style:normal;font-size:10px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line2);border-radius:99px;padding:0 6px}
+.menu button.pr.on i{color:var(--bg);border-color:rgba(255,255,255,.4)}
+/* ---- panoramica ---- */
+.pn-oggi{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px}
+.pn-az1{display:flex;flex-direction:column;align-items:flex-start;text-align:left;font:inherit;color:inherit;cursor:pointer;padding:12px 14px;border-left:4px solid var(--line2)}
+.pn-az1 b{font-size:26px;letter-spacing:-.03em;line-height:1.1}.pn-az1>span:nth-child(2){font-weight:600;font-size:14px}
+.pn-az1.y{border-left-color:#E8B400}.pn-az1.bad{border-left-color:#FF3B30}.pn-az1.zero b{color:var(--muted)}
+.pn-imb{display:flex;flex-direction:column;gap:2px}
+.pn-ib{display:grid;grid-template-columns:200px minmax(0,1fr) 92px;gap:12px;align-items:center;border:0;background:none;font:inherit;color:inherit;text-align:left;padding:6px 4px;border-radius:8px;cursor:pointer}
+.pn-ib:hover{background:rgba(127,127,127,.07)}.pn-il{display:flex;flex-direction:column}
+.pn-ibar{height:14px;border-radius:5px;background:rgba(127,127,127,.12);overflow:hidden}.pn-ibar i{display:block;height:100%;background:var(--ink);border-radius:5px}
+.pn-in{display:flex;align-items:baseline;gap:6px;justify-content:flex-end}.pn-in b{font-size:18px}
+.pn-svg{width:100%;height:auto;display:block}.pn-svg rect.a{fill:var(--ink)}.pn-svg rect.b{fill:#E8B400}.pn-svg .ax{stroke:var(--line2)}.pn-svg text{font:10px var(--font);fill:var(--muted)}
+.lg{display:inline-block;width:9px;height:9px;border-radius:2px;margin:0 4px 0 10px;vertical-align:-1px}.lg.a{background:var(--ink)}.lg.b{background:#E8B400}
+.pn-kv{display:grid;grid-template-columns:1fr auto;gap:8px 16px;padding:4px;font-size:14px}.pn-kv b{text-align:right;font-variant-numeric:tabular-nums}
+/* ---- tabelle ---- */
+.tw{overflow-x:auto}
+.pn-g{width:100%;border-collapse:collapse;font-size:13.5px}
+.pn-g th{position:sticky;top:0;background:var(--card);text-align:left;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding:8px;border-bottom:1px solid var(--line);cursor:pointer;white-space:nowrap;user-select:none}
+.pn-g th.on{color:var(--ink)}.pn-g th.ck,.pn-g td.ck{width:28px;cursor:default}
+.pn-g td{padding:8px;border-bottom:1px solid var(--line);vertical-align:middle}.pn-g tr[data-pc]{cursor:pointer}.pn-g tr[data-pc]:hover{background:rgba(127,127,127,.06)}
+.pn-g .sub{display:block;margin-top:1px}.pn-g .num{text-align:right;font-variant-numeric:tabular-nums}.pn-g .vuoto{text-align:center;padding:18px}
+.pn-pag{display:flex;justify-content:space-between;align-items:center;padding:8px 4px 0}.pn-pag .btn{padding:4px 12px;margin-left:4px}
+.pn-tb{padding:6px 8px 10px}
+.pn-viste{display:flex;gap:6px;overflow-x:auto;margin:-2px 0 10px;scrollbar-width:none}.pn-viste::-webkit-scrollbar{display:none}
+.pn-viste button{border:1px solid var(--line2);background:var(--card);font:600 13px var(--font);color:var(--muted);padding:6px 12px;border-radius:999px;cursor:pointer;white-space:nowrap}
+.pn-viste button span{font-weight:500;opacity:.7;margin-left:2px}.pn-viste button.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.ve-fasi .pn-flag{margin-left:auto}.ve-fasi .pn-flag.on{background:#FF3B30;border-color:#FF3B30;color:#fff}
+/* ---- report ---- */
+.pn-rt td{text-align:right}.pn-rt td:first-child{text-align:left}.pn-rt tr.tot td{border-top:2px solid var(--line2);font-weight:700}
+.pn-rt td.rt{position:relative;min-width:80px}.pn-rt td.rt i{position:absolute;left:8px;right:8px;bottom:3px;height:3px;border-radius:2px;background:linear-gradient(90deg,var(--ink) var(--p),rgba(127,127,127,.15) var(--p))}
+/* ---- pagine proposta ---- */
+.pn-pgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.pn-pc{position:relative;display:flex;flex-direction:column;gap:4px;padding:16px 16px 14px 52px;border:1.5px dashed var(--line2);background:transparent;box-shadow:none}
+.pn-pc p{margin:0}.pn-pn{position:absolute;left:16px;top:16px;width:24px;height:24px;border-radius:99px;display:grid;place-items:center;font-size:12px;font-weight:700;background:rgba(127,127,127,.12)}
+.pn-sk{display:flex;flex-direction:column;gap:6px;margin-top:10px}.pn-sk i{display:block;height:8px;border-radius:4px;background:rgba(127,127,127,.12)}.pn-sk i:nth-child(2){width:80%}.pn-sk i:nth-child(3){width:55%}
+@media (max-width:980px){.tb-brand span{display:none}}
+@media (max-width:780px){
+  .pn-oggi{grid-template-columns:1fr 1fr}.pn-ib{grid-template-columns:1fr auto;gap:4px 10px}.pn-ibar{grid-column:1/-1;grid-row:2}
+  .pn-pgrid{grid-template-columns:1fr}.top{gap:10px}.tb-brand{display:none}
+  .pn-g th:nth-child(n+5),.pn-g td:nth-child(n+5){display:none}
+}
+
+[data-sez="pano"] #kpi{display:none}
+.menu button.pr.on{color:var(--bg)}
+/* ---- posta ---- */
+.pn-cnt{display:inline-grid;place-items:center;min-width:18px;height:18px;padding:0 5px;border-radius:99px;background:#FF3B30;color:#fff;font-size:11px;margin-left:4px}
+.pn-avviso{font-size:13px;padding:10px 14px;border-radius:12px;background:rgba(127,127,127,.08);margin-bottom:12px}.pn-avviso a{color:inherit}
+.pn-bhb{display:flex;align-items:center;gap:10px}
+.pn-qrow{cursor:default}.pn-qrow .btn{padding:6px 12px;font-size:13px;text-decoration:none}
+.pn-seq{display:flex;flex-direction:column;padding:4px}
+.pn-sq{position:relative;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;padding:12px 12px 12px 48px;border:1px solid var(--line);border-radius:12px}
+.pn-sq>div:first-of-type{display:flex;flex-direction:column;gap:2px}.pn-sq .pn-pn{left:12px;top:50%;transform:translateY(-50%)}
+.pn-sq-n{display:flex;flex-direction:column;align-items:flex-end}.pn-sq-n b{font-size:20px}
+.pn-sq-gap{padding:6px 0 6px 23px;border-left:2px dashed var(--line2);margin-left:23px;font-size:12px;color:var(--muted)}
+.pn-gg{width:44px;border:1px solid var(--line2);border-radius:8px;padding:2px 6px;font:600 13px var(--font);text-align:center;background:var(--card);color:var(--ink)}
+.pn-gg:disabled{border-color:transparent;background:none}
+.pn-sw{display:inline-flex;gap:8px;align-items:center;font-weight:600;font-size:14px}
+.pn-campi{display:flex;flex-wrap:wrap;gap:6px;align-items:center}.pn-campi .btn{padding:4px 10px;font:12px ui-monospace,monospace}
+.pn-chk2{display:inline-flex;gap:8px;align-items:center;font-size:13px}
+.pn-prev{display:flex;flex-direction:column;gap:6px;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:rgba(127,127,127,.04)}
+.pn-prev pre{margin:0;white-space:pre-wrap;font:14px/1.5 var(--font)}
+@media (max-width:780px){.pn-qrow .pn-rs{flex-wrap:wrap}.pn-sq{grid-template-columns:1fr}.pn-sq-n{align-items:flex-start}}
+.pn-alt{align-self:flex-start;margin:8px 4px 0}
+.ve-f .pn-chk2{display:inline-flex;flex-direction:row;align-self:flex-start;gap:8px}.ve-f .pn-chk2 input{width:auto;margin:0}
+.pn-scrivi{margin-top:4px}.pn-scrivi select{border:1px solid var(--line2);border-radius:10px;padding:7px 10px;font:13px var(--font);background:var(--card);color:var(--ink)}
+
+@media (max-width:780px){.kpi{grid-template-columns:1fr 1fr}.tar-g{grid-template-columns:1fr}.tar-h{flex-direction:column}.arch-h input{width:100%}.arch-t th:nth-child(5),.arch-t td:nth-child(5){display:none}}
+.cond{display:flex;gap:10px;align-items:flex-start;margin:10px 0 2px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;cursor:pointer}
+.cond input{margin:3px 0 0;width:15px;height:15px;flex:none;accent-color:#1D1D1F}
+.cond b{display:block;font-size:13px}.cond .small{display:block}
+.prop{margin-bottom:12px}.prop-h{display:flex;justify-content:space-between;gap:12px;margin-bottom:8px}
+.pr-it{display:grid;grid-template-columns:64px minmax(0,1fr) auto;gap:12px;align-items:center;padding:10px 0;border-top:1px solid var(--line)}
+.pr-it img,.pr-it .noimg{width:64px;height:64px;border-radius:8px;object-fit:cover;background:var(--bg);border:1px solid var(--line)}
+.pr-it .t>b{display:block}.pr-it .acts{display:flex;gap:6px}
+.ord-it{grid-template-columns:minmax(0,1fr) auto}
+.pill.nuovo{background:#E8F7EE;color:#1E7A3C}.pill.mod{background:var(--straw-soft);color:var(--straw-text)}
+.btn.no.conf{background:#FF3B30;color:#fff}
+
+.pr-it .prezzo{width:96px;padding:7px 10px}
+@media (max-width:780px){.pr-it{grid-template-columns:48px minmax(0,1fr)}.pr-it img,.pr-it .noimg{width:48px;height:48px}.pr-it .acts{grid-column:1/-1}.ord-it{grid-template-columns:1fr}}
+.strum-b{display:flex;gap:8px;flex-wrap:wrap}
+.strum{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
+@media (max-width:780px){.strum{flex-direction:column;align-items:stretch}}.login .btn{margin-top:4px}
+.top .esci{font-size:12.5px;margin-left:8px}
+.err{color:#FF3B30;font-size:12.5px;min-height:16px;margin-top:6px}
+#toast{position:fixed;z-index:80;left:50%;bottom:24px;box-shadow:0 8px 30px rgba(0,0,0,.25);transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:999px;font-size:13px;font-weight:600}
+@media (max-width:780px){.wrap{padding:18px 14px 90px}h1{font-size:25px}.ed{grid-template-columns:1fr}.side{position:static}.two{grid-template-columns:1fr}.mods{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap pannello">
+  <div class="top">
+    <div class="tb-brand"><b>TourNeat</b><span>Pannello</span></div>
+    <div class="tb-cerca" id="gqBox" hidden><input type="search" id="gq" placeholder="Cerca contatti, clienti, teatri…  ( / )" autocomplete="off" aria-label="Cerca in tutto il pannello"><div class="gq-r" id="gqR" hidden></div></div>
+    <div><button class="btn ghost esci" id="esci" hidden>Esci</button></div>
+  </div>
+  <div class="card login" id="login" hidden>
+    <h2>Accedi</h2><p class="muted small" style="margin:0 0 12px">Solo per gli amministratori TourNeat.</p>
+    <form id="lf" novalidate><label class="f" for="lm">Email</label><input type="text" id="lm" inputmode="email" autocomplete="username">
+    <label class="f" for="lp" style="margin-top:10px">Password</label><input type="password" id="lp" autocomplete="current-password">
+    <div class="err" id="lerr"></div><button class="btn" type="submit">Entra</button></form>
+  </div>
+  <div class="shell" id="shell" hidden>
+  <nav class="menu" id="tabs" aria-label="Menu">
+    <button data-tab="pano" class="on">Panoramica</button>
+    <button data-tab="att">Agenda <span class="pill" id="tabAt" hidden>0</span></button>
+    <div class="grp">Vendite</div>
+    <button data-tab="pipe">Pipeline <span class="pill" id="tabPi" hidden>0</span></button>
+    <button data-tab="invii">Contatti e invii</button>
+    <button data-tab="quest">Questionario</button>
+    <button data-tab="rep">Report</button>
+    <button data-tab="mod">Modelli e sequenze</button>
+    <div class="grp">Clienti</div>
+    <button data-tab="clienti">Progetti</button>
+    <button data-tab="abb" class="pr">Abbonamenti e fatture <i>presto</i></button>
+    <button data-tab="contr" class="pr">Contratti <i>presto</i></button>
+    <button data-tab="assist" class="pr">Assistenza <i>presto</i></button>
+    <div class="grp">Prodotto</div>
+    <button data-tab="prod">Moduli e prezzi</button>
+    <button data-tab="arch">Archivio teatri</button>
+    <button data-tab="cat">Catalogo e tariffe</button>
+    <button data-tab="dafare">Da approvare <span class="pill" id="tabDa" hidden>0</span></button>
+    <div class="grp">Sistema</div>
+    <button data-tab="imp" class="pr">Impostazioni <i>presto</i></button>
+    <button data-tab="strum">Strumenti</button>
+  </nav>
+  <main class="main">
+  <div class="sez" data-sez="pano" hidden>
+    <div class="pg-h"><div><h2>Panoramica</h2><p class="muted small">Come va TourNeat oggi: vendite, clienti, teatri e spazio usato.</p></div></div>
+    <div class="kpi" id="kpi"></div>
+    <section class="pano-ve" id="panoVe" hidden></section>
+    <section class="card spazio" id="spazio"></section>
+  </div>
+
+  <div class="sez" data-sez="dafare" hidden>
+    <div class="pg-h"><div><h2>Da approvare</h2><p class="muted small">Teatri proposti dai clienti, ordini del catalogo e richieste: niente entra senza il tuo ok.</p></div></div>
+    <div class="card empty" id="daVuoto" hidden><h2>Niente da fare</h2><p class="muted small" style="margin:0">Qui arrivano i teatri da approvare, gli ordini del catalogo e le richieste dei clienti.</p></div>
+    <section class="card prop" id="prop" hidden>
+      <div class="prop-h"><div><b>Teatri da approvare</b> <span class="pill" id="propN">0</span><div class="muted small">Se approvi, il teatro entra nell’archivio comune e arriva ai clienti che lo hanno già e non l’hanno modificato per conto loro.</div></div></div>
+      <div id="propL"></div>
+    </section>
+    <section class="card prop" id="ord" hidden>
+      <div class="prop-h"><div><b>Ordini del catalogo</b> <span class="pill" id="ordN">0</span><div class="muted small">Quando il cliente ha pagato premi “Pagato”: i teatri arrivano subito nella sua app.</div></div></div>
+      <div id="ordL"></div>
+    </section>
+    <section class="card prop" id="rich" hidden>
+      <div class="prop-h"><div><b>Teatri richiesti dai clienti</b> <span class="pill" id="richN">0</span><div class="muted small">Decidi il prezzo, poi concedi: il teatro arriva subito nella loro app.</div></div></div>
+      <div id="richL"></div>
+    </section>
+  </div>
+
+  <div class="sez" data-sez="att" hidden>
+    <div class="pg-h"><div><h2>Agenda</h2><p class="muted small">Tutto quello che ha una data: richiami, promemoria, rinnovi. Prima ciò che è in ritardo, poi oggi, poi i prossimi giorni.</p></div></div>
+    <div id="pnAtt"></div>
+  </div>
+  <div class="sez" data-sez="rep" hidden>
+    <div class="pg-h"><div><h2>Report</h2><p class="muted small">Dove funziona la vendita e dove no: per paese, tipo, segmento e blocco di invio.</p></div></div>
+    <div id="pnRep"></div>
+  </div>
+  <div class="sez" data-sez="mod" hidden>
+    <div class="pg-h"><div><h2>Modelli email e sequenze</h2><p class="muted small">I testi pronti in tre lingue e la sequenza di primo contatto: prima mail, promemoria, ultimo tentativo. Chi risponde esce da solo.</p></div></div>
+    <div id="pnPo"></div>
+  </div>
+  <div class="sez" data-sez="prop" hidden><div id="pnProp2"></div></div>
+  <div class="sez" data-sez="pipe" hidden>
+    <div class="pg-h"><div><h2>Pipeline</h2><p class="muted small">Ogni contatto, dalla prima mail alla firma. Trascina le schede da una fase all’altra o aprile per il prossimo passo.</p></div></div>
+    <div id="pnPipe"></div>
+  </div>
+  <div class="sez" data-sez="invii" hidden>
+    <div class="pg-h"><div><h2>Contatti e invii</h2><p class="muted small">Le compagnie e i teatri trovati online, divisi in blocchi di invio. Segna le mail mandate: chi risponde passa da solo nella pipeline.</p></div></div>
+    <div id="pnInv"></div>
+  </div>
+  <div class="sez" data-sez="quest" hidden>
+    <div class="pg-h"><div><h2>Questionario</h2><p class="muted small">Cosa dicono le compagnie: prezzi, funzioni, strumenti. Ogni risposta si collega al suo contatto.</p></div></div>
+    <div id="pnQu"></div>
+  </div>
+  <div class="sez" data-sez="prod" hidden>
+    <div class="pg-h"><div><h2>Prodotti e prezzi</h2><p class="muted small">Ogni modulo dell’app è un pezzo del prodotto. Qui decidi cosa vendi e a quanto: le proposte nella pipeline si calcolano da qui.</p></div></div>
+    <div id="pnPr"></div>
+  </div>
+  <div class="sez" data-sez="arch" hidden>
+    <div class="pg-h"><div><h2>Archivio teatri</h2><p class="muted small">I teatri comuni a tutti i clienti, con zona, posti mappati e quanti clienti li usano.</p></div></div>
+    <div class="kpi" id="archKpi"></div>
+    <section class="card">
+      <div class="arch-h"><b>Teatri nell’archivio comune</b><input type="text" id="archQ" placeholder="Cerca nome o città" autocomplete="off"><select id="archF"><option value="">Tutte le zone</option><option value="nord">Nord</option><option value="centro">Centro</option><option value="sud">Sud e isole</option><option value="altro">Zona da sistemare</option></select></div>
+      <div id="archL"></div>
+    </section>
+  </div>
+
+  <div class="sez" data-sez="cat" hidden>
+    <div class="pg-h"><div><h2>Catalogo e tariffe</h2><p class="muted small">Quanto paga per i teatri chi non condivide i suoi.</p></div></div>
+    <section class="card tar" id="tar">
+      <div class="tar-h"><div><b>Tariffe del catalogo</b><div class="muted small">Per i clienti che non condividono i propri teatri. I prezzi si ricalcolano mentre scrivi, con il numero di teatri di oggi; valgono per i nuovi ordini. Un cliente paga solo i teatri che non ha già.</div></div><button class="btn" id="tSalva">Salva le tariffe</button></div>
+      <div class="tar-g">
+        <div class="tar-b">
+          <div class="tar-t"><b>Pacchetti di zona</b><label class="tar-in"><input type="text" inputmode="decimal" id="tZona"> € a teatro</label></div>
+          <table class="tar-tab"><thead><tr><th>Zona</th><th>Teatri</th><th>Prezzo del pacchetto</th></tr></thead><tbody id="tZonaT"></tbody></table>
+        </div>
+        <div class="tar-b">
+          <div class="tar-t"><b>Tutta Italia</b><label class="tar-in"><input type="text" inputmode="decimal" id="tIta"> € a teatro</label></div>
+          <table class="tar-tab"><thead><tr><th></th><th>Teatri</th><th>Prezzo</th></tr></thead><tbody id="tItaT"></tbody></table>
+          <p class="muted small" id="tItaR"></p>
+        </div>
+        <div class="tar-b">
+          <div class="tar-t"><b>Scelta libera</b><label class="tar-in"><input type="text" inputmode="decimal" id="tScelta"> € a teatro</label></div>
+          <div class="tar-t"><span>Minimo d’ordine</span><label class="tar-in"><input type="text" inputmode="decimal" id="tMin"> €</label></div>
+          <p class="small" id="tSceltaR"></p>
+        </div>
+        <div class="tar-b">
+          <div class="tar-t"><b>Aggiornamenti inclusi</b><label class="tar-in"><input type="text" inputmode="numeric" id="tMesi"> mesi</label></div>
+          <p class="small muted">Chi compra un pacchetto riceve in automatico, per questo periodo, i teatri nuovi della sua zona che approvi.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="sez" data-sez="strum" hidden>
+    <div class="pg-h"><div><h2>Strumenti</h2><p class="muted small">Operazioni di manutenzione.</p></div></div>
+    <div class="card strum" id="strum" hidden>
+      <div><b>Piante dei teatri</b><div class="muted small" id="pcTxt">Alleggerisci le piante nello spazio file di TourNeat. Si può rilanciare: salta quelle già fatte.</div></div>
+      <div class="strum-b"><button class="btn ghost" id="pcBtn" hidden>Copia le piante delle proposte</button><button class="btn ghost" id="alBtn">Alleggerisci le piante</button></div>
+    </div>
+  </div>
+
+  <div class="sez" data-sez="clienti" hidden>
+    <div class="pg-h"><div><h2>Clienti</h2><p class="muted small">Un progetto per ogni cliente: la sua app, i moduli accesi e i dati del contratto.</p></div><button class="btn" id="nuovo">+ Nuovo progetto</button></div>
+  <div class="grid" id="lista"></div>
+
+  <div class="ed" id="ed" hidden>
+    <div class="card">
+      <h2 id="edTit">Nuovo progetto</h2>
+      <p class="muted small" style="margin:0 0 12px">Un progetto è un cliente: ha i suoi dati e vede solo i moduli spuntati.</p>
+      <div class="two">
+        <div><label class="f" for="nome">Nome del cliente</label><input type="text" id="nome" placeholder="es. TeatroNovanta" autocomplete="off"></div>
+        <div><label class="f" for="pid">Codice (nell'indirizzo)</label><input type="text" id="pid" placeholder="teatronovanta" autocomplete="off"></div>
+      </div>
+      <label class="cond"><input type="checkbox" id="cond"><span><b>Condivide i teatri con l’archivio comune</b><span class="muted small">Solo se il cliente l’ha accettato nel contratto. Teatri nuovi e modifiche arrivano a te da approvare.</span></span></label>
+      <label class="cond"><input type="checkbox" id="acq"><span><b>Catalogo acquistato</b><span class="muted small">Il cliente può aggiungere gratis tutti i teatri del catalogo anche senza condividere i suoi.</span></span></label>
+      <div class="err" id="err"></div>
+      <div id="aree"></div>
+    </div>
+    <aside class="card side">
+      <div class="eyebrow">Moduli accesi</div>
+      <div class="num" id="cnt">0</div>
+      <p class="muted small" id="cntTxt" style="margin:2px 0 0"></p>
+      <div class="acts">
+        <button class="btn" id="salva">Salva il progetto</button>
+        <button class="btn gold" id="vedi" disabled>Vedi l'app del progetto</button>
+        <button class="btn ghost" id="chiudi">Chiudi</button>
+      </div>
+    </aside>
+  </div>
+  </div>
+  </main>
+  </div>
+</div>
+<div class="ve-ov" id="veOv" hidden><div class="card ve-sh" id="veSh" role="dialog" aria-modal="true"></div></div>
+<div id="toast" hidden></div>
+<script>
+var A = {
+  base: 'Base (sempre incluso)', tour: 'Tournée', teatri: 'Teatri', sala: 'Sala e pubblico', conti: 'Conti e burocrazia', log: 'Logistica e viaggio', team: 'Squadra e integrazioni'
+};
+var M = [
+  ['ruoli','base','Accessi e ruoli','Ognuno entra con la sua email e vede solo le sezioni del suo reparto: Direzione, tour manager, cast artistico, cast tecnico, vendite.','ok',1,['Elenco della squadra con email e reparto'],2,1],
+  ['spett','base','Spettacoli','Schede degli spettacoli: titolo, durata, pubblico, logo, scheda tecnica.','ok',1,['Titoli, durate e schede tecniche degli spettacoli'],1,1],
+  ['consensi','base','Condizioni d’uso','Al primo accesso tutti accettano le condizioni; resta traccia di chi e quando, a ogni nuova versione del testo.','ok',0,['Testo delle condizioni (lo prepariamo noi, lo approvano loro)'],0.5,1],
+  ['guida','base','Tour guidato, tema scuro, notifiche','Guida al primo accesso, tema chiaro e scuro, avvisi per reparto.','ok',0,[],0,1],
+
+  ['cal','tour','Calendario della tournée','Date, città, teatri e repliche in vista mese e lista; dalla data si apre la scheda della giornata.','ok',1,['Calendario delle date (Excel o Google Sheet)'],2],
+  ['oggi','tour','Giornata del tour manager','Programma di oggi, teatro, hotel, pranzo, spostamenti, meteo della tappa, cose da fare, domani.','ok',1,['Hotel e ristoranti già prenotati (Excel o mail)'],1.5,0,'cal'],
+  ['mappa','tour','Mappa delle tappe','Percorso della tournée con chilometri e avvisi su cosa manca (hotel, permessi, piantine).','ok',1,[],0.5,0,'cal'],
+  ['check','tour','Checklist del teatro e chiusura giornata','Controlli prima e dopo la replica; a fine giornata il tour manager chiude con un riepilogo.','ok',1,['Le loro checklist attuali (anche su carta)'],1],
+  ['cast','tour','App del cast','Attori e tecnici vedono dal telefono solo la giornata, i viaggi e i contatti utili.','ok',1,[],0.5,0,'cal'],
+  ['foto','tour','Foto delle repliche e della scenografia','Il tour manager carica le foto; finiscono in automatico nella cartella giusta del Drive.','ok',0,['Una cartella Google Drive condivisa con l’account tecnico TourNeat'],1],
+  ['veicoli','tour','Veicoli e flotta','Mezzi della compagnia, chilometri, rifornimenti e chi guida in ogni tournée.','ok',0,['Elenco dei mezzi (targa, modello, assicurazione)'],1],
+  ['emerg','tour','Emergenze e numeri utili','Numeri di emergenza, assicurazione del mezzo, soccorso stradale, sempre a portata.','ok',0,['Numeri di assicurazione e soccorso del loro mezzo'],0.5],
+  ['vade','tour','Vademecum e formazione del tour manager','Regole e procedure della compagnia dentro l’app, con le formazioni dei nuovi tour manager.','ok',0,['Il loro vademecum o le regole interne'],2],
+
+  ['teatri','teatri','Archivio teatri','Capienza, palco, carico e scarico, contatti e piantina di ogni teatro.','ok',1,['Elenco dei teatri con cui lavorano'],1.5],
+  ['piante','teatri','Caricamento piante dal Drive','Scansione automatica dei file delle piante, riconosce i teatri e segnala i doppioni.','ok',0,['Cartella Drive con le piante, in sola lettura per l’account tecnico'],2,0,'teatri'],
+  ['ai_teatri','teatri','Ricerca teatri con l’AI','Propone teatri per città, genere, budget e pubblico atteso.','todo',0,[],0,0,'teatri'],
+  ['mail_teatri','teatri','Mail ai teatri già pronta','Dalla scheda del teatro parte la mail di richiesta date con i dati dello spettacolo.','todo',0,['Il loro testo tipo per i teatri'],0.5,0,'teatri'],
+
+  ['prenotazioni','sala','Prenotazioni a mano','Scuole, gruppi e privati inseriti dall’app per ogni replica: persone, referente, pagamento, priorità in sala. Alimentano piantine, accoglienza e contanti. Un CRM esterno si collega a parte.','ok',0,[],0.5,0],
+  ['piantine','sala','Piantine automatiche','Assegna i posti ai gruppi secondo regole (classi vicine, posti speciali, accessibili).','ok',1,['Regole di assegnazione dei posti'],1.5,0,'teatri'],
+  ['arrivi','sala','Accoglienza e arrivi dei gruppi','Chi è arrivato, chi è in ritardo, chi manca, in tempo reale dal telefono.','ok',1,[],0.5,0,'piantine'],
+  ['qr','sala','QR per i docenti','Ogni scuola ha il suo QR: il docente vede dove è seduta la sua classe.','ok',0,[],0.5,0,'piantine'],
+  ['crm_lettura','sala','Prenotazioni dal loro CRM','Legge dal CRM della compagnia (es. HubSpot) prenotazioni, note e chiamate delle prossime date e crea gli avvisi. Solo lettura.','ok',0,['Accesso in sola lettura al CRM (es. chiave privata HubSpot limitata a contatti e trattative)'],3],
+  ['checkin','sala','Check-in con QR e biglietti','Presenti, assenti, biglietti venduti e invenduti alla porta.','todo',0,[],0,0,'piantine'],
+  ['biglietteria','sala','Biglietteria online per i serali','Collegamento alla piattaforma di biglietteria che già usano.','todo',0,['Accesso alla loro biglietteria (se offre un collegamento)'],2],
+
+  ['bp','conti','Business plan e pareggio','Ricavi, costi per voce, margine, giorno del pareggio e date in perdita; scenari prudente, atteso, ottimo.','demo',1,['Le loro voci di costo (Excel del budget o consuntivo passato)'],2,0,'cal'],
+  ['fatture','conti','Fatture e scontrini','Il tour manager fotografa scontrini e fatture; vanno nel Drive della Direzione, catalogati.','ok',0,['Cartella Drive della Direzione per le fatture'],1],
+  ['siae','conti','Permessi e diritti d’autore','Richieste e permessi (es. SIAE) preparati per ogni data, con promemoria e stato.','ok',1,['I loro dati per le pratiche (codici, moduli tipo)'],1.5,0,'cal'],
+  ['spese','conti','Pedaggi e spese di viaggio automatiche','Raccoglie pedaggi e spese di viaggio e li somma per tournée.','todo',0,[],0],
+
+  ['hotel','log','Hotel e ristoranti con filtro di budget','Proposte di hotel e ristoranti vicino al teatro entro il budget della compagnia.','todo',0,['Budget per notte e per pasto'],0.5],
+
+  ['archivio','team','Archivio Drive automatico','Piantine, checklist e foto si copiano da sole in una cartella Drive di archivio.','ok',0,['Cartella Drive di archivio condivisa con l’account tecnico'],0.5],
+  ['uso','team','Segnalazioni e statistiche d’uso','La squadra segnala problemi e suggerimenti; la Direzione vede come viene usata l’app.','ok',0,[],0],
+  ['crm','team','CRM integrato','Contatti e trattative dentro TourNeat, senza un CRM esterno.','todo',0,[],1],
+  ['cal_google','team','Collegamento al calendario Google','Le date della tournée compaiono nei calendari della squadra.','todo',0,['Calendario Google condiviso'],0.5,0,'cal'],
+  ['lingue','team','App in più lingue','Interfaccia in italiano, inglese, spagnolo, francese; traduzione automatica dei testi.','todo',0,['Lingue richieste'],0.5],
+  ['white','team','App con il loro marchio','Logo, colori e nome della compagnia al posto di TourNeat.','todo',0,['Logo e colori'],1]
+];
+const KEY='tourneat-progetti', DEV='matteo@tourneat.it';
+const Q=new URLSearchParams(location.search);
+const ONLINE=!Q.has('locale')&&location.protocol!=='file:';
+const SBU='https://vtckwxiksnikyujyfjkm.supabase.co',SBK='sb_publishable_GH3_YhJQJYrWOLtMdJK8fQ_5o_b7oHq';
+let SB=null,CACHE=[];
+const $=id=>document.getElementById(id);
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const slug=s=>String(s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9]+/g,'').slice(0,30);
+function load(){if(ONLINE)return CACHE;try{return JSON.parse(localStorage.getItem(KEY)||'[]');}catch(e){return [];}}
+async function ricarica(){if(!ONLINE)return;const {data,error}=await SB.rpc('progetti_lista');if(error)throw error;CACHE=data||[];}
+async function salvaUno(p){
+  if(!ONLINE){const l=load();const i=l.findIndex(x=>x.id===p.id);if(i>=0)l[i]={...l[i],...p};else l.push({...p,creato:p.aggiornato});localStorage.setItem(KEY,JSON.stringify(l));return;}
+  const {error}=await SB.rpc('progetto_salva',{pid:p.id,pnome:p.nome,pmoduli:p.moduli,pcondivide:!!p.condivide,pacquistato:!!p.acquistato});if(error)throw error;await ricarica();}
+const BASE=M.filter(m=>m[8]).map(m=>m[0]);
+const BYID=Object.fromEntries(M.map(m=>[m[0],m]));
+const DIP=id=>[].concat((BYID[id]&&BYID[id][9])||[]);
+let cur=null, sel=new Set();
+function toast(t){const e=$('toast');e.textContent=t;e.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>e.hidden=true,2200);}
+function conDipendenze(id,out){if(out.has(id))return;out.add(id);DIP(id).forEach(d=>conDipendenze(d,out));}
+function lista(){
+  const l=load();
+  const st=id=>((RIEP&&RIEP.clienti)||[]).find(c=>c.id===id);
+  $('lista').innerHTML=l.length?l.map(p=>{const c=st(p.id);return `<div class="card pr"><span class="pill">${(p.moduli||[]).length} moduli</span><h2 style="margin-top:8px">${esc(p.nome)}</h2>${c?`<div class="cl-n"><span><b>${c.persone}</b> persone</span><span><b>${c.teatri}</b> teatri</span><span><b>${c.date}</b> date</span><span><b>${c.prenotazioni}</b> prenotazioni</span></div><div class="muted small">Ultima attività: ${dataIt(c.ultima)}</div>`:''}${(()=>{const k=(typeof PN!=='undefined'&&PN.C||[]).find(x=>x.progetto===p.id);const ina=c&&c.ultima&&gg(c.ultima)<-30;
+  return (ina?`<div class="small" style="color:#C2410C;margin-top:4px">Nessuno usa l’app da più di 30 giorni: sentili.</div>`:'')+(k?`<div class="cl-k"><span><b>${k.valore?eur0(k.valore):'—'}</b>/anno</span>${k.rinnovo?`<span class="pill ${gg(k.rinnovo)<0?'bad':gg(k.rinnovo)<60?'y':''}">${gg(k.rinnovo)<0?'Scaduto':'Rinnovo'} ${quando(k.rinnovo)}</span>`:'<span class="muted small">rinnovo da inserire</span>'}<button class="btn ghost" data-pc="${esc(k.id)}">Scheda commerciale</button></div>`:`<div class="cl-k"><span class="muted small">Senza scheda commerciale</span>${(typeof PN!=='undefined'&&PN.C||[]).length?`<select data-collp="${esc(p.id)}"><option value="">Collega a un contatto…</option>${PN.C.filter(x=>!x.progetto&&['proposta','cliente','demo','contatto','risposto'].includes(fase(x))).map(x=>`<option value="${esc(x.id)}">${esc(x.nome)}</option>`).join('')}</select>`:''}</div>`);})()}<div class="muted small">tourneat.com/app/${esc(p.id)}${p.condivide?' · condivide i teatri':p.acquistato?' · catalogo acquistato':''}</div><div class="row"><button class="btn gold" data-vedi="${esc(p.id)}">Vedi l'app</button><button class="btn ghost" data-mod="${esc(p.id)}">Modifica</button></div></div>`;}).join('')
+   :`<div class="card empty" style="grid-column:1/-1"><h2>Nessun progetto</h2><p class="muted small" style="margin:0">Crea il primo cliente con “+ Nuovo progetto”.</p></div>`;
+}
+function apri(p){
+  cur=p?p.id:null; sel=new Set(p?p.moduli:BASE); BASE.forEach(b=>sel.add(b));
+  $('edTit').textContent=p?'Modifica '+p.nome:'Nuovo progetto';
+  $('nome').value=p?p.nome:''; $('pid').value=p?p.id:''; $('pid').disabled=!!p; $('err').textContent='';
+  $('cond').checked=!!(p&&p.condivide); $('acq').checked=!!(p&&p.acquistato); $('vedi').disabled=!p; $('ed').hidden=false; disegna(); $('ed').scrollIntoView({behavior:'smooth',block:'start'}); if(!p)$('nome').focus();
+}
+function disegna(){
+  $('aree').innerHTML=Object.keys(A).map(a=>`<div class="area"><h3>${esc(A[a])}</h3><div class="mods">${M.filter(m=>m[1]===a).map(m=>{
+    const on=sel.has(m[0]),fix=!!m[8];const st=fix?'Sempre incluso':m[4]==='ok'?'Pronto':m[4]==='demo'?'Nella demo, da collegare':'Da sviluppare';
+    return `<label class="m${on?' on':''}${fix?' fix':''}"><input type="checkbox" data-m="${m[0]}"${on?' checked':''}${fix?' disabled':''}><div><b>${esc(m[2])}</b><span>${st}</span></div></label>`;}).join('')}</div></div>`).join('');
+  $('cnt').textContent=sel.size;
+  $('cntTxt').textContent=sel.size-BASE.length+' scelti più '+BASE.length+' di base';
+}
+$('aree').addEventListener('change',e=>{const id=e.target.dataset.m;if(!id)return;
+  if(e.target.checked){conDipendenze(id,sel);}else{sel.delete(id);const togli=x=>M.forEach(m=>{if(sel.has(m[0])&&!m[8]&&DIP(m[0]).includes(x)){sel.delete(m[0]);togli(m[0]);}});togli(id);}
+  disegna();});
+$('nome').addEventListener('input',()=>{if(!cur)$('pid').value=slug($('nome').value);});
+$('pid').addEventListener('input',()=>{$('pid').value=slug($('pid').value);});
+$('salva').onclick=async()=>{
+  const nome=$('nome').value.trim(), id=slug($('pid').value), l=load();
+  if(!nome){$('err').textContent='Scrivi il nome del cliente.';return;}
+  if(!id||id.length<2||id==='demo'||id==='origine'){$('err').textContent='Scegli un codice valido (almeno 2 lettere o numeri, non “demo”).';return;}
+  if(!cur&&l.some(x=>x.id===id)){$('err').textContent='Esiste già un progetto con questo codice.';return;}
+  const p={id,nome,moduli:[...sel],condivide:$('cond').checked,acquistato:$('acq').checked,aggiornato:new Date().toISOString()};
+  $('salva').disabled=true;$('err').textContent='';
+  try{await salvaUno(p);}catch(e){$('err').textContent='Non salvato: '+(e.message||e);$('salva').disabled=false;return;}
+  $('salva').disabled=false;cur=id; $('pid').disabled=true; $('vedi').disabled=false; $('edTit').textContent='Modifica '+nome; lista(); toast('Progetto salvato');
+  if(PN.daLegare&&PN.C){const c=pnC(PN.daLegare);PN.daLegare=null;if(c)pnSalva({...c,...patchFase(c,'cliente'),progetto:id},{tipo:'nota',testo:'Creato il progetto '+id}).then(()=>{toast('Progetto salvato e collegato a '+c.nome);pnTutto();}).catch(()=>{});}
+};
+function vedi(id){
+  if(ONLINE){window.open('/app/'+encodeURIComponent(id),'_blank');return;}
+  /* prototipo: entra come Direzione TourNeat nel progetto (dati locali separati) */
+  const pk='tourneat-pref-'+id, dk='tourneat-dati-'+id;
+  if(!localStorage.getItem(pk))localStorage.setItem(pk,JSON.stringify({user:DEV}));
+  if(!localStorage.getItem(dk))localStorage.setItem(dk,JSON.stringify({impostazioni:{utenti:{lista:[{email:DEV,nome:'Direzione TourNeat',ruolo:'direzione'}]}}}));
+  window.open('app.html?p='+encodeURIComponent(id),'_blank');
+}
+$('vedi').onclick=()=>cur&&vedi(cur);
+$('chiudi').onclick=()=>{$('ed').hidden=true;cur=null;};
+$('nuovo').onclick=()=>{if(!$('tabs').hidden)tab('clienti');apri(null);};
+$('lista').addEventListener('click',e=>{const v=e.target.dataset.vedi,m=e.target.dataset.mod;if(v)vedi(v);if(m)apri(load().find(x=>x.id===m));});
+async function avvio(){
+  if(!ONLINE){$('shell').hidden=false;lista();pnCarica();tab('pipe');return;}
+  $('nuovo').hidden=true;$('lista').innerHTML='';
+  await new Promise((ok,ko)=>{const x=document.createElement('script');x.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.4/dist/umd/supabase.min.js';x.onload=ok;x.onerror=ko;document.head.appendChild(x);});
+  SB=window.supabase.createClient(SBU,SBK,{auth:{persistSession:true}});
+  const {data:{session}}=await SB.auth.getSession();
+  if(!session){$('login').hidden=false;return;}
+  try{await ricarica();}catch(e){$('shell').hidden=false;tab('clienti');$('lista').innerHTML='<div class="card empty" style="grid-column:1/-1"><h2>Accesso non consentito</h2><p class="muted small" style="margin:0">'+esc(e.message||e)+'</p></div>';$('esci').hidden=false;return;}
+  $('nuovo').hidden=false;$('esci').hidden=false;$('strum').hidden=false;fontePiante();lista();proposte();richieste();ordini();tariffe();riepilogo();pnCarica();$('shell').hidden=false;tab((location.hash||'').slice(1)&&document.querySelector('[data-tab="'+location.hash.slice(1)+'"]')?location.hash.slice(1):'pano');
+}
+const num=n=>Number(n||0).toLocaleString('it-IT');
+function cfr(nw,pr){if(!pr)return `${num(nw.posti)} posti · ${num(nw.zone)} ${nw.zone==1?'zona':'zone'}`;
+  const d=(a,b,l)=>a===b?`${num(a)} ${l}`:`${num(a)} ${l} <span class="muted">(prima ${num(b)})</span>`;return d(nw.posti,pr.posti,'posti')+' · '+d(nw.zone,pr.zone,nw.zone==1?'zona':'zone');}
+async function proposte(){
+  const {data,error}=await SB.rpc('proposte_lista');if(error){$('prop').hidden=true;return;}
+  const L=data||[];$('prop').hidden=!L.length;$('propN').textContent=L.length;daVuoto();
+  $('propL').innerHTML=L.map(x=>{const img=x.nuovi&&x.nuovi.pianta?`<img src="${SBU}/storage/v1/object/public/pub/${encodeURIComponent(x.nuovi.pianta)}" alt="" loading="lazy">`:'<span class="noimg"></span>';
+    return `<div class="pr-it">${img}<div class="t"><b>${esc(x.nome||'Senza nome')}${x.citta?' · '+esc(x.citta):''}</b>
+      <span class="small"><span class="pill ${x.tipo==='nuovo'?'nuovo':'mod'}">${x.tipo==='nuovo'?'Nuovo':'Modifica'}</span> da ${esc(x.fonteNome)}${x.da?' ('+esc(x.da)+')':''}</span>
+      <div class="muted small">${cfr(x.nuovi||{},x.prima)}</div></div>
+      <div class="acts"><button class="btn" data-ok="${x.id}">Approva</button><button class="btn ghost no" data-no="${x.id}">Rifiuta</button></div></div>`;}).join('');
+}
+async function richieste(){
+  const {data,error}=await SB.rpc('richieste_lista');if(error){$('rich').hidden=true;return;}
+  const L=data||[];$('rich').hidden=!L.length;$('richN').textContent=L.length;daVuoto();
+  $('richL').innerHTML=L.map(x=>{const n=x.numeri||{};const img=n.pianta?`<img src="${SBU}/storage/v1/object/public/pub/${encodeURIComponent(n.pianta)}" alt="" loading="lazy">`:'<span class="noimg"></span>';
+    return `<div class="pr-it">${img}<div class="t"><b>${esc(x.nome||'')}${x.citta?' · '+esc(x.citta):''}</b>
+      <span class="small">per <b>${esc(x.progettoNome)}</b>${x.da?' ('+esc(x.da)+')':''}</span><div class="muted small">${num(n.posti)} posti · ${num(n.zone)} ${n.zone==1?'zona':'zone'}</div></div>
+      <div class="acts"><input type="text" inputmode="decimal" class="prezzo" data-pz="${x.id}" placeholder="Prezzo €"><button class="btn" data-ric="${x.id}">Concedi</button><button class="btn ghost no" data-rno="${x.id}">Rifiuta</button></div></div>`;}).join('');
+}
+const ZN={nord:'Nord',centro:'Centro',sud:'Sud e isole'};
+const eur=n=>Number(n||0).toLocaleString('it-IT',{style:'currency',currency:'EUR'});
+function daVuoto(){$('daVuoto').hidden=!($('prop').hidden&&$('ord').hidden&&$('rich').hidden);}
+async function ordini(){
+  const {data,error}=await SB.rpc('ordini_lista');if(error){$('ord').hidden=true;return;}
+  const L=data||[];$('ord').hidden=!L.length;$('ordN').textContent=L.length;daVuoto();
+  $('ordL').innerHTML=L.map(x=>{const cosa=x.tipo==='italia'?'Pacchetto tutta Italia':x.tipo==='zona'?'Pacchetto '+ZN[x.zona]:'Teatri scelti';
+    const nomi=x.nomi&&x.nomi.length?`<div class="muted small">${esc(x.nomi.slice(0,6).join(', '))}${x.nomi.length>6?' e altri '+(x.nomi.length-6):''}</div>`:'';
+    return `<div class="pr-it ord-it"><div class="t"><b>${esc(x.progettoNome)} · ${cosa}</b><span class="small">${x.quanti} teatri · <b>${eur(x.totale)}</b>${x.da?' · '+esc(x.da):''} · ${new Date(x.creato).toLocaleDateString('it-IT')}</span>${nomi}</div>
+      <div class="acts"><button class="btn" data-opag="${x.id}">Pagato</button><button class="btn ghost no" data-oann="${x.id}">Annulla</button></div></div>`;}).join('');
+}
+$('ordL').addEventListener('click',async e=>{const ok=e.target.closest('[data-opag]'),no=e.target.closest('[data-oann]');const b=ok||no;if(!b)return;
+  if(!b.classList.contains('conf')){const t0=b.textContent;b.classList.add('conf');b.textContent=ok?'Conferma: pagato':'Conferma: annulla';setTimeout(()=>{if(b.isConnected){b.classList.remove('conf');b.textContent=t0;}},5000);return;}
+  b.disabled=true;const {data,error}=await SB.rpc('ordine_decidi',{oid:Number(ok?b.dataset.opag:b.dataset.oann),pagato:!!ok});
+  if(error){b.disabled=false;toast('Non riuscito: '+(error.message||error));return;}
+  toast(ok?`Pagato: ${data.teatri} teatri arrivati al cliente`:'Ordine annullato');ordini();riepilogo();});
+let TAR=null;
+const num2=v=>{const n=Number(String(v).replace(',','.'));return isFinite(n)?n:NaN;};
+const f2=n=>Number(n).toFixed(2).replace('.',',');
+async function tariffe(){const {data,error}=await SB.rpc('tariffe_leggi');if(error)return;TAR=data;
+  $('tZona').value=f2(data.zona);$('tScelta').value=f2(data.scelta);$('tMin').value=f2(data.minimo);$('tIta').value=f2(data.italia);$('tMesi').value=data.mesi;tarCalcola();}
+function tarCalcola(){
+  const Z=(RIEP&&RIEP.archivio&&RIEP.archivio.zone)||{},tot=(RIEP&&RIEP.archivio&&RIEP.archivio.totale)||0;
+  const z=num2($('tZona').value),it=num2($('tIta').value),sc=num2($('tScelta').value),mi=num2($('tMin').value);
+  const p=(n,k)=>isFinite(k)?eur(Math.round(n*k*100)/100):'—';
+  $('tZonaT').innerHTML=[['nord','Nord'],['centro','Centro'],['sud','Sud e isole']].map(([k,l])=>`<tr><td>${l}</td><td>${Z[k]||0}</td><td><b>${p(Z[k]||0,z)}</b></td></tr>`).join('')+(Z.altro?`<tr class="muted"><td>Zona da sistemare</td><td>${Z.altro}</td><td>esclusi dai pacchetti</td></tr>`:'');
+  $('tItaT').innerHTML=`<tr><td>Tutti i teatri</td><td>${tot}</td><td><b>${p(tot,it)}</b></td></tr>`;
+  const somma=['nord','centro','sud'].reduce((a,k)=>a+(Z[k]||0)*(isFinite(z)?z:0),0);
+  $('tItaR').textContent=isFinite(z)&&isFinite(it)&&tot?`Comprando i tre pacchetti di zona si spenderebbe ${eur(somma)}: Tutta Italia fa risparmiare ${eur(Math.max(0,somma-tot*it))}.`:'';
+  $('tSceltaR').innerHTML=isFinite(sc)&&isFinite(mi)&&sc>0?`Con il minimo di <b>${eur(mi)}</b> il cliente si porta a casa fino a <b>${Math.max(1,Math.floor(mi/sc+1e-9))} teatri</b>; dal ${Math.floor(mi/sc+1e-9)+1}° in poi paga ${eur(sc)} a teatro.`+(isFinite(z)&&sc<=z?' <span class="avv">Attenzione: la scelta libera costa meno del pacchetto, il pacchetto non conviene più.</span>':''):'';
+}
+['tZona','tIta','tScelta','tMin','tMesi'].forEach(id=>$(id).addEventListener('input',tarCalcola));
+$('tSalva').onclick=async()=>{const v=[num2($('tZona').value),num2($('tScelta').value),num2($('tMin').value),num2($('tIta').value),Math.round(num2($('tMesi').value))];
+  if(v.some(x=>!(x>=0))){toast('Controlla i valori: solo numeri, es. 0,40');return;}
+  const {error}=await SB.rpc('tariffe_salva',{pzona:v[0],pscelta:v[1],pminimo:v[2],pitalia:v[3],pmesi:v[4]});toast(error?'Non salvate: '+(error.message||error):'Tariffe salvate');if(!error)tariffe();};
+/* ---------- panoramica, clienti, archivio ---------- */
+let RIEP=null,ARCH=null;
+const MB=b=>(b/1048576).toLocaleString('it-IT',{maximumFractionDigits:b<10485760?1:0})+' MB';
+const dataIt=d=>d?new Date(d).toLocaleDateString('it-IT',{day:'numeric',month:'short'}):'—';
+async function riepilogo(){const {data,error}=await SB.rpc('admin_riepilogo');if(error)return;RIEP=data;
+  const A=data.archivio,D=data.dafare,nd=D.proposte+D.ordini+D.richieste,cl=data.clienti||[];
+  $('tabDa').hidden=!nd;$('tabDa').textContent=nd;
+  const tile=(n,l,s,go)=>`<button class="card tile" ${go?`data-vai="${go}"`:''}><span class="eyebrow">${l}</span><b>${n}</b><span class="muted small">${s||''}</span></button>`;
+  $('kpi').innerHTML=tile(cl.length,'Clienti',cl.length?cl.reduce((a,c)=>a+c.persone,0)+' persone con accesso':'Nessun cliente ancora','clienti')
+    +tile(nd,'Da fare',[D.proposte?D.proposte+(D.proposte>1?' teatri':' teatro')+' da approvare':'',D.ordini?D.ordini+(D.ordini>1?' ordini':' ordine'):'',D.richieste?D.richieste+(D.richieste>1?' richieste':' richiesta'):''].filter(Boolean).join(' · ')||'Tutto in ordine','dafare')
+    +tile(A.totale,'Teatri in archivio',`${A.mappati} mappati · ${A.conPianta} con la pianta da mappare`,'arch')
+    +tile(eur(data.incassi.catalogo),'Incassi del catalogo',data.incassi.ordini?data.incassi.ordini+(data.incassi.ordini>1?' ordini pagati':' ordine pagato'):'Nessun ordine pagato','cat');
+  const sp=data.spazio,bar=(u,l,t)=>{const pc=Math.min(100,u/l*100);return `<div class="bar"><div class="bar-h"><span>${t}</span><span><b>${MB(u)}</b> su ${MB(l)} · ${pc.toLocaleString('it-IT',{maximumFractionDigits:0})}%</span></div><div class="bar-b"><i style="width:${Math.max(1,pc)}%" class="${pc>80?'rosso':pc>60?'giallo':''}"></i></div></div>`;};
+  $('spazio').innerHTML=`<div><b>Spazio usato su Supabase</b><div class="muted small">Piano gratuito. Con il primo cliente pagante conviene passare a Pro (25 $/mese): niente pausa dopo una settimana senza uso, backup giornalieri, 8 GB di database e 100 GB di file.</div></div>`
+    +bar(sp.database,500*1048576,'Database')+bar(sp.file,1024*1048576,`File (${sp.nfile} tra piante e foto)`);
+  $('archKpi').innerHTML=tile(A.totale,'Teatri','nell’archivio comune')+tile(A.mappati,'Mappati','con i posti in digitale')+tile(A.conPianta,'Da mappare','c’è la pianta, mancano i posti')
+    +tile((A.zone.nord||0)+' · '+(A.zone.centro||0)+' · '+(A.zone.sud||0),'Nord · Centro · Sud',A.zone.altro?A.zone.altro+' con la zona da sistemare':'Tutte le zone riconosciute');
+  lista();tarCalcola();if(typeof pnPano==='function'&&PN.C)pnPano();}
+async function archivio(){const {data,error}=await SB.rpc('admin_archivio');if(error)return;ARCH=data||[];archDisegna();}
+function archDisegna(){if(!ARCH)return;const q=$('archQ').value.trim().toLowerCase(),f=$('archF').value;
+  const L=ARCH.filter(t=>(!f||t.zona===f)&&(!q||((t.nome||'')+' '+(t.citta||'')).toLowerCase().includes(q)));
+  const ZN2={nord:'Nord',centro:'Centro',sud:'Sud e isole',altro:'Da sistemare'};
+  $('archL').innerHTML=L.length?`<table class="arch-t"><thead><tr><th>Teatro</th><th>Città</th><th>Zona</th><th>Posti</th><th>Clienti</th></tr></thead><tbody>${L.slice(0,300).map(t=>`<tr><td>${esc(t.nome||'')}</td><td>${esc(t.citta||'')}</td><td>${t.zona==='altro'?`<select data-zc="${esc(t.citta||'')}"><option value="">Da sistemare…</option><option value="nord">Nord</option><option value="centro">Centro</option><option value="sud">Sud e isole</option></select>`:ZN2[t.zona]}</td><td>${t.posti?num(t.posti):t.pianta?'<span class="muted">da mappare</span>':'<span class="muted">—</span>'}</td><td>${t.clienti||'<span class="muted">0</span>'}</td></tr>`).join('')}</tbody></table>${L.length>300?`<p class="muted small">Primi 300 di ${L.length}: affina la ricerca.</p>`:''}`:'<p class="muted small">Nessun teatro trovato.</p>';}
+$('archQ').addEventListener('input',archDisegna);$('archF').addEventListener('change',archDisegna);
+$('archL').addEventListener('change',async e=>{const c=e.target.dataset.zc;if(c===undefined||!e.target.value)return;
+  const {error}=await SB.rpc('admin_zona_citta',{pcitta:c,pzona:e.target.value});toast(error?'Non salvata: '+(error.message||error):'Zona salvata per '+c);if(!error){archivio();riepilogo();}});
+
+/* ==========================================================================
+   TourNeat · pannello di controllo: pipeline unica, invii, questionario,
+   prodotti. Un contatto (tabella "contatti" del sito) attraversa tutte le fasi:
+   prima mail → risposta → contatto → demo → proposta → cliente (progetto).
+   ========================================================================== */
+const PN={C:null,R:null,cfg:null,vista:'bacheca',persi:false,id:undefined,ed:false,at:'chiamata',ric:null,log:null,f:{},sel:new Set(),prop:null};
+const PNK={c:'tourneat-pn-contatti',r:'tourneat-pn-risposte',cfg:'tourneat-pn-cfg'};
+const FASI=[
+  ['da_contattare','Da contattare','Manda la prima mail.'],
+  ['inviata','Mail inviata','Aspetta la risposta: la sequenza ti dice quando mandare promemoria e ultimo tentativo.'],
+  ['risposto','Ha risposto','Leggi cosa ha scritto e fissa una chiamata.'],
+  ['contatto','In contatto','Fissa la demo e falla.'],
+  ['demo','Demo fatta','Prepara la proposta con i moduli che gli servono e mandala.'],
+  ['proposta','Proposta','Richiamalo per la firma.'],
+  ['cliente','Cliente','Crea il suo progetto e seguine l’avvio.'],
+  ['perso','Perso','']];
+const FI=Object.fromEntries(FASI.map((f,i)=>[f[0],i]));
+const FCOL={da_contattare:'',inviata:'g',risposto:'y',contatto:'y',demo:'y',proposta:'y',cliente:'ok',perso:'bad'};
+const ATT=[['chiamata','Chiamata'],['email','Email'],['whatsapp','WhatsApp'],['demo','Demo'],['incontro','Incontro'],['nota','Nota']];
+const ATTL=Object.fromEntries([...ATT,['fase','Fase'],['mail','Mail'],['creato','Inserito'],['questionario','Questionario'],['proposta','Proposta']]);
+const TIPI=['Compagnia','Teatro','Circuito','Distributore','Festival','Scuola di teatro','Altro'];
+const DOM=[['tipo','Tipo di realtà'],['paese','Paese'],['spettacoli','Spettacoli in giro'],['repliche','Repliche all’anno'],['persone','Persone che organizzano'],['strumenti','Strumenti usati oggi'],['strumenti_altro','Strumenti (altro)'],
+  ['problema','Dove perdono tempo o soldi'],['desiderio','Lo strumento su misura'],['top3','Le 3 funzioni più importanti'],['f_tournee','Funzioni · Tournée'],['f_teatri','Funzioni · Teatri'],['f_sala','Funzioni · Sala e pubblico'],
+  ['f_conti','Funzioni · Conti e burocrazia'],['f_logistica','Funzioni · Logistica'],['f_squadra','Funzioni · Squadra e integrazioni'],['p_economico','€/mese: troppo economico'],['p_affare','€/mese: buon affare'],['p_caro','€/mese: caro'],['p_troppo','€/mese: troppo caro'],['modello','Modello di prezzo'],['interesse','Lista d’attesa o demo']];
+const PSTEP=7; /* giorni prima del promemoria */
+const eur0=n=>Number(n||0).toLocaleString('it-IT',{style:'currency',currency:'EUR',maximumFractionDigits:0});
+const oggi=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');};
+const piuG=n=>{const d=new Date(oggi()+'T12:00:00');d.setDate(d.getDate()+n);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');};
+const gg=s=>s?Math.round((new Date(String(s).slice(0,10)+'T12:00:00')-new Date(oggi()+'T12:00:00'))/864e5):null;
+function quando(s){const g=gg(s);if(g===null)return '';if(g===0)return 'oggi';if(g===-1)return 'ieri';if(g===1)return 'domani';const d=new Date(String(s).slice(0,10)+'T12:00:00').toLocaleDateString('it-IT',{day:'numeric',month:'short'});return Math.abs(g)<30?(g<0?`${-g} giorni fa`:`tra ${g} giorni`):d;}
+const nrm=s=>String(s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+const cmp=s=>nrm(s).replace(/[^a-z0-9]/g,'');
+const wa=t=>{let n=String(t||'').replace(/[^\d]/g,'');if(/^00/.test(n))n=n.slice(2);if(/^3\d{8,9}$/.test(n))n='39'+n;return n?'https://wa.me/'+n:'';};
+const mediana=a=>{a=a.filter(x=>isFinite(x)).sort((x,y)=>x-y);if(!a.length)return null;const m=a.length>>1;return a.length%2?a[m]:(a[m-1]+a[m])/2;};
+
+/* ---------- dati ---------- */
+async function pnCarica(){
+  if(ONLINE){const [a,b,c]=await Promise.all([SB.from('contatti').select('*').order('nome'),SB.from('risposte').select('*').order('creato_il',{ascending:false}),SB.from('tn_config').select('*').in('chiave',['listino','posta'])]);
+    if(a.error){toast('Contatti non letti: '+a.error.message);PN.C=PN.C||[];}else PN.C=a.data||[];PN.R=b.error?(PN.R||[]):(b.data||[]);const cf=c.data||[];PN.cfg=(cf.find(x=>x.chiave==='listino')||{}).valore||PN.cfg||{};PN.posta=(cf.find(x=>x.chiave==='posta')||{}).valore||PN.posta||null;}
+  else{const g=k=>{try{return JSON.parse(localStorage.getItem(k)||'null');}catch(_){return null;}};PN.C=g(PNK.c)||[];PN.R=g(PNK.r)||[];PN.cfg=g(PNK.cfg)||{};PN.posta=g('tourneat-pn-posta');}
+  $('gqBox').hidden=false;pnTutto();}
+async function pnSalva(row,evento){const x={...row};delete x.creato_il;x.aggiornato_il=new Date().toISOString();
+  if(evento)x.storico=[{t:new Date().toISOString(),...evento},...(x.storico||[])].slice(0,300);
+  if(ONLINE){let r;if(x.id){const id=x.id;delete x.id;r=await SB.from('contatti').update(x).eq('id',id).select().single();}else{delete x.id;r=await SB.from('contatti').insert(x).select().single();}
+    if(r.error)throw r.error;const i=PN.C.findIndex(y=>y.id===r.data.id);if(i>=0)PN.C[i]=r.data;else PN.C.push(r.data);return r.data;}
+  if(!x.id){x.id=Math.max(0,...PN.C.map(c=>+c.id||0))+1;x.creato_il=x.aggiornato_il;}
+  const i=PN.C.findIndex(y=>y.id===x.id);if(i>=0)PN.C[i]={...PN.C[i],...x};else PN.C.push(x);localStorage.setItem(PNK.c,JSON.stringify(PN.C));return PN.C.find(y=>y.id===x.id);}
+async function pnPostaSalva(v){if(ONLINE){const {error}=await SB.from('tn_config').upsert({chiave:'posta',valore:v,aggiornato:new Date().toISOString()});if(error)throw error;}else localStorage.setItem('tourneat-pn-posta',JSON.stringify(v));PN.posta=v;}
+async function pnCfgSalva(v){if(ONLINE){const {error}=await SB.from('tn_config').upsert({chiave:'listino',valore:v,aggiornato:new Date().toISOString()});if(error)throw error;}else localStorage.setItem(PNK.cfg,JSON.stringify(v));PN.cfg=v;}
+const pnC=id=>(PN.C||[]).find(c=>String(c.id)===String(id));
+function pnRisp(c){const R=PN.R||[];if(c.risposta)return R.find(r=>r.id===c.risposta)||null;const e=nrm(c.email),n=cmp(c.nome);
+  return R.find(r=>e&&nrm(r.email)===e)||R.find(r=>n&&n.length>3&&cmp(r.compagnia)===n)||null;}
+function pnContDiRisp(r){return (PN.C||[]).find(c=>c.risposta===r.id)||(PN.C||[]).find(c=>!c.risposta&&pnRisp(c)===r)||null;}
+function fase(c){const sl=c.stato_lead||'nuovo',sm=c.stato_mail||'da_inviare';
+  if(sl==='non_interessato'||sm==='no_grazie')return 'perso';if(['cliente','proposta','demo'].includes(sl))return sl;if(sl==='contattato')return 'contatto';
+  if(sm==='risposto'||pnRisp(c))return 'risposto';if(sm==='inviata')return 'inviata';return 'da_contattare';}
+const daChiamare=c=>c.stato_lead==='da_contattare'&&FI[fase(c)]<FI.contatto;
+const escluso=c=>c.stato_mail==='escluso'||c.archiviato;
+const attivi=()=>(PN.C||[]).filter(c=>!escluso(c));
+const daSollecitare=c=>{if(fase(c)!=='inviata'||c.prossimo_contatto)return false;if(typeof prossimoPasso==='function'){const x=prossimoPasso(c);return !!x&&x.n>1&&x.dal<=oggi();}return false;};
+const daRichiamare=c=>c.prossimo_contatto&&c.prossimo_contatto<=oggi()&&!['cliente','perso'].includes(fase(c));
+const ref=c=>(c.persone||[]).find(p=>p&&(p.nome||p.tel||p.email))||{};
+const tel=c=>ref(c).tel||c.telefono||'';
+const mail=c=>ref(c).email||c.email||'';
+function patchFase(c,f){const now=new Date().toISOString(),sl=c.stato_lead==='da_contattare'?'da_contattare':'nuovo';
+  return {da_contattare:{stato_lead:sl,stato_mail:'da_inviare'},inviata:{stato_lead:sl,stato_mail:'inviata',inviata_il:c.inviata_il||now},risposto:{stato_lead:sl,stato_mail:'risposto'},
+    contatto:{stato_lead:'contattato'},demo:{stato_lead:'demo'},proposta:{stato_lead:'proposta'},cliente:{stato_lead:'cliente',prossimo_contatto:null},perso:{stato_lead:'non_interessato',prossimo_contatto:null}}[f];}
+async function pnFase(id,f,silenzio){const c=pnC(id);if(!c||fase(c)===f)return;
+  try{await pnSalva({...c,...patchFase(c,f)},{tipo:'fase',testo:'Passato a «'+FASI[FI[f]][1]+'»'});}catch(e){toast('Non salvato: '+(e.message||e));return;}
+  if(!silenzio)toast(f==='cliente'?'Cliente! Ora crea il suo progetto dalla scheda':'Spostato in «'+FASI[FI[f]][1]+'»');pnTutto();if(PN.id===c.id)pnApri(c.id);}
+
+/* ---------- listino ---------- */
+function lst(){const c=PN.cfg||{};return {base:+c.base||0,sconto:c.sconto==null?15:+c.sconto,oraria:+c.oraria||0,moduli:c.moduli||{}};}
+const inVendita=m=>!m[8]&&(lst().moduli[m[0]]||{}).vendita!==false&&m[4]!=='todo'||((lst().moduli[m[0]]||{}).vendita===true);
+const prezzoM=id=>+((lst().moduli[id]||{}).prezzo||0);
+function preventivo(mods){const L=lst(),S=new Set(BASE);(mods||[]).forEach(id=>conDipendenze(id,S));
+  const extra=[...S].filter(id=>!BYID[id][8]);const mese=L.base+extra.reduce((a,id)=>a+prezzoM(id),0);const ore=[...S].reduce((a,id)=>a+(+BYID[id][7]||0),0);
+  const manca=(!L.base?['canone base']:[]).concat(extra.filter(id=>!prezzoM(id)).map(id=>BYID[id][2]));
+  return {mods:[...S],extra,mese,anno:Math.round(mese*12*(1-L.sconto/100)),avvio:Math.round(ore*L.oraria),ore,manca};}
+/* funzioni del questionario → moduli */
+const QMAP=[[/calendario/,'cal'],[/mappa delle tappe/,'mappa'],[/scheda della giornata|giornata/,'oggi'],[/checklist/,'check'],[/app da telefono|cast/,'cast'],[/foto/,'foto'],[/veicol|flotta/,'veicoli'],[/emergen/,'emerg'],
+  [/archivio dei teatri|schede dei teatri|capienza/,'teatri'],[/ai|intelligenza/,'ai_teatri'],[/mail ai teatri|richiesta date/,'mail_teatri'],[/piantina/,'piantine'],[/arrivi/,'arrivi'],[/qr.*docent/,'qr'],[/check-in/,'checkin'],
+  [/biglietteria/,'biglietteria'],[/contatti \(docenti|gestione dei contatti|prenotazion/,'prenotazioni'],[/break-even|business plan|pareggio|costi per replica/,'bp'],[/fattur/,'fatture'],[/siae|permessi/,'siae'],[/pedaggi|spese di viaggio/,'spese'],
+  [/hotel|ristoranti/,'hotel'],[/drive/,'archivio'],[/calendario google|google calendar/,'cal_google'],[/lingue/,'lingue'],[/marchio/,'white'],[/crm/,'crm']];
+function suggeriti(r){if(!r)return [];const d=r.dati||{};const t=nrm([d.top3,d.f_tournee,d.f_teatri,d.f_sala,d.f_conti,d.f_logistica,d.f_squadra].filter(Boolean).join(' | '));const out=new Set();
+  t.split('|').forEach(x=>{for(const [re,id] of QMAP)if(re.test(x)&&BYID[id]){out.add(id);break;}});return [...out];}
+
+/* ---------- disegno generale ---------- */
+function pnTutto(){if(!PN.C)return;pnBadge();pnPano();const t=(document.querySelector('.sez:not([hidden])')||{}).dataset;const s=t&&t.sez;
+  if(s==='pipe')pnPipe();else if(s==='invii')pnInvii();else if(s==='quest')pnQuest();else if(s==='prod')pnProd();else if(s==='clienti')lista();else if(s==='att')pnAtt();else if(s==='mod')pnPosta();else if(s==='rep')pnRep();}
+function pnBadge(){const A=attivi();$('tabPi').hidden=true;{const td=oggi();const n2=A.filter(c=>(c.prossimo_contatto&&c.prossimo_contatto<=td&&!['cliente','perso'].includes(fase(c)))).length+(A.some(daSollecitare)?1:0);$('tabAt').hidden=!n2;$('tabAt').textContent=n2;}}
+const tile=(n,l,s,go)=>`<${go?`button data-vai="${go}"`:'div'} class="card tile"><span class="eyebrow">${l}</span><b>${n}</b><span class="muted small">${s||''}</span></${go?'button':'div'}>`;
+function pnAz(c){const t=tel(c),m=mail(c),w=wa(t);return `<span class="pn-az">${t?`<a href="tel:${esc(t.replace(/[^\d+]/g,''))}" data-plog="${esc(c.id)}|chiamata" title="Chiama ${esc(t)}">${PIC.tel}</a>`:''}${w?`<a href="${esc(w)}" target="_blank" rel="noopener" data-plog="${esc(c.id)}|whatsapp" title="WhatsApp">${PIC.wa}</a>`:''}${m?`<a href="mailto:${esc(m)}" data-plog="${esc(c.id)}|email" title="Scrivi a ${esc(m)}">${PIC.mail}</a>`:''}</span>`;}
+function pnSolRiga(L){const n=L.filter(daSollecitare).length;return n?`<div class="pn-row pn-sol" data-vaisol="1" tabindex="0"><span class="pn-rn"><b>${n} mail della sequenza da mandare oggi</b><span class="muted small">Promemoria e ultimi tentativi a chi non ha risposto: aprili in «Modelli e sequenze»</span></span><span class="pn-rs"><span class="pill y">Promemoria</span></span></div>`:'';}
+function pnRiga(c,opt){opt=opt||{};const f=fase(c),r=ref(c),g=gg(c.prossimo_contatto);
+  const sub=[c.tipo,c.citta||c.paese,r.nome].filter(Boolean).join(' · ');
+  const pill=daRichiamare(c)?`<span class="pill ${g<0?'bad':'y'}">${g<0?'In ritardo · ':''}Richiama ${quando(c.prossimo_contatto)}</span>`:daSollecitare(c)?`<span class="pill y">Promemoria da mandare</span>`:c.stato_mail==='rimbalzata'&&f==='da_contattare'?'<span class="pill bad">Mail rimbalzata</span>':'';
+  return `<div class="pn-row" data-pc="${esc(c.id)}" tabindex="0">${opt.chk?`<input type="checkbox" class="pn-chk" data-pchk="${esc(c.id)}"${PN.sel.has(String(c.id))?' checked':''} aria-label="Seleziona">`:''}<span class="pn-rn"><b>${esc(c.nome||'Senza nome')}</b><span class="muted small">${esc(sub)}${opt.extra?' · '+opt.extra:''}</span></span><span class="pn-rs">${pill}${opt.fase?`<span class="pill ${FCOL[f]}">${FASI[FI[f]][1]}</span>`:''}${pnAz(c)}</span></div>`;}
+
+/* ---------- metriche: una sola fonte per tutte le pagine ---------- */
+function MET(){const A=attivi(),st=c=>c.stato_mail||'da_inviare';const fi=c=>FI[fase(c)];
+  const mail=A.filter(c=>c.inviata_il||['inviata','risposto','no_grazie','rimbalzata'].includes(st(c))||(fi(c)>=FI.risposto&&fase(c)!=='perso'));
+  const risp=A.filter(c=>['risposto','no_grazie'].includes(st(c))||pnRisp(c)||(fi(c)>=FI.risposto&&fase(c)!=='perso'));
+  const tratt=A.filter(c=>['contatto','demo','proposta','cliente'].includes(fase(c))||(fase(c)==='perso'&&['contattato','demo','proposta'].includes(c.stato_lead)));
+  const prop=A.filter(c=>['proposta','cliente'].includes(fase(c))),cli=A.filter(c=>fase(c)==='cliente');
+  const ora=Object.fromEntries(FASI.map(f=>[f[0],A.filter(c=>fase(c)===f[0]).length]));
+  return {A,mail,risp,tratt,prop,cli,ora,rimb:A.filter(c=>st(c)==='rimbalzata'),senzaMail:A.filter(c=>!mail.includes(c)&&!c.email),
+    ric:A.filter(daRichiamare),sol:A.filter(daSollecitare),chiama:A.filter(daChiamare),arr:cli.reduce((x,c)=>x+Number(c.valore||0),0),
+    pipe:A.filter(c=>['demo','proposta'].includes(fase(c))).reduce((x,c)=>x+Number(c.valore||0),0)};}
+const pct=(a,b)=>b?Math.round(a/b*100)+'%':'—';
+/* ---------- tabella riusabile (ordinabile, a pagine) ---------- */
+PN.tb=PN.tb||{};
+function pnTabella(id,rows,cols,opt){opt=opt||{};const T=PN.tb[id]=PN.tb[id]||{k:opt.sort||cols[0].k,d:opt.dir||1,p:0};const per=opt.per||50;
+  const col=cols.find(c=>c.k===T.k)||cols[0];const sv=col.s||(x=>String(col.v(x)||'').toLowerCase());
+  const R=rows.slice().sort((a,b)=>{const x=sv(a),y=sv(b);return (x>y?1:x<y?-1:0)*T.d;});const np=Math.max(1,Math.ceil(R.length/per));if(T.p>=np)T.p=np-1;
+  const P=R.slice(T.p*per,T.p*per+per);
+  return `<div class="tw"><table class="pn-g"><thead><tr>${opt.chk?`<th class="ck"><input type="checkbox" data-tall="${id}" aria-label="Seleziona tutti"${P.length&&P.every(c=>PN.sel.has(String(c.id)))?' checked':''}></th>`:''}${cols.map(c=>`<th class="${c.cls||''}${c.k===T.k?' on':''}" data-ts="${id}|${c.k}" title="Ordina">${c.l}${c.k===T.k?(T.d>0?' ↑':' ↓'):''}</th>`).join('')}</tr></thead>
+  <tbody>${P.map(x=>`<tr data-pc="${esc(x.id)}" tabindex="0">${opt.chk?`<td class="ck"><input type="checkbox" class="pn-chk" data-pchk="${esc(x.id)}"${PN.sel.has(String(x.id))?' checked':''} aria-label="Seleziona"></td>`:''}${cols.map(c=>`<td class="${c.cls||''}">${c.h?c.h(x):esc(c.v(x)??'')}</td>`).join('')}</tr>`).join('')||`<tr><td colspan="${cols.length+(opt.chk?1:0)}" class="muted small vuoto">Nessun risultato con questi filtri.</td></tr>`}</tbody></table></div>
+  <div class="pn-pag"><span class="muted small">${R.length?`${T.p*per+1}–${Math.min(R.length,T.p*per+per)} di ${R.length}`:'0 risultati'}</span>${np>1?`<span><button class="btn ghost" data-tpg="${id}|-1"${T.p?'':' disabled'}>‹</button><button class="btn ghost" data-tpg="${id}|1"${T.p<np-1?'':' disabled'}>›</button></span>`:''}</div>`;}
+/* colonne comuni dei contatti */
+const CN={
+  nome:{k:'nome',l:'Contatto',v:c=>c.nome,h:c=>`<b>${esc(c.nome||'Senza nome')}</b>${daChiamare(c)?' <span class="pill bad">⚑ Da chiamare</span>':''}<span class="muted small sub">${esc([c.tipo,c.citta||c.paese].filter(Boolean).join(' · '))}</span>`},
+  fase:{k:'fase',l:'Fase',v:c=>FASI[FI[fase(c)]][1],s:c=>FI[fase(c)],h:c=>`<span class="pill ${FCOL[fase(c)]}">${FASI[FI[fase(c)]][1]}</span>`},
+  ult:{k:'ult',l:'Ultimo contatto',v:c=>{const u=pnUlt(c);return u?quando(u.t):''},s:c=>{const u=pnUlt(c);return u?u.t:''},h:c=>{const u=pnUlt(c);return u?`${esc(quando(u.t))}<span class="muted small sub">${esc(ATTL[u.tipo]||'')}</span>`:'<span class="muted">mai</span>'}},
+  pros:{k:'pros',l:'Prossimo passo',v:c=>c.prossimo_contatto||'',s:c=>c.prossimo_contatto||(daSollecitare(c)?'0':'9'),h:c=>{const g=gg(c.prossimo_contatto);return c.prossimo_contatto?`<span class="pill ${g<0?'bad':g===0?'y':''}">${g<0?'In ritardo · ':''}${esc(quando(c.prossimo_contatto))}</span>`:daSollecitare(c)?'<span class="pill y">Promemoria</span>':'<span class="muted small">—</span>'}},
+  mail:{k:'mail',l:'Mail',v:c=>c.stato_mail||'',s:c=>c.inviata_il||'',h:c=>{const m={da_inviare:'Da inviare',inviata:'Inviata',risposto:'Risposto',no_grazie:'No grazie',rimbalzata:'Rimbalzata'}[c.stato_mail||'da_inviare']||c.stato_mail;return `${esc(m)}${c.inviata_il?` <span class="muted small">${esc(quando(c.inviata_il))}</span>`:''}${!c.email&&!c.inviata_il?' <span class="pill">Senza email</span>':''}<span class="muted small sub">${esc(c.blocco||'')}</span>`}},
+  val:{k:'val',l:'Valore',cls:'num',v:c=>c.valore||0,s:c=>+c.valore||0,h:c=>c.valore?eur0(c.valore):'<span class="muted">—</span>'},
+  paese:{k:'paese',l:'Paese',v:c=>c.paese||''}};
+function pnUlt(c){const S=(c.storico||[]).filter(x=>x.tipo!=='fase');const u=S[0];const m=c.inviata_il?{t:c.inviata_il,tipo:'mail'}:null;return u&&(!m||u.t>m.t)?u:m;}
+
+/* ---------- Panoramica ---------- */
+function pnPano(){if(!PN.C)return;const M=MET(),D=(typeof RIEP!=='undefined'&&RIEP&&RIEP.dafare)||{};const nd=(D.proposte||0)+(D.ordini||0)+(D.richieste||0);
+  const rit=M.ric.filter(c=>c.prossimo_contatto<oggi()).length;
+  const az=(n,l,s,go,cl)=>`<button class="card pn-az1 ${n?cl||'':'zero'}" data-vai="${go}"><b>${n}</b><span>${l}</span><span class="muted small">${s}</span></button>`;
+  const steps=[[M.A.length,'In elenco','contatti trovati','invii'],[M.mail.length,'Mail inviate',pct(M.mail.length,M.A.length)+' dei contatti','invii'],[M.risp.length,'Hanno risposto',pct(M.risp.length,M.mail.length)+' delle mail','pipe'],[M.tratt.length,'In trattativa',pct(M.tratt.length,M.risp.length)+' di chi risponde','pipe'],[M.prop.length,'Proposta',pct(M.prop.length,M.tratt.length)+' delle trattative','pipe'],[M.cli.length,'Clienti',pct(M.cli.length,M.prop.length)+' delle proposte','clienti']];
+  const mx=Math.max(1,M.A.length);
+  let h=`<div class="pn-oggi">${az(M.ric.length,'Da richiamare',rit?`${rit} in ritardo`:'oggi','att',rit?'bad':'y')}${az(M.sol.length,'Promemoria','mail senza risposta da 7+ giorni','att','y')}${az(M.chiama.length,'Da chiamare','segnati con ⚑','pipe','y')}${az(nd,'Da approvare','teatri, ordini, richieste','dafare','y')}</div>`;
+  h+=`<section class="card pn-box"><div class="pn-bh"><b>Imbuto di vendita</b><span class="muted small">ogni barra conta chi è arrivato almeno fin lì · tra parentesi chi è fermo lì adesso</span></div>
+  <div class="pn-imb">${steps.map(([n,l,s,go],i)=>`<button class="pn-ib" data-vai="${go}"><span class="pn-il"><b>${l}</b><span class="muted small">${s}</span></span><span class="pn-ibar"><i style="width:${Math.max(n?2:0,n/mx*100)}%"></i></span><span class="pn-in"><b>${n}</b>${i?`<span class="muted small">(${[0,M.ora.inviata,M.ora.risposto,M.ora.contatto+M.ora.demo,M.ora.proposta,M.ora.cliente][i]} qui)</span>`:''}</span></button>`).join('')}</div></section>`;
+  h+=`<div class="pn-q2"><section class="card pn-box"><div class="pn-bh"><b>Ultimi 30 giorni</b><span class="muted small"><i class="lg a"></i>mail inviate <i class="lg b"></i>risposte</span></div>${pnGrafico()}</section>
+  <section class="card pn-box"><div class="pn-bh"><b>Ricavi e prodotto</b></div><div class="pn-kv"><span>Ricorrenti l’anno</span><b>${eur0(M.arr)}</b><span>Al mese</span><b>${eur0(M.arr/12)}</b><span>In trattativa (demo e proposte)</span><b>${eur0(M.pipe)}</b><span>Clienti</span><b>${M.cli.length}</b><span>Rinnovi entro 60 giorni</span><b>${M.cli.filter(c=>c.rinnovo&&gg(c.rinnovo)<=60).length}</b>${(()=>{const R=typeof RIEP!=='undefined'&&RIEP;if(!R)return '';const Aa=R.archivio||{};return `<span>Persone che usano le app</span><b>${(R.clienti||[]).reduce((a,c)=>a+(c.persone||0),0)}</b><span>Teatri in archivio · mappati</span><b>${Aa.totale||0} · ${Aa.mappati||0}</b><span>Incassi dal catalogo teatri</span><b>${eur0((R.incassi||{}).catalogo||0)}</b>`;})()}</div></section></div>`;
+  $('panoVe').hidden=false;$('panoVe').innerHTML=h;}
+function pnGrafico(){const G=30,b=[],ini=piuG(-G+1);for(let i=0;i<G;i++)b.push({d:piuG(-G+1+i),m:0,r:0});const ix=d=>{const k=String(d||'').slice(0,10);if(k<ini||k>oggi())return -1;return gg(k)+G-1;};
+  attivi().forEach(c=>{let i=ix(c.inviata_il);if(i>=0)b[i].m++;(c.storico||[]).forEach(s=>{if(s.tipo==='mail'&&/Promemoria/.test(s.testo||'')){const j=ix(s.t);if(j>=0)b[j].m++;}if(s.tipo==='fase'&&/Ha risposto|In contatto/.test(s.testo||'')){const j=ix(s.t);if(j>=0)b[j].r++;}});});
+  (PN.R||[]).forEach(r=>{const i=ix(r.creato_il);if(i>=0)b[i].r++;});
+  const mx=Math.max(1,...b.map(x=>x.m+x.r)),W=600,H=120,bw=W/G;
+  return `<svg class="pn-svg" viewBox="0 0 ${W} ${H+18}" role="img" aria-label="Mail e risposte negli ultimi 30 giorni">${b.map((x,i)=>{const hm=x.m/mx*H,hr=x.r/mx*H;return `<g><title>${new Date(x.d+'T12:00:00').toLocaleDateString('it-IT',{day:'numeric',month:'short'})}: ${x.m} mail, ${x.r} risposte</title><rect x="${i*bw+2}" y="${H-hm-hr}" width="${bw-4}" height="${hm}" rx="2" class="a"/><rect x="${i*bw+2}" y="${H-hr}" width="${bw-4}" height="${hr}" rx="2" class="b"/></g>`;}).join('')}
+  <line x1="0" y1="${H}" x2="${W}" y2="${H}" class="ax"/>${[0,10,20,29].map(i=>`<text x="${i===0?0:i===29?W:i*bw+bw/2}" y="${H+14}" text-anchor="${i===0?'start':i===29?'end':'middle'}">${new Date(b[i].d+'T12:00:00').toLocaleDateString('it-IT',{day:'numeric',month:'short'})}</text>`).join('')}</svg>`;}
+
+/* ---------- Pipeline ---------- */
+const VISTE=[['tutti','Tutti'],['oggi','Da fare oggi'],['chiamare','⚑ Da chiamare'],['risposto','Hanno risposto'],['tratt','In trattativa'],['questionario','Col questionario'],['senza','Senza email']];
+function pnVista(L){const v=PN.f.v||'tutti';if(v.startsWith('f:'))return L.filter(c=>fase(c)===v.slice(2));return v==='oggi'?L.filter(c=>daRichiamare(c)||daSollecitare(c)):v==='chiamare'?L.filter(daChiamare):v==='risposto'?L.filter(c=>fase(c)==='risposto'):v==='tratt'?L.filter(c=>['contatto','demo','proposta'].includes(fase(c))):v==='questionario'?L.filter(c=>pnRisp(c)):v==='senza'?L.filter(c=>!c.email&&!c.inviata_il):L;}
+function pnFiltra(L){const q=nrm(PN.f.q||'');return q?L.filter(c=>nrm([c.nome,c.citta,c.regione,c.paese,c.email,c.tipo,c.segmento,c.blocco,...(c.persone||[]).map(p=>p.nome)].join(' ')).includes(q)):L;}
+function pnPipe(){if(!PN.C)return;const M=MET(),A=pnFiltra(attivi()),vt=PN.vista==='tabella';
+  let h=`<div class="pn-bar"><input type="search" id="pnQ2" placeholder="Cerca nella pipeline" value="${esc(PN.f.q||'')}" autocomplete="off"><div class="ve-vista" role="group"><button data-pv="bacheca" class="${vt?'':'on'}">Bacheca</button><button data-pv="tabella" class="${vt?'on':''}">Tabella</button></div><button class="btn" data-px="nuovo">+ Nuovo contatto</button></div>
+  <div class="pn-strip">${FASI.slice(0,7).map(([k,l],i)=>`${i?'<i class="pn-fr">›</i>':''}<button class="pn-st ${FCOL[k]}" data-pst="${k}" title="Contatti fermi in questa fase adesso"><b>${M.ora[k]}</b><span>${l}</span></button>`).join('')}<i class="pn-fr"> </i><button class="pn-st bad" data-pst="perso"><b>${M.ora.perso}</b><span>Persi</span></button></div>`;
+  if(vt){const L=pnVista(A);h+=`<div class="pn-viste">${VISTE.map(([k,l])=>`<button data-pvs="${k}" class="${(PN.f.v||'tutti')===k?'on':''}">${l} <span>${pnConta(A,k)}</span></button>`).join('')}</div>
+    <section class="card pn-box pn-tb">${pnTabella('pipe',L,[CN.nome,CN.fase,CN.ult,CN.pros,CN.mail,CN.val],{sort:'pros'})}</section>`;}
+  else{const oggiL=A.filter(daRichiamare).sort((a,b)=>a.prossimo_contatto.localeCompare(b.prossimo_contatto));const sol=pnSolRiga(A);
+    if(oggiL.length||sol)h+=`<section class="card pn-box"><div class="pn-bh"><b>Da fare oggi</b><span class="muted small">${oggiL.length} da richiamare</span></div>${sol}${oggiL.map(c=>pnRiga(c,{fase:true})).join('')}</section>`;
+    const K=['risposto','contatto','demo','proposta','cliente'].concat(PN.persi?['perso']:[]);
+    h+=`<div class="pn-kan" style="--n:${K.length}">${K.map(k=>{const xs=A.filter(c=>fase(c)===k).sort((a,b)=>(a.prossimo_contatto||'9').localeCompare(b.prossimo_contatto||'9')||(a.nome||'').localeCompare(b.nome||''));const v=xs.reduce((a,c)=>a+Number(c.valore||0),0);
+      return `<section class="pn-col" data-pcol="${k}"><div class="pn-ch"><i class="pn-dot ${FCOL[k]}"></i><b>${FASI[FI[k]][1]}</b><span class="muted small">${xs.length}${v?' · '+eur0(v):''}</span></div><p class="pn-cp muted small">${FASI[FI[k]][2]}</p>${xs.map(c=>{const g=gg(c.prossimo_contatto),r=pnRisp(c),u=pnUlt(c);
+        return `<div class="card pn-card" draggable="true" data-pc="${esc(c.id)}" tabindex="0"><b>${esc(c.nome)}</b><span class="muted small">${esc([c.tipo,c.citta||c.paese].filter(Boolean).join(' · '))}</span><span class="muted small">${u?'Ultimo: '+esc((ATTL[u.tipo]||'').toLowerCase()+' '+quando(u.t)):'Mai contattato'}</span><span class="pn-cf">${daChiamare(c)?'<span class="pill bad">⚑</span>':''}${r?'<span class="pill">Questionario</span>':''}${c.valore?`<span class="small">${eur0(c.valore)}/anno</span>`:''}${k==='cliente'&&c.rinnovo?`<span class="pill ${gg(c.rinnovo)<60?'y':''}">Rinnovo ${quando(c.rinnovo)}</span>`:c.prossimo_contatto&&k!=='cliente'&&k!=='perso'?`<span class="pill ${g<0?'bad':g===0?'y':''}">${g<0?'In ritardo':quando(c.prossimo_contatto)}</span>`:''}${k==='cliente'&&!c.progetto?'<span class="pill y">Senza progetto</span>':''}</span></div>`;}).join('')||'<p class="muted small pn-v">Nessuno</p>'}</section>`;}).join('')}</div>
+    <label class="pn-persi"><input type="checkbox" id="pnPersi"${PN.persi?' checked':''}> Mostra anche i persi (${M.ora.perso})</label>`;}
+  $('pnPipe').innerHTML=h;if(!vt)pnDrag();}
+function pnConta(A,k){const s=PN.f.v;PN.f.v=k;const n=pnVista(A).length;PN.f.v=s;return n;}
+function pnDrag(){document.querySelectorAll('.pn-card').forEach(c=>c.addEventListener('dragstart',e=>{e.dataTransfer.setData('text/plain',c.dataset.pc);c.classList.add('drag');}));
+  document.querySelectorAll('.pn-col').forEach(col=>{col.addEventListener('dragover',e=>{e.preventDefault();col.classList.add('over');});col.addEventListener('dragleave',e=>{if(!col.contains(e.relatedTarget))col.classList.remove('over');});
+    col.addEventListener('drop',e=>{e.preventDefault();col.classList.remove('over');const id=e.dataTransfer.getData('text/plain');if(id)pnFase(id,col.dataset.pcol);});});}
+
+/* ---------- Contatti e invii ---------- */
+function pnInvii(){if(!PN.C)return;const M=MET(),A=M.A,f=PN.f;
+  const st=c=>c.stato_mail||'da_inviare';const S={da_inviare:'Da inviare',inviata:'Inviata',risposto:'Ha risposto',no_grazie:'No grazie',rimbalzata:'Rimbalzata'};
+  const bl=[...new Set(A.map(c=>c.blocco||''))].sort((a,b)=>(a||'zz').localeCompare(b||'zz'));
+  let L=pnFiltra(A);if(f.blocco!==undefined&&f.blocco!=='*')L=L.filter(c=>(c.blocco||'')===f.blocco);if(f.mail)L=L.filter(c=>f.mail==='sollecito'?daSollecitare(c):f.mail==='senza'?!c.email&&!c.inviata_il:st(c)===f.mail);if(f.paese)L=L.filter(c=>c.paese===f.paese);
+  const daInv=A.filter(c=>st(c)==='da_inviare');
+  let h=`<div class="kpi">${tile(A.length,'Contatti','compagnie, teatri, circuiti')}${tile(daInv.length,'Da inviare',`${daInv.filter(c=>c.email).length} con email · ${daInv.filter(c=>!c.email).length} senza`)}${tile(M.mail.length,'Mail inviate',M.sol.length?M.sol.length+' da sollecitare':'nessun promemoria in sospeso')}${tile(pct(M.risp.length,M.mail.length),'Risposte',`${M.risp.length} su ${M.mail.length} mail · ${M.rimb.length} rimbalzate`)}</div>`;
+  h+=`<section class="card pn-box"><div class="pn-bh"><b>Blocchi di invio</b><span class="muted small">Tocca un blocco per filtrare l’elenco</span></div><div class="tw"><table class="pn-t"><thead><tr><th>Blocco</th><th>Contatti</th><th>Da inviare</th><th>Inviate</th><th>Risposte</th><th>Tasso</th></tr></thead><tbody>${bl.map(b=>{const X=A.filter(c=>(c.blocco||'')===b),I=X.filter(c=>M.mail.includes(c)),R=X.filter(c=>M.risp.includes(c));
+    return `<tr data-pbl="${esc(b)}" class="${f.blocco===b?'on':''}"><td><b>${esc(b||'Senza blocco')}</b> <span class="muted small">${esc([...new Set(X.map(c=>c.paese).filter(Boolean))].join(', '))}</span></td><td>${X.length}</td><td>${X.filter(c=>st(c)==='da_inviare').length||'<span class="muted">0</span>'}</td><td>${I.length}</td><td>${R.length}</td><td>${pct(R.length,I.length)}</td></tr>`;}).join('')}</tbody></table></div></section>`;
+  h+=`<div class="pn-bar"><input type="search" id="pnQ" placeholder="Cerca nome, città, email" value="${esc(f.q||'')}" autocomplete="off">
+    <select id="pnBl"><option value="*">Tutti i blocchi</option>${bl.map(b=>`<option value="${esc(b)}"${f.blocco===b?' selected':''}>${esc(b||'Senza blocco')}</option>`).join('')}</select>
+    <select id="pnMa"><option value="">Ogni stato della mail</option>${Object.entries(S).map(([k,l])=>`<option value="${k}"${f.mail===k?' selected':''}>${l}</option>`).join('')}<option value="sollecito"${f.mail==='sollecito'?' selected':''}>Da sollecitare (${PSTEP}+ giorni)</option><option value="senza"${f.mail==='senza'?' selected':''}>Senza email</option></select>
+    <select id="pnPa"><option value="">Tutti i paesi</option>${[...new Set(A.map(c=>c.paese).filter(Boolean))].sort().map(p=>`<option${f.paese===p?' selected':''}>${esc(p)}</option>`).join('')}</select>
+    <button class="btn" data-px="nuovo">+ Nuovo contatto</button></div>`;
+  const ns=PN.sel.size;
+  h+=`<div class="pn-bulk"${ns?'':' hidden'}><b>${ns} ${ns===1?'selezionato':'selezionati'}</b>${f.mail==='sollecito'?'<button class="btn" data-px="promemoria">Segna promemoria inviato</button>':'<button class="btn" data-px="inviate">Segna mail inviata</button>'}<button class="btn ghost" data-px="chiamasel">⚑ Da chiamare</button><button class="btn ghost" data-px="desel">Deseleziona</button></div>`;
+  h+=`<section class="card pn-box pn-tb">${pnTabella('inv',L,[CN.nome,CN.mail,CN.fase,{k:'email',l:'Email',v:c=>c.email||'',h:c=>c.email?`<span class="small">${esc(c.email)}</span>`:'<span class="muted small">—</span>'},CN.paese],{chk:true,sort:'nome'})}</section>`;
+  $('pnInv').innerHTML=h;}
+
+/* ---------- Agenda ---------- */
+function pnAtt(){if(!PN.C)return;const A=attivi(),td=oggi();const ev=[];
+  A.forEach(c=>{if(c.prossimo_contatto&&!['cliente','perso'].includes(fase(c)))ev.push({d:c.prossimo_contatto,t:'Richiamare',c});if(daSollecitare(c))ev.push({d:piuG(0),t:'Promemoria',c,sol:1});if(fase(c)==='cliente'&&c.rinnovo&&gg(c.rinnovo)<=90)ev.push({d:c.rinnovo,t:'Rinnovo',c});});
+  const rit=ev.filter(e=>e.d<td&&!e.sol),og=ev.filter(e=>e.d===td||e.sol),pr=ev.filter(e=>e.d>td).sort((a,b)=>a.d.localeCompare(b.d));
+  const g={};pr.forEach(e=>(g[e.d]=g[e.d]||[]).push(e));const sol=og.filter(e=>e.sol);
+  const riga=e=>pnRiga(e.c,{fase:true,extra:'<b>'+e.t+'</b>'});
+  let h='';if(!ev.length)h=`<div class="card empty"><h2>Agenda vuota</h2><p class="muted small" style="margin:0">Quando registri una chiamata e scegli quando risentirli, il richiamo compare qui. Compaiono da soli anche i promemoria delle mail senza risposta e i rinnovi dei clienti.</p></div>`;
+  if(rit.length)h+=`<section class="card pn-box"><div class="pn-bh"><b style="color:#C4251B">In ritardo</b><span class="muted small">${rit.length}</span></div>${rit.sort((a,b)=>a.d.localeCompare(b.d)).map(riga).join('')}</section>`;
+  if(og.length)h+=`<section class="card pn-box"><div class="pn-bh"><b>Oggi · ${new Date().toLocaleDateString('it-IT',{weekday:'long',day:'numeric',month:'long'})}</b><span class="muted small">${og.length-sol.length} richiami${sol.length?' · '+sol.length+' promemoria':''}</span></div>${pnSolRiga(A)}${og.filter(e=>!e.sol).map(riga).join('')}</section>`;
+  Object.keys(g).slice(0,30).forEach(d=>{h+=`<section class="card pn-box"><div class="pn-bh"><b>${new Date(d+'T12:00:00').toLocaleDateString('it-IT',{weekday:'long',day:'numeric',month:'long'})}</b><span class="muted small">${quando(d)}</span></div>${g[d].map(riga).join('')}</section>`;});
+  $('pnAtt').innerHTML=h;pnBadge();}
+
+/* ---------- Report ---------- */
+function pnRep(){if(!PN.C)return;const M=MET();const dim=[['paese','Paese'],['tipo','Tipo'],['segmento','Segmento'],['blocco','Blocco di invio']];
+  const dk=PN.rdim||'paese';const val=c=>c[dk]||'—';const K=[...new Set(M.A.map(val))];
+  const rows=K.map(k=>{const X=M.A.filter(c=>val(c)===k);const inX=a=>a.filter(c=>X.includes(c)).length;return {k,n:X.length,m:inX(M.mail),r:inX(M.risp),t:inX(M.tratt),c:inX(M.cli)};}).sort((a,b)=>b.n-a.n);
+  const tot={k:'Totale',n:M.A.length,m:M.mail.length,r:M.risp.length,t:M.tratt.length,c:M.cli.length};
+  const tr=x=>`<tr class="${x.k==='Totale'?'tot':''}"><td><b>${esc(x.k)}</b></td><td>${x.n}</td><td>${x.m}</td><td>${x.r}</td><td class="rt">${pct(x.r,x.m)}<i style="--p:${x.m?x.r/x.m*100:0}%"></i></td><td>${x.t}</td><td>${x.c}</td></tr>`;
+  const tempi=(()=>{const d=[];M.A.forEach(c=>{const r=pnRisp(c);if(r&&c.inviata_il){const x=(new Date(r.creato_il)-new Date(c.inviata_il))/864e5;if(x>=0)d.push(x);}});return d.length?Math.round(mediana(d)*10)/10:null;})();
+  $('pnRep').innerHTML=`<div class="kpi">${tile(pct(M.risp.length,M.mail.length),'Tasso di risposta',`${M.risp.length} su ${M.mail.length} mail`)}${tile(pct(M.tratt.length,M.risp.length),'Da risposta a trattativa',`${M.tratt.length} trattative`)}${tile(pct(M.cli.length,M.tratt.length),'Trattative vinte',`${M.cli.length} clienti`)}${tile(tempi==null?'—':tempi+' gg','Tempo di risposta','mediana tra mail e questionario')}</div>
+  <section class="card pn-box"><div class="pn-bh"><b>Conversione per</b><div class="ve-vista" role="group">${dim.map(([k,l])=>`<button data-rdim="${k}" class="${dk===k?'on':''}">${l}</button>`).join('')}</div></div>
+  <div class="tw"><table class="pn-t pn-rt"><thead><tr><th>${dim.find(x=>x[0]===dk)[1]}</th><th>Contatti</th><th>Mail</th><th>Risposte</th><th>Tasso</th><th>Trattative</th><th>Clienti</th></tr></thead><tbody>${rows.map(tr).join('')}${tr(tot)}</tbody></table></div>
+  <p class="muted small" style="margin:8px 4px 0">Con pochi numeri le percentuali ballano: guardale quando ogni riga ha almeno 20 mail.</p></section>`;}
+
+/* ---------- Pagine in arrivo: proposta di contenuto ---------- */
+const PROP={
+  abb:['Abbonamenti e fatture','Il conto economico di TourNeat, cliente per cliente.',[['Ricavi ricorrenti','MRR e ARR, nuovi clienti del mese, clienti persi, crescita.'],['Abbonamenti','Per ogni cliente: piano, moduli, canone, data di inizio e di rinnovo, stato del pagamento.'],['Fatture','Elenco con numero, importo, scadenza, pagata o da sollecitare; esportazione per il commercialista.'],['Pagamenti','Collegamento a Stripe o bonifico: incassi registrati in automatico, avvisi sui mancati pagamenti.'],['Costi','Supabase, dominio, posta: margine reale per cliente.']]],
+  contr:['Contratti','Dalla proposta alla firma, senza carta.',[['Modello di contratto','Testo base con la clausola di consenso alla condivisione dei teatri (sì/no), sempre presente.'],['Contratto per cliente','Generato dalla proposta: moduli, prezzo, durata, rinnovo.'],['Firma','Accettazione online dentro l’app del cliente, con data, nome e versione del testo.'],['Archivio','Tutte le versioni firmate, scaricabili in PDF.']]],
+  assist:['Assistenza','Le richieste dei clienti in un posto solo.',[['Richieste aperte','Chi ha scritto, cosa chiede, da quanto aspetta; priorità e stato.'],['Dall’app','Pulsante «Aiuto» nell’app del cliente che apre una richiesta qui, con schermata e pagina.'],['Risposte pronte','Testi per le domande frequenti.'],['Tempi','Tempo medio di risposta e di soluzione.']]],
+  mod:['Modelli email e sequenze','Scrivere una volta, mandare cento volte.',[['Modelli','Prima mail, promemoria, invito alla demo, proposta, benvenuto: in italiano, spagnolo e francese, con il nome della compagnia inserito da solo.'],['Sequenze','Prima mail → promemoria dopo 7 giorni → ultimo tentativo dopo 14; si fermano da sole quando il contatto risponde.'],['Invio dal pannello','Mandare la mail dalla scheda del contatto, con lo storico che si aggiorna da solo.'],['Risultati','Aperture, risposte e rimbalzi per modello.']]],
+  imp:['Impostazioni','Come funziona il pannello.',[['Squadra','Chi può entrare nel pannello e con quale ruolo (vendite, assistenza, amministrazione).'],['Pipeline','Nomi e ordine delle fasi, giorni prima del promemoria.'],['Campi','Tipi di contatto, segmenti, fonti, blocchi di invio.'],['Collegamenti','Casella di posta, pagamenti, calendario.']]]};
+function pnProposta(t){const P=PROP[t];if(!P)return;$('pnProp2').innerHTML=`<div class="pg-h"><div><h2>${P[0]} <span class="pill y">Proposta</span></h2><p class="muted small">${P[1]} Questa pagina non è ancora attiva: qui sotto c’è cosa conterrà. Dimmi cosa tenere, togliere o aggiungere.</p></div></div>
+  <div class="pn-pgrid">${P[2].map(([h,d],i)=>`<section class="card pn-pc"><span class="pn-pn">${i+1}</span><b>${h}</b><p class="muted small">${d}</p><div class="pn-sk"><i></i><i></i><i></i></div></section>`).join('')}</div>`;}
+
+/* ---------- Ricerca globale ---------- */
+function pnCerca(q){const R=$('gqR');q=nrm(q).trim();if(q.length<2){R.hidden=true;return;}
+  const C=(PN.C||[]).filter(c=>nrm([c.nome,c.email,c.citta,c.paese,...(c.persone||[]).map(p=>p.nome)].join(' ')).includes(q)).slice(0,7);
+  const P=load().filter(p=>nrm(p.nome+' '+p.id).includes(q)).slice(0,4);
+  const T=(typeof ARCH!=='undefined'&&ARCH||[]).filter(t=>nrm((t.nome||'')+' '+(t.citta||'')).includes(q)).slice(0,5);
+  const sec=(l,xs)=>xs.length?`<div class="gq-s">${l}</div>${xs.join('')}`:'';
+  R.innerHTML=(sec('Contatti',C.map(c=>`<button data-gqc="${esc(c.id)}"><b>${esc(c.nome)}</b><span>${esc([FASI[FI[fase(c)]][1],c.citta||c.paese].filter(Boolean).join(' · '))}</span></button>`))
+    +sec('Progetti',P.map(p=>`<button data-gqp="${esc(p.id)}"><b>${esc(p.nome)}</b><span>tourneat.com/app/${esc(p.id)}</span></button>`))
+    +sec('Teatri',T.map(t=>`<button data-gqt="${esc(t.nome)}"><b>${esc(t.nome)}</b><span>${esc(t.citta||'')}</span></button>`)))||'<p class="muted small" style="margin:10px 12px">Niente trovato.</p>';R.hidden=false;}
+$('gq').addEventListener('input',e=>pnCerca(e.target.value));
+$('gq').addEventListener('focus',e=>{if(typeof ARCH!=='undefined'&&!ARCH&&ONLINE)archivio();if(e.target.value)pnCerca(e.target.value);});
+$('gq').addEventListener('keydown',e=>{if(e.key==='Escape'){e.target.value='';$('gqR').hidden=true;e.target.blur();}if(e.key==='Enter'){const b=$('gqR').querySelector('button');if(b)b.click();}});
+document.addEventListener('click',e=>{const R=$('gqR');if(!R||R.hidden)return;const c=e.target.closest('[data-gqc],[data-gqp],[data-gqt]');
+  if(c){R.hidden=true;$('gq').value='';if(c.dataset.gqc){const id=c.dataset.gqc;pnApri(isNaN(id)?id:+id);}else if(c.dataset.gqp){const p=load().find(x=>x.id===c.dataset.gqp);tab('clienti');if(p)apri(p);}else{tab('arch');$('archQ').value=c.dataset.gqt;archDisegna();}return;}
+  if(!e.target.closest('.tb-cerca'))R.hidden=true;});
+document.addEventListener('keydown',e=>{if(e.key==='/'&&!e.target.closest('input,textarea,select')&&!$('gqBox').hidden){e.preventDefault();$('gq').focus();}});
+
+/* ---------- Questionario ---------- */
+function pnQuest(){if(!PN.R)return;const R=PN.R,N=R.length;if(!N){$('pnQu').innerHTML='<div class="card empty"><h2>Nessuna risposta ancora</h2></div>';return;}
+  const v=k=>R.map(r=>Number(String((r.dati||{})[k]||'').replace(',','.'))).filter(x=>x>0);
+  const inco=R.filter(r=>{const d=r.dati||{};const e=+d.p_economico,a=+d.p_affare,c=+d.p_caro,t=+d.p_troppo;return [e,a,c,t].every(x=>x>0)&&!(e<=a&&a<=c&&c<=t);}).length;
+  const conta=(k,sep)=>{const m={};R.forEach(r=>String((r.dati||{})[k]||r[k]||'').split(sep||' | ').map(s=>s.trim()).filter(Boolean).forEach(s=>m[s]=(m[s]||0)+1));return Object.entries(m).sort((a,b)=>b[1]-a[1]);};
+  const fz={};R.forEach(r=>{const d=r.dati||{};String(d.top3||'').split(' | ').filter(Boolean).forEach(s=>fz[s]=(fz[s]||0)+3);['f_tournee','f_teatri','f_sala','f_conti','f_logistica','f_squadra'].forEach(k=>String(d[k]||'').split(' | ').filter(Boolean).forEach(s=>fz[s]=(fz[s]||0)+1));});
+  const F=Object.entries(fz).sort((a,b)=>b[1]-a[1]).slice(0,12),fm=F.length?F[0][1]:1;
+  const bars=(L,max)=>L.map(([l,n])=>`<div class="pn-qb"><span>${esc(l)}</span><i><b style="width:${Math.round(n/max*100)}%"></b></i><span class="muted small">${n}</span></div>`).join('');
+  const pm=k=>{const m=mediana(v(k));return m==null?'—':eur0(m);};
+  let h=`<div class="kpi">${tile(N,'Risposte',R.filter(r=>pnContDiRisp(r)).length+' collegate a un contatto')}${tile(Math.round(R.reduce((a,r)=>a+(+r.secondi||0),0)/N/60)+' min','Tempo medio','per compilarlo')}${tile(R.filter(r=>/demo|entramb/i.test(r.interesse||'')).length,'Vogliono la demo',R.filter(r=>/attesa|entramb/i.test(r.interesse||'')).length+' in lista d’attesa')}${tile(pm('p_affare'),'Buon affare (mediana)','al mese')}</div>`;
+  h+=`<div class="pn-q2"><section class="card pn-box"><div class="pn-bh"><b>Quanto pagherebbero al mese</b><span class="muted small">mediana · da ${N} risposte</span></div>
+    <div class="pn-pz">${[['p_economico','Troppo economico'],['p_affare','Buon affare'],['p_caro','Caro ma lo prendo'],['p_troppo','Troppo caro']].map(([k,l])=>`<div><span class="muted small">${l}</span><b>${pm(k)}</b><span class="muted small">${v(k).length?eur0(Math.min(...v(k)))+' – '+eur0(Math.max(...v(k))):''}</span></div>`).join('')}</div>
+    ${inco?`<p class="pn-avv small">${inco} ${inco===1?'risposta ha':'risposte hanno'} i prezzi in ordine sbagliato (es. «troppo economico» sopra «caro»): la domanda va riscritta più chiara, altrimenti questi numeri non sono affidabili.</p>`:''}
+    <div class="pn-st2">Modello preferito</div>${bars(conta('modello'),N)}</section>
+    <section class="card pn-box"><div class="pn-bh"><b>Funzioni più richieste</b><span class="muted small">le «3 più importanti» valgono triplo</span></div>${bars(F,fm)}</section></div>
+  <div class="pn-q2"><section class="card pn-box"><div class="pn-bh"><b>Strumenti che usano oggi</b></div>${bars(conta('strumenti'),N)}</section>
+    <section class="card pn-box"><div class="pn-bh"><b>Chi ha risposto</b></div><div class="pn-st2">Tipo</div>${bars(conta('tipo',' |'),N)}<div class="pn-st2">Repliche all’anno</div>${bars(conta('repliche',' |'),N)}<div class="pn-st2">Persone che organizzano</div>${bars(conta('persone',' |'),N)}</section></div>`;
+  h+=`<section class="card pn-box"><div class="pn-bh"><b>Le risposte</b></div>${R.map(r=>{const c=pnContDiRisp(r),d=r.dati||{};return `<div class="pn-qr"><div class="pn-rn"><b>${esc(r.compagnia||r.nome||'Anonimo')}</b><span class="muted small">${esc([r.nome&&r.compagnia?r.nome:'',r.tipo,d.repliche?d.repliche+' repliche':'',quando(r.creato_il),r.interesse].filter(Boolean).join(' · '))}</span>${d.problema?`<span class="small pn-cit">«${esc(String(d.problema).slice(0,180))}»</span>`:''}</div>
+    ${c?`<button class="btn ghost" data-pc="${esc(c.id)}">Apri il contatto</button>`:r.email||r.compagnia?`<button class="btn" data-pqr="${esc(r.id)}">Crea il contatto</button>`:'<span class="muted small">Anonima</span>'}</div>`;}).join('')}</section>`;
+  $('pnQu').innerHTML=h;}
+
+/* ---------- Prodotti ---------- */
+function pnProd(){if(!PN.C)return;const L=lst(),R=PN.R||[];const v=k=>R.map(r=>+((r.dati||{})[k])||0).filter(x=>x>0);
+  const ok=M.filter(m=>!m[8]&&m[4]==='ok'),p=preventivo(ok.map(m=>m[0]));
+  let h=`<section class="card pn-box pn-imp"><div class="pn-bh"><b>Prezzi di base</b><button class="btn" id="pnLsSalva">Salva il listino</button></div>
+  <div class="pn-ig"><label>Canone base<span class="pn-in"><input inputmode="decimal" id="lsBase" value="${L.base||''}" placeholder="—"> €/mese</span><small class="muted">comprende i moduli «sempre inclusi»</small></label>
+  <label>Sconto se pagano l’anno<span class="pn-in"><input inputmode="decimal" id="lsSc" value="${L.sconto}"> %</span><small class="muted">la scelta preferita nel questionario</small></label>
+  <label>Quota di avvio<span class="pn-in"><input inputmode="decimal" id="lsOr" value="${L.oraria||''}" placeholder="—"> €/ora</span><small class="muted">ore di configurazione di ogni modulo</small></label></div>
+  <p class="small pn-rif">${R.length?`Dal questionario: buon affare <b>${eur0(mediana(v('p_affare'))||0)}</b>/mese, caro ma accettabile <b>${eur0(mediana(v('p_caro'))||0)}</b>/mese (mediane su ${R.length} risposte, da prendere con cautela).`:''} <span id="lsEs"></span></p></section>`;
+  h+=Object.keys(A).map(a=>{const X=M.filter(m=>m[1]===a);return `<section class="card pn-box"><div class="pn-bh"><b>${esc(A[a])}</b>${a==='base'?'<span class="muted small">compresi nel canone base</span>':''}</div><table class="pn-t pn-lt"><thead><tr><th>Modulo</th><th>Stato</th><th>In vendita</th><th>€/mese</th><th>Ore di avvio</th></tr></thead><tbody>${X.map(m=>{const x=L.moduli[m[0]]||{},st=m[4]==='ok'?['Pronto','ok']:m[4]==='demo'?['Nella demo','y']:['Da sviluppare',''];
+    return `<tr><td><b>${esc(m[2])}</b><span class="muted small pn-fd">${esc(m[3])}</span></td><td><span class="pill ${st[1]}">${st[0]}</span></td><td>${m[8]?'<span class="muted small">incluso</span>':`<input type="checkbox" data-lv="${m[0]}"${inVendita(m)?' checked':''}>`}</td><td>${m[8]?'—':`<input class="pn-pr" inputmode="decimal" data-lp="${m[0]}" value="${x.prezzo||''}" placeholder="—">`}</td><td>${m[7]||0}</td></tr>`;}).join('')}</tbody></table></section>`;}).join('');
+  $('pnPr').innerHTML=h;pnLsEs();}
+function pnLsLeggi(){const n=id=>{const x=Number(String($(id).value||'').replace(',','.'));return isFinite(x)?x:0;};const mod={};
+  document.querySelectorAll('[data-lp]').forEach(i=>{const x=Number(String(i.value||'').replace(',','.'));mod[i.dataset.lp]={...(mod[i.dataset.lp]||{}),prezzo:isFinite(x)&&x>0?x:0};});
+  document.querySelectorAll('[data-lv]').forEach(i=>{mod[i.dataset.lv]={...(mod[i.dataset.lv]||{}),vendita:i.checked};});return {base:n('lsBase'),sconto:n('lsSc'),oraria:n('lsOr'),moduli:mod};}
+function pnLsEs(){const e=$('lsEs');if(!e)return;const sv=PN.cfg;PN.cfg=pnLsLeggi();const ok=M.filter(m=>!m[8]&&m[4]==='ok'&&inVendita(m)).map(m=>m[0]),p=preventivo(ok);PN.cfg=sv;
+  e.innerHTML=p.manca.length?`Mancano ancora ${p.manca.length} prezzi: le proposte li mostreranno «da definire».`:`Tutti i moduli pronti insieme: <b>${eur0(p.mese)}</b>/mese, <b>${eur0(p.anno)}</b> l’anno, avvio ${eur0(p.avvio)}.`;}
+
+/* ---------- Scheda del contatto ---------- */
+function pnToastVia(){const t=$('toast');if(t){t.hidden=true;clearTimeout(toast.t);}}
+function pnApri(id,ed){pnToastVia();PN.id=id;PN.ed=!!ed;if(String(PN.propDi)!==String(id)){PN.prop=null;PN.propDi=id;}$('veOv').hidden=false;document.body.classList.add('ve-aperto');$('veSh').innerHTML=id===null||ed?pnForm():pnScheda();
+  const f=$('veSh').querySelector('[autofocus]');if(f&&matchMedia('(pointer:fine)').matches)setTimeout(()=>f.focus(),30);}
+function pnChiudi(){PN.id=undefined;PN.ed=false;PN.log=null;PN.ric=null;$('veOv').hidden=true;document.body.classList.remove('ve-aperto');}
+function pnScheda(){const c=pnC(PN.id);if(!c)return '<p>Non trovato.</p>';const f=fase(c),r=pnRisp(c),prj=c.progetto&&load().find(p=>p.id===c.progetto);
+  const at=PN.log&&String(PN.log.id)===String(c.id)?PN.log.tipo:PN.at;const sito=c.sito?(/^https?:/.test(c.sito)?c.sito:'https://'+c.sito):'';
+  let h=`<div class="ve-hd"><div><span class="eyebrow">${esc([c.tipo,c.segmento,c.citta,c.paese].filter(Boolean).join(' · '))}</span><h2>${esc(c.nome)}</h2></div><button class="ve-x" data-px="chiudi" aria-label="Chiudi">×</button></div>
+  <div class="ve-fasi">${FASI.map(([k,l])=>`<button type="button" data-pf="${k}" class="${f===k?'on '+FCOL[k]:''}">${l}</button>`).join('')}${FI[f]<FI.contatto?`<button type="button" data-px="chiama" class="pn-flag ${daChiamare(c)?'on':''}" title="Segnalo come da chiamare">⚑ Da chiamare</button>`:''}</div>`;
+  /* prossimo passo */
+  const btn=(k,l,g)=>`<button class="btn${g?' ghost':''}" data-px="${k}">${l}</button>`;
+  let az='';if(f==='da_contattare')az=btn('f:inviata','Ho mandato la mail')+(c.stato_mail==='rimbalzata'?'<span class="small pn-avv">La mail è rimbalzata: trova un altro indirizzo.</span>':'');
+  else if(f==='inviata')az=btn('f:risposto','Ha risposto',1)+btn('f:perso','No grazie',1);
+  else if(f==='risposto')az=btn('chiamata','Fissa una chiamata')+btn('f:perso','Non interessato',1);
+  else if(f==='contatto')az=btn('f:demo','Demo fatta')+btn('f:perso','Non interessato',1);
+  else if(f==='demo')az=btn('vaiprop','Prepara la proposta');
+  else if(f==='proposta')az=btn('f:cliente','Ha firmato: è cliente')+btn('f:perso','Non interessato',1);
+  else if(f==='cliente')az=prj?`<span class="small">Progetto <b>${esc(prj.nome)}</b> · tourneat.com/app/${esc(prj.id)}</span>${btn('vediprj','Apri l’app',1)}${btn('modprj','Moduli del progetto',1)}`:`${btn('creaprj','Crea il progetto')}${load().length?`<select id="pnColl"><option value="">…o collega un progetto esistente</option>${load().map(p=>`<option value="${esc(p.id)}">${esc(p.nome)}</option>`).join('')}</select>`:''}`;
+  else if(f==='perso')az=btn('f:contatto','Riapri la trattativa',1);
+  {const x=typeof prossimoPasso==='function'?prossimoPasso(c):null;if(x&&mail(c)){const m=modello(x.p.tipo,lingua(c));if(m){const pronto=x.dal<=oggi();
+    az=`<a class="btn${pronto?'':' ghost'}" href="${esc(mailto(c,m))}" data-pinv="${esc(c.id)}|${x.n}">${pronto?'Apri':'Prepara'} ${TIPIM[x.p.tipo].toLowerCase()}</a><button class="btn ghost" data-pseg="${esc(c.id)}|${x.n}">Segna come inviata</button>`+az.replace(btn('f:inviata','Ho mandato la mail'),'');
+    if(!pronto)az=`<span class="small muted">Passo ${x.n} della sequenza: ${TIPIM[x.p.tipo].toLowerCase()} ${quando(x.dal)}.</span>`+az;}}}
+  h+=`<div class="pn-pp ${FCOL[f]}"><div><span class="eyebrow">Prossimo passo</span><p>${f==='inviata'&&c.inviata_il?`Mail inviata ${quando(c.inviata_il)}. `:''}${FASI[FI[f]][2]||'Trattativa chiusa.'}${f==='cliente'?(c.rinnovo?` Rinnovo ${quando(c.rinnovo)}.`:' Inserisci la data di rinnovo con «Modifica».'):''}</p></div><div class="ve-btns">${az}</div></div>`;
+  /* recapiti */
+  const P=(c.persone||[]).filter(p=>p&&(p.nome||p.tel||p.email));
+  h+=`<div class="ve-s"><div class="ve-st">Recapiti</div>${c.email||c.telefono||sito?`<div class="ve-ref"><span class="ve-rn"><b>${esc(c.nome)}</b><span class="muted small">${esc([c.email,c.telefono].filter(Boolean).join(' · '))}${sito?` · <a href="${esc(sito)}" target="_blank" rel="noopener">${esc(c.sito.replace(/^https?:\/\//,'').replace(/\/$/,''))}</a>`:''}</span></span>${pnAz({id:c.id,telefono:c.telefono,email:c.email,persone:[]})}</div>`:''}
+    ${P.map(p=>`<div class="ve-ref"><span class="ve-rn"><b>${esc(p.nome||'—')}</b><span class="muted small">${esc([p.ruolo,p.tel,p.email].filter(Boolean).join(' · '))}</span></span>${pnAz({id:c.id,persone:[p]})}</div>`).join('')}${!c.email&&!c.telefono&&!P.length?'<p class="muted small">Nessun recapito: aggiungilo con «Modifica».</p>':''}${mail(c)&&typeof posta==='function'?`<div class="pn-scrivi"><select id="pnMod" aria-label="Scrivi con un modello"><option value="">Scrivi con un modello…</option>${Object.keys(TIPIM).map(t=>{const m=modello(t,lingua(c));return m?`<option value="${esc(m.id)}">${TIPIM[t]}${m.lingua!==lingua(c)?' (in italiano)':''}${m.bozza?' · bozza':''}</option>`:'';}).join('')}</select></div>`:''}</div>`;
+  /* questionario */
+  if(r){const d=r.dati||{};const k=['repliche','persone','strumenti','problema','desiderio','top3','modello','interesse'];
+    h+=`<div class="ve-s"><div class="ve-st">Questionario · ${esc(quando(r.creato_il))}${r.nome?' · '+esc(r.nome):''}</div><dl class="pn-dl">${k.filter(x=>d[x]||r[x]).map(x=>`<dt>${esc((DOM.find(q=>q[0]===x)||[0,x])[1])}</dt><dd>${esc(String(d[x]||r[x]).split(' | ').join(' · '))}</dd>`).join('')}<dt>Prezzi al mese</dt><dd>buon affare ${esc(d.p_affare||'—')} € · caro ${esc(d.p_caro||'—')} € · troppo caro ${esc(d.p_troppo||'—')} €</dd></dl>
+    <details><summary class="small">Tutte le risposte</summary><dl class="pn-dl">${DOM.filter(q=>d[q[0]]).map(q=>`<dt>${esc(q[1])}</dt><dd>${esc(String(d[q[0]]).split(' | ').join(' · '))}</dd>`).join('')}</dl></details></div>`;}
+  /* proposta */
+  const mostra=FI[f]>=FI.risposto&&f!=='perso';
+  if(mostra){if(!PN.prop)PN.prop=new Set((c.moduli&&c.moduli.length?c.moduli:suggeriti(r)).filter(id=>BYID[id]&&!BYID[id][8]));
+    const p=preventivo([...PN.prop]),L=lst();
+    h+=`<div class="ve-s" id="pnProp"><div class="ve-st">Proposta</div>${!c.moduli||!c.moduli.length?(r?'<p class="muted small" style="margin:0">Preselezionati i moduli che ha indicato nel questionario.</p>':''):''}
+    <div class="pn-mods">${Object.keys(A).filter(a=>a!=='base').map(a=>M.filter(m=>m[1]===a&&!m[8]&&(inVendita(m)||PN.prop.has(m[0]))).map(m=>`<label class="${PN.prop.has(m[0])?'on':''}"><input type="checkbox" data-pm="${m[0]}"${PN.prop.has(m[0])?' checked':''}>${esc(m[2])}${prezzoM(m[0])?` <span class="muted">${eur0(prezzoM(m[0]))}</span>`:''}</label>`).join('')).join('')}</div>
+    <div class="pn-tot"><span><b>${p.manca.length?'da definire':eur0(p.mese)}</b> al mese</span><span><b>${p.manca.length?'—':eur0(p.anno)}</b> l’anno (−${L.sconto}%)</span><span><b>${L.oraria?eur0(p.avvio):'—'}</b> di avvio · ${p.ore} ore</span></div>
+    ${p.manca.length?`<p class="small pn-avv">Mancano i prezzi di: ${esc(p.manca.slice(0,6).join(', '))}${p.manca.length>6?'…':''}. Inseriscili in <a href="#" data-vai="prod">Prodotti</a>.</p>`:''}
+    <div class="ve-btns">${btn('salvaprop',f==='cliente'?'Aggiorna i moduli':'Salva la proposta')}${btn('copiaprop','Copia il testo per la mail',1)}${c.valore?`<span class="muted small">Ora: ${eur0(c.valore)}/anno</span>`:''}</div></div>`;}
+  /* registra */
+  h+=`<div class="ve-s"><div class="ve-st">${PN.log&&String(PN.log.id)===String(c.id)?'Com’è andata?':'Registra un contatto'}</div>
+    <div class="ve-chips">${ATT.map(([k,l])=>`<button type="button" data-pa="${k}" class="${at===k?'on':''}">${l}</button>`).join('')}</div>
+    <textarea id="pnTxt" rows="2" placeholder="Cosa vi siete detti?" ${PN.log?'autofocus':''}></textarea>
+    <div class="ve-ric"><span class="muted small">Quando risentirli</span>${[['1','Domani'],['3','Tra 3 giorni'],['7','Tra una settimana'],['14','Tra due settimane'],['30','Tra un mese']].map(([n,l])=>`<button type="button" data-pr="${n}" class="${PN.ric===n?'on':''}">${l}</button>`).join('')}<input type="date" id="pnRicD" value="${PN.ric?piuG(+PN.ric):''}"></div>
+    <div class="ve-btns">${btn('registra','Registra')}<span class="muted small">${c.prossimo_contatto?'Ora: richiama '+quando(c.prossimo_contatto)+'. ':''}Senza data, il richiamo si toglie.</span></div></div>`;
+  /* storico */
+  const S=[...(c.storico||[])];if(c.inviata_il&&!S.some(s=>s.tipo==='mail'))S.push({t:c.inviata_il,tipo:'mail',testo:'Prima mail inviata'+(c.blocco?' (blocco '+c.blocco+')':'')});
+  if(r)S.push({t:r.creato_il,tipo:'questionario',testo:'Ha compilato il questionario'+(r.interesse?' · '+r.interesse:'')});if(c.creato_il)S.push({t:c.creato_il,tipo:'creato',testo:'In elenco'+(c.fonte?' · fonte: '+c.fonte:'')});
+  S.sort((a,b)=>String(b.t).localeCompare(String(a.t)));
+  h+=`<div class="ve-s"><div class="ve-st">Storico</div><ol class="ve-tl">${S.slice(0,80).map(a=>`<li><span><b>${esc(ATTL[a.tipo]||'Nota')}</b> <span class="muted small">${esc(quando(a.t))}</span></span>${a.testo?`<span class="ve-tx">${esc(a.testo)}</span>`:''}</li>`).join('')}</ol></div>`;
+  if(c.note||c.nota_ricerca)h+=`<div class="ve-s"><div class="ve-st">Note</div>${c.note?`<p class="ve-tx" style="margin:0">${esc(c.note)}</p>`:''}${c.nota_ricerca?`<p class="muted small" style="margin:0">${esc(c.nota_ricerca)}</p>`:''}</div>`;
+  h+=`<div class="ve-btns ve-piede">${btn('modifica','Modifica i dati',1)}<span style="flex:1"></span>${btn('escludi','Togli dalla pipeline',1)}</div>`;
+  return h;}
+function pnForm(){const nuovo=PN.id===null,c=nuovo?{tipo:'Compagnia',paese:'Italia',persone:[{}],stato_lead:'nuovo',stato_mail:'da_inviare'}:pnC(PN.id)||{};const P=c.persone&&c.persone.length?c.persone:[{}];
+  const segs=[...new Set((PN.C||[]).map(x=>x.segmento).filter(Boolean))].sort(),bl=[...new Set((PN.C||[]).map(x=>x.blocco).filter(Boolean))].sort();
+  const rp=p=>`<div class="ve-pr"><input data-pp="nome" placeholder="Nome" value="${esc(p.nome||'')}"><input data-pp="ruolo" placeholder="Ruolo" value="${esc(p.ruolo||'')}"><input data-pp="tel" type="tel" placeholder="Telefono" value="${esc(p.tel||'')}"><input data-pp="email" type="email" placeholder="Email" value="${esc(p.email||'')}"></div>`;
+  const i=(id,l,v,x)=>`<label class="f">${l}<input id="${id}" value="${esc(v||'')}" autocomplete="off" ${x||''}></label>`;
+  return `<div class="ve-hd"><h2>${nuovo?'Nuovo contatto':'Modifica'}</h2><button class="ve-x" data-px="${nuovo?'chiudi':'annulla'}" aria-label="Chiudi">×</button></div>
+  <div class="ve-f">${i('pfNome','Nome',c.nome,'autofocus')}
+  <div class="ve-g2"><label class="f">Tipo<select id="pfTipo">${TIPI.concat(TIPI.includes(c.tipo)||!c.tipo?[]:[c.tipo]).map(t=>`<option${c.tipo===t?' selected':''}>${esc(t)}</option>`).join('')}</select></label>${i('pfSeg','Segmento',c.segmento,'list="pfSegL"')}<datalist id="pfSegL">${segs.map(s=>`<option value="${esc(s)}">`).join('')}</datalist></div>
+  <div class="ve-g3">${i('pfCitta','Città',c.citta)}${i('pfReg','Regione',c.regione)}${i('pfPaese','Paese',c.paese)}</div>
+  <div class="ve-g3">${i('pfMail','Email',c.email,'type="email" inputmode="email"')}${i('pfTel','Telefono',c.telefono,'type="tel"')}${i('pfSito','Sito',c.sito)}</div>
+  <div class="ve-g3">${i('pfFonte','Dove l’hai trovato',c.fonte)}${i('pfBl','Blocco di invio',c.blocco,'list="pfBlL" placeholder="es. IT-4"')}<datalist id="pfBlL">${bl.map(s=>`<option value="${esc(s)}">`).join('')}</datalist>${nuovo?'':i('pfRin','Rinnovo del contratto',c.rinnovo,'type="date"')}</div>
+  <div class="f">Referenti</div><div id="pfP">${P.map(rp).join('')}</div><button type="button" class="btn ghost ve-piu" data-px="piuref">+ Un altro referente</button>
+  <label class="f">Note<textarea id="pfNote" rows="2">${esc(c.note||'')}</textarea></label>
+  <div class="err" id="pfErr"></div>
+  <div class="ve-btns"><button class="btn" data-px="salva">${nuovo?'Aggiungi':'Salva'}</button><button class="btn ghost" data-px="${nuovo?'chiudi':'annulla'}">Annulla</button></div></div>`;}
+async function pnSalvaForm(){const v=id=>{const e=$(id);return e?String(e.value||'').trim():'';};const nome=v('pfNome');if(!nome){$('pfErr').textContent='Scrivi il nome.';return;}
+  const em=v('pfMail');if(em&&!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){$('pfErr').textContent='L’email non sembra valida.';return;}
+  const nuovo=PN.id===null;if(nuovo&&!PN.dup&&(PN.C||[]).some(x=>cmp(x.nome)===cmp(nome)||(em&&nrm(x.email)===nrm(em)))){PN.dup=1;$('pfErr').textContent='C’è già un contatto con questo nome o questa email. Premi di nuovo per aggiungerlo comunque.';return;}
+  const P=[...document.querySelectorAll('#pfP .ve-pr')].map(r=>{const o={};r.querySelectorAll('[data-pp]').forEach(i=>o[i.dataset.pp]=i.value.trim());return o;}).filter(p=>p.nome||p.tel||p.email);
+  const old=nuovo?{stato_lead:'nuovo',stato_mail:'da_inviare',storico:[],persone:[],moduli:[],valore:0,archiviato:false}:pnC(PN.id);
+  const n={...old,nome,tipo:v('pfTipo'),segmento:v('pfSeg')||null,citta:v('pfCitta')||null,regione:v('pfReg')||null,paese:v('pfPaese')||null,email:em||null,telefono:v('pfTel')||null,sito:v('pfSito')||null,fonte:v('pfFonte')||null,blocco:v('pfBl')||null,note:v('pfNote')||null,persone:P};
+  if(!nuovo)n.rinnovo=v('pfRin')||null;
+  try{const s=await pnSalva(n,nuovo?null:null);PN.dup=0;toast(nuovo?'Contatto aggiunto':'Salvato');pnTutto();pnApri(s.id);}catch(e){$('pfErr').textContent='Non salvato: '+(e.message||e);}}
+async function pnRegistra(){const c=pnC(PN.id);if(!c)return;const tipo=(PN.log&&PN.log.tipo)||PN.at,tx=$('pnTxt').value.trim(),dt=$('pnRicD').value||null;
+  const n={...c,prossimo_contatto:dt};const f=fase(c);if(tipo==='demo'&&FI[f]<FI.demo)Object.assign(n,patchFase(c,'demo'));else if(['chiamata','incontro','whatsapp'].includes(tipo)&&['da_contattare','inviata','risposto'].includes(f))Object.assign(n,patchFase(c,'contatto'));
+  try{await pnSalva(n,{tipo,testo:tx});}catch(e){toast('Non registrato: '+(e.message||e));return;}PN.log=null;PN.ric=null;toast(dt?'Registrato · richiama '+quando(dt):'Registrato');pnTutto();pnApri(c.id);}
+async function pnSalvaProp(){const c=pnC(PN.id);const p=preventivo([...PN.prop]);const n={...c,moduli:[...PN.prop],valore:p.manca.length?(c.valore||0):p.anno};const f=fase(c);if(FI[f]<FI.proposta)Object.assign(n,patchFase(c,'proposta'));
+  try{await pnSalva(n,{tipo:'proposta',testo:`${p.extra.length} moduli${p.manca.length?'':' · '+eur0(p.mese)+'/mese, '+eur0(p.anno)+'/anno'}`});}catch(e){toast('Non salvata: '+(e.message||e));return;}
+  toast(f==='cliente'?'Moduli aggiornati':'Proposta salvata');pnTutto();pnApri(c.id);}
+function pnTestoProp(){const c=pnC(PN.id),p=preventivo([...PN.prop]),L=lst();const r=ref(c);
+  const t=`Ciao${r.nome?' '+r.nome.split(' ')[0]:''},\n\necco la proposta per ${c.nome}.\n\nCompreso sempre: ${M.filter(m=>m[8]).map(m=>m[2]).join(', ')}.\nModuli scelti:\n${p.extra.map(id=>'• '+BYID[id][2]).join('\n')}\n\n`+
+    (p.manca.length?'Prezzo: lo definiamo insieme.\n':`Canone: ${eur0(p.mese)} al mese, oppure ${eur0(p.anno)} pagando l’anno (sconto del ${L.sconto}%).\n`)+(L.oraria?`Avvio e configurazione: ${eur0(p.avvio)} una tantum.\n`:'')+`\nSe ti torna, ti preparo il contratto e partiamo.\n\nMatteo\nTourNeat`;
+  (navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>toast('Testo copiato: incollalo nella mail')).catch(()=>{prompt('Copia il testo',t);});}
+async function pnDaRisposta(id){const r=(PN.R||[]).find(x=>String(x.id)===String(id));if(!r)return;const d=r.dati||{};
+  const n={nome:r.compagnia||r.nome,tipo:/teatro/i.test(r.tipo||'')?'Teatro':/produz|distrib/i.test(r.tipo||'')?'Distributore':'Compagnia',paese:r.paese||d.paese||null,email:r.email||null,telefono:r.telefono||null,fonte:'Questionario',
+    stato_lead:'nuovo',stato_mail:'risposto',risposta:r.id,persone:r.nome?[{nome:r.nome,email:r.email||'',tel:r.telefono||''}]:[],storico:[],moduli:[],valore:0,archiviato:false};
+  try{const s=await pnSalva(n);toast('Contatto creato');pnTutto();pnApri(s.id);}catch(e){toast('Non creato: '+(e.message||e));}}
+
+/* ---------- eventi ---------- */
+document.addEventListener('click',async e=>{
+  const lg=e.target.closest('[data-plog]');if(lg){const [id,t]=lg.dataset.plog.split('|');setTimeout(()=>{PN.log={id,tipo:t};pnApri(isNaN(id)?id:+id);},t==='chiamata'?600:250);return;}
+  if(e.target.closest('.pn-chk,#pnAll,.pn-all'))return;
+  const st=e.target.closest('[data-pst]');if(st&&PN.vista==='tabella'&&$('pnPipe').contains(st)){const k=st.dataset.pst;PN.f.v=PN.f.v==='f:'+k?'tutti':'f:'+k;(PN.tb.pipe||{}).p=0;pnPipe();return;}
+  if(st&&st.dataset.pst==='perso'){PN.persi=true;pnPipe();const col=document.querySelector('.pn-col[data-pcol="perso"]');if(col)col.scrollIntoView({behavior:'smooth',inline:'center',block:'nearest'});return;}
+  if(st){const k=st.dataset.pst;if(k==='da_contattare'||k==='inviata'){PN.f={...PN.f,mail:k==='da_contattare'?'da_inviare':'inviata',blocco:'*'};tab('invii');}else{const col=document.querySelector(`.pn-col[data-pcol="${k}"]`);if(col)col.scrollIntoView({behavior:'smooth',inline:'center',block:'nearest'});}return;}
+  const vs=e.target.closest('[data-vaisol]');if(vs){PN.pv2='coda';tab('mod');return;}
+  const ts=e.target.closest('[data-ts]');if(ts){const [id,k]=ts.dataset.ts.split('|');const T=PN.tb[id];if(T){if(T.k===k)T.d*=-1;else{T.k=k;T.d=1;}T.p=0;}(id==='pipe'?pnPipe:pnInvii)();return;}
+  const tp=e.target.closest('[data-tpg]');if(tp){const [id,d]=tp.dataset.tpg.split('|');PN.tb[id].p+= +d;(id==='pipe'?pnPipe:pnInvii)();return;}
+  const pv=e.target.closest('[data-pv]');if(pv){PN.vista=pv.dataset.pv;pnPipe();return;}
+  const pvs=e.target.closest('[data-pvs]');if(pvs){PN.f.v=pvs.dataset.pvs;(PN.tb.pipe||{}).p=0;pnPipe();return;}
+  const rd=e.target.closest('[data-rdim]');if(rd){PN.rdim=rd.dataset.rdim;pnRep();return;}
+  const bl=e.target.closest('[data-pbl]');if(bl){PN.f.blocco=PN.f.blocco===bl.dataset.pbl?'*':bl.dataset.pbl;pnInvii();return;}
+  const qr=e.target.closest('[data-pqr]');if(qr){pnDaRisposta(qr.dataset.pqr);return;}
+  const pc=e.target.closest('[data-pc]');if(pc&&!e.target.closest('a,button:not([data-pc]),input')){PN.log=null;const id=pc.dataset.pc;pnApri(isNaN(id)?id:+id);return;}
+  const ov=$('veOv');if(!ov.contains(e.target)&&!e.target.closest('[data-px]'))return;
+  if(e.target===ov){pnChiudi();return;}
+  const pf=e.target.closest('[data-pf]');if(pf){pnFase(PN.id,pf.dataset.pf);return;}
+  const pa=e.target.closest('[data-pa]');if(pa){PN.at=pa.dataset.pa;if(PN.log)PN.log.tipo=PN.at;document.querySelectorAll('[data-pa]').forEach(x=>x.classList.toggle('on',x===pa));return;}
+  const pr=e.target.closest('[data-pr]');if(pr){PN.ric=pr.dataset.pr;document.querySelectorAll('[data-pr]').forEach(x=>x.classList.toggle('on',x===pr));$('pnRicD').value=piuG(+PN.ric);return;}
+  const x=e.target.closest('[data-px]');if(!x)return;const k=x.dataset.px,c=pnC(PN.id);
+  if(k.startsWith('f:')){pnFase(PN.id,k.slice(2));return;}
+  if(k==='chiudi')pnChiudi();else if(k==='annulla')pnApri(PN.id);else if(k==='modifica')pnApri(PN.id,true);else if(k==='salva')pnSalvaForm();
+  else if(k==='nuovo'){PN.dup=0;pnApri(null,true);}
+  else if(k==='registra')pnRegistra();
+  else if(k==='chiamata'){PN.at='chiamata';PN.ric='3';pnApri(PN.id);const t=$('pnTxt');if(t){t.placeholder='Quando vi sentite? (es. giovedì alle 11 al telefono)';t.focus();t.scrollIntoView({block:'center'});}}
+  else if(k==='vaiprop'){const p=$('pnProp');if(p)p.scrollIntoView({behavior:'smooth',block:'start'});}
+  else if(k==='salvaprop')pnSalvaProp();else if(k==='copiaprop')pnTestoProp();
+  else if(k==='piuref'){const d=document.createElement('div');d.className='ve-pr';d.innerHTML='<input data-pp="nome" placeholder="Nome"><input data-pp="ruolo" placeholder="Ruolo"><input data-pp="tel" type="tel" placeholder="Telefono"><input data-pp="email" type="email" placeholder="Email">';$('pfP').appendChild(d);d.querySelector('input').focus();}
+  else if(k==='vediprj'&&c)vedi(c.progetto);
+  else if(k==='modprj'&&c){const p=load().find(y=>y.id===c.progetto);if(p){pnChiudi();tab('clienti');apri(p);}}
+  else if(k==='creaprj'&&c){pnChiudi();tab('clienti');apri(null);$('nome').value=c.nome;$('pid').value=slug(c.nome);(c.moduli||[]).forEach(id=>{if(BYID[id])conDipendenze(id,sel);});disegna();PN.daLegare=c.id;}
+  else if(k==='escludi'&&c){if(!x.dataset.ok){x.dataset.ok=1;x.textContent='Premi di nuovo: non comparirà più';return;}try{await pnSalva({...c,stato_mail:'escluso'},{tipo:'nota',testo:'Tolto dalla pipeline'});pnChiudi();pnTutto();toast('Tolto dalla pipeline (resta nel database)');}catch(er){toast('Non salvato: '+(er.message||er));}}
+  else if(k==='inviate'){const ids=[...PN.sel];x.disabled=true;let n=0;for(const id of ids){const y=pnC(id);if(!y||y.stato_mail!=='da_inviare'&&y.stato_mail!=='rimbalzata')continue;try{await pnSalva({...y,...patchFase(y,'inviata'),inviata_il:new Date().toISOString()},{tipo:'mail',testo:'Prima mail inviata'+(y.blocco?' (blocco '+y.blocco+')':'')});n++;}catch(er){toast('Interrotto: '+(er.message||er));break;}}
+    PN.sel.clear();toast(n?`${n} segnati come inviati`:'Nessuno da segnare: erano già inviati');pnTutto();}
+  else if(k==='promemoria'){const ids=[...PN.sel];x.disabled=true;let n=0;for(const id of ids){const y=pnC(id);if(!y||!daSollecitare(y))continue;try{await pnSalva({...y},{tipo:'mail',testo:'Promemoria inviato'});n++;}catch(er){toast('Interrotto: '+(er.message||er));break;}}
+    PN.sel.clear();toast(n?`Promemoria segnato per ${n}`:'Nessuno da segnare');pnTutto();}
+  else if(k==='chiamasel'){const ids=[...PN.sel];let n=0;for(const id of ids){const y=pnC(id);if(!y||FI[fase(y)]>=FI.contatto||daChiamare(y))continue;try{await pnSalva({...y,stato_lead:'da_contattare'},{tipo:'nota',testo:'Segnato ⚑ da chiamare'});n++;}catch(er){toast('Interrotto: '+(er.message||er));break;}}PN.sel.clear();toast(n?`${n} segnati da chiamare`:'Nessuno da segnare');pnTutto();}
+  else if(k==='chiama'&&c){const on=!daChiamare(c);try{await pnSalva({...c,stato_lead:on?'da_contattare':'nuovo'},{tipo:'nota',testo:on?'Segnato ⚑ da chiamare':'Tolto ⚑ da chiamare'});}catch(er){toast('Non salvato: '+(er.message||er));return;}toast(on?'Segnato da chiamare':'Tolto');pnTutto();pnApri(c.id);}
+  else if(k==='desel'){PN.sel.clear();pnInvii();}
+});
+document.addEventListener('change',async e=>{const t=e.target;
+  if(t.matches('[data-pchk]')){t.checked?PN.sel.add(t.dataset.pchk):PN.sel.delete(t.dataset.pchk);const b=document.querySelector('.pn-bulk');if(b){b.hidden=!PN.sel.size;b.querySelector('b').textContent=PN.sel.size+(PN.sel.size===1?' selezionato':' selezionati');}return;}
+  if(t.matches('[data-tall]')){document.querySelectorAll('[data-pchk]').forEach(i=>{i.checked=t.checked;t.checked?PN.sel.add(i.dataset.pchk):PN.sel.delete(i.dataset.pchk);});pnInvii();return;}
+  if(t.id==='pnAll'){document.querySelectorAll('[data-pchk]').forEach(i=>{i.checked=t.checked;t.checked?PN.sel.add(i.dataset.pchk):PN.sel.delete(i.dataset.pchk);});pnInvii();return;}
+  if(t.id==='pnBl'){PN.f.blocco=t.value;pnInvii();return;}if(t.id==='pnMa'){PN.f.mail=t.value;pnInvii();return;}if(t.id==='pnPa'){PN.f.paese=t.value;pnInvii();return;}
+  if(t.id==='pnPersi'){PN.persi=t.checked;pnPipe();return;}
+  if(t.matches('[data-pm]')){t.checked?PN.prop.add(t.dataset.pm):PN.prop.delete(t.dataset.pm);const y=$('veSh').scrollTop;pnApri(PN.id);$('veSh').scrollTop=y;return;}
+  if(t.id==='pnRicD'){PN.ric=null;document.querySelectorAll('[data-pr]').forEach(x=>x.classList.remove('on'));return;}
+  if(t.matches('[data-collp]')&&t.value){const c=pnC(t.value);if(!c)return;try{await pnSalva({...c,...patchFase(c,'cliente'),progetto:t.dataset.collp},{tipo:'nota',testo:'Collegato al progetto '+t.dataset.collp});toast('Collegato: '+c.nome);pnTutto();}catch(er){toast('Non collegato: '+(er.message||er));}return;}
+  if(t.id==='pnColl'&&t.value){const c=pnC(PN.id);try{await pnSalva({...c,progetto:t.value},{tipo:'nota',testo:'Collegato al progetto '+t.value});toast('Collegato al progetto');pnTutto();pnApri(c.id);}catch(er){toast('Non collegato: '+(er.message||er));}return;}
+  if(t.matches('[data-lv],[data-lp]'))pnLsEs();
+});
+document.addEventListener('input',e=>{const t=e.target;if(t.id==='pnQ'||t.id==='pnQ2'){PN.f.q=t.value;const p=t.selectionStart;(t.id==='pnQ'?pnInvii:pnPipe)();const n=$(t.id);if(n){n.focus();try{n.setSelectionRange(p,p);}catch(_){}}return;}
+  if(t.matches('[data-lp],#lsBase,#lsSc,#lsOr'))pnLsEs();});
+document.addEventListener('click',async e=>{if(e.target.id!=='pnLsSalva')return;const v=pnLsLeggi();if([v.base,v.sconto,v.oraria].some(x=>x<0)||v.sconto>90){toast('Controlla i valori');return;}
+  e.target.disabled=true;try{await pnCfgSalva(v);toast('Listino salvato');}catch(er){toast('Non salvato: '+(er.message||er));}e.target.disabled=false;pnProd();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('veOv').hidden){pnChiudi();return;}if(e.key==='Enter'&&e.target.matches('.pn-row,.pn-card'))e.target.click();});
+const PIC={tel:'<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>',
+  wa:'<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21l1.7-5A8.5 8.5 0 1 1 8 19.4L3 21z"/><path d="M9 10c0 3 2 5 5 5l1.2-1.2-2-1-1 .8c-.8-.3-1.5-1-1.8-1.8l.8-1-1-2L9 10z"/></svg>',
+  mail:'<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>'};
+
+/* ==========================================================================
+   Modelli email e sequenze
+   - Modelli in it/es/fr con campi automatici {{compagnia}} {{nome}} {{link}}.
+   - Sequenza "Primo contatto": prima mail → promemoria → ultimo tentativo;
+     si ferma da sola quando il contatto risponde, è perso o tolto.
+   - Coda di invio: chi va scritto oggi, con il testo già pronto.
+     Oggi l'invio è "apri nella posta + segna inviata"; l'invio automatico
+     si accende quando la casella è collegata (via finale di Matteo).
+   ========================================================================== */
+const LINGUE={it:'Italiano',es:'Español',fr:'Français'};
+const LINK={it:'https://tourneat.it',es:'https://tourneat.com/es/',fr:'https://tourneat.com/fr/'};
+const TIPIM={prima:'Prima mail',promemoria:'Promemoria',ultimo:'Ultimo tentativo',demo:'Invito alla demo',proposta:'Proposta',benvenuto:'Benvenuto',libero:'Altro'};
+const CAMPI=[['compagnia','Nome della compagnia'],['nome','Nome del referente (o della compagnia)'],['link','Link al questionario nella sua lingua']];
+const FIRMA={it:'Matteo Mongiorgi\nTourNeat · matteo@tourneat.it',es:'Matteo Mongiorgi\nTourNeat · matteo@tourneat.it',fr:'Matteo Mongiorgi\nTourNeat · matteo@tourneat.it'};
+function postaBase(){const m=(id,tipo,lingua,oggetto,corpo,bozza)=>({id,tipo,lingua,oggetto,corpo,bozza:!!bozza});return {
+  modelli:[
+  m('prima-it','prima','it','TourNeat, il gestionale per le tournée: un vostro parere (5 minuti)',`Buongiorno {{compagnia}},\n\nsono Matteo Mongiorgi, fondatore di TourNeat, un gestionale per le tournée teatrali (e non solo) che permette a Direzione, Tour Manager, cast artistico e cast tecnico di lavorare coordinati, con tutto sotto controllo.\n\nNasce dalla mia esperienza diretta di tour manager: l'ho costruito e messo alla prova sul campo, su tournée di centinaia di date in tutta Italia. Oggi vorrei renderlo disponibile in abbonamento a chiunque ne abbia bisogno.\n\nPer farlo su misura vi chiedo 5 minuti per un breve questionario: mi aiuta a capire come lavorate e di cosa avete davvero bisogno. A chi lo compila riserverò uno sconto sul primo periodo di utilizzo.\n{{link}}\n\nGrazie per l'attenzione,\n${FIRMA.it}\n\nSe preferite non ricevere altre mail, basta rispondere "no grazie".`),
+  m('prima-es','prima','es','TourNeat, el software de gestión de giras: vuestra opinión (5 minutos)',`Buenos días, {{compagnia}}:\n\nMe llamo Matteo Mongiorgi y soy el fundador de TourNeat, un software de gestión para giras teatrales (y no solo) que permite a la Dirección, al Tour Manager, al elenco artístico y al equipo técnico trabajar coordinados, con todo bajo control.\n\nNace de mi experiencia directa como tour manager: lo he construido y probado sobre el terreno, en giras de cientos de fechas por toda Italia. Ahora me gustaría ofrecerlo por suscripción a quien lo necesite.\n\nPara hacerlo a medida os pido 5 minutos para una breve encuesta: me ayuda a entender cómo trabajáis y qué necesitáis de verdad. A quien la complete le reservaré un descuento en el primer periodo de uso.\n{{link}}\n\nMuchas gracias por vuestra atención,\n${FIRMA.es}\n\nSi preferís no recibir más correos, basta con responder «no, gracias».`),
+  m('prima-fr','prima','fr','TourNeat, le logiciel de gestion de tournées : votre avis (5 minutes)',`Bonjour {{compagnia}},\n\nJe m'appelle Matteo Mongiorgi, fondateur de TourNeat, un logiciel de gestion pour les tournées théâtrales (et pas seulement) qui permet à la direction, au régisseur de tournée, à l'équipe artistique et à l'équipe technique de travailler de façon coordonnée, en gardant tout sous contrôle.\n\nIl est né de mon expérience directe de régisseur de tournée : je l'ai construit et éprouvé sur le terrain, sur des tournées de plusieurs centaines de dates dans toute l'Italie. Aujourd'hui, j'aimerais le proposer sous forme d'abonnement à toutes celles et ceux qui en ont besoin.\n\nPour l'adapter à vos besoins, je vous demande 5 minutes pour répondre à un court questionnaire : il m'aide à comprendre comment vous travaillez et ce dont vous avez vraiment besoin. Celles et ceux qui le remplissent bénéficieront d'une remise sur la première période d'utilisation.\n{{link}}\n\nMerci pour votre attention,\n${FIRMA.fr}\n\nSi vous préférez ne plus recevoir de messages, il suffit de répondre « non merci ».`),
+  m('prom-it','promemoria','it','Re: TourNeat, il gestionale per le tournée: un vostro parere (5 minuti)',`Buongiorno {{compagnia}},\n\nvi riscrivo in breve, nel caso la mia mail della scorsa settimana fosse finita sotto le altre.\n\nSto costruendo TourNeat, un gestionale per le tournée nato dalla mia esperienza di tour manager, e il vostro parere mi sarebbe davvero utile: bastano 5 minuti di questionario, e a chi lo compila riservo uno sconto sul primo periodo.\n{{link}}\n\nGrazie,\n${FIRMA.it}\n\nSe preferite non ricevere altre mail, basta rispondere "no grazie".`,1),
+  m('prom-es','promemoria','es','Re: TourNeat, el software de gestión de giras: vuestra opinión (5 minutos)',`Buenos días, {{compagnia}}:\n\nos vuelvo a escribir brevemente, por si mi correo de la semana pasada quedó entre los demás.\n\nEstoy construyendo TourNeat, un software de gestión de giras nacido de mi experiencia como tour manager, y vuestra opinión me sería muy útil: bastan 5 minutos de encuesta, y a quien la complete le reservo un descuento en el primer periodo.\n{{link}}\n\nGracias,\n${FIRMA.es}\n\nSi preferís no recibir más correos, basta con responder «no, gracias».`,1),
+  m('prom-fr','promemoria','fr','Re : TourNeat, le logiciel de gestion de tournées : votre avis (5 minutes)',`Bonjour {{compagnia}},\n\nje vous réécris brièvement, au cas où mon message de la semaine dernière serait passé inaperçu.\n\nJe développe TourNeat, un logiciel de gestion de tournées né de mon expérience de régisseur, et votre avis me serait très précieux : 5 minutes de questionnaire suffisent, et celles et ceux qui le remplissent bénéficient d'une remise sur la première période.\n{{link}}\n\nMerci,\n${FIRMA.fr}\n\nSi vous préférez ne plus recevoir de messages, il suffit de répondre « non merci ».`,1),
+  m('ult-it','ultimo','it','Ultima mail da parte mia · TourNeat',`Buongiorno {{compagnia}},\n\nquesta è l'ultima mail che vi mando, promesso.\n\nSe la gestione delle tournée vi porta via tempo (date, teatri, cast, logistica), TourNeat è pensato proprio per questo. Il questionario resta aperto qui, con lo sconto per chi lo compila:\n{{link}}\n\nE se preferite, rispondete a questa mail con un orario: vi chiamo io per 15 minuti.\n\nBuon lavoro,\n${FIRMA.it}`,1),
+  m('ult-es','ultimo','es','Último correo de mi parte · TourNeat',`Buenos días, {{compagnia}}:\n\neste es el último correo que os envío, prometido.\n\nSi la gestión de las giras os quita tiempo (fechas, teatros, elenco, logística), TourNeat está pensado justo para eso. La encuesta sigue abierta aquí, con el descuento para quien la complete:\n{{link}}\n\nY si lo preferís, responded a este correo con una hora: os llamo yo 15 minutos.\n\nUn saludo,\n${FIRMA.es}`,1),
+  m('ult-fr','ultimo','fr','Dernier message de ma part · TourNeat',`Bonjour {{compagnia}},\n\nc'est le dernier message que je vous envoie, promis.\n\nSi la gestion des tournées vous prend du temps (dates, théâtres, équipe, logistique), TourNeat est pensé exactement pour cela. Le questionnaire reste ouvert ici, avec la remise pour celles et ceux qui le remplissent :\n{{link}}\n\nEt si vous préférez, répondez à ce message avec un créneau : je vous appelle 15 minutes.\n\nBonne journée,\n${FIRMA.fr}`,1),
+  m('demo-it','demo','it','TourNeat: ci vediamo per una demo?',`Ciao {{nome}},\n\ngrazie per il tempo che mi avete dedicato. Vi propongo una demo di TourNeat di 30 minuti in videochiamata: vi mostro come funziona sulle vostre tournée, partendo da quello che mi avete raccontato.\n\nMi dite due o tre momenti comodi nei prossimi giorni?\n\nA presto,\n${FIRMA.it}`,1),
+  m('benv-it','benvenuto','it','Benvenuti in TourNeat',`Ciao {{nome}},\n\nbenvenuti in TourNeat! La vostra app è pronta: nei prossimi giorni vi accompagno nella configurazione, passo passo.\n\nPer qualsiasi cosa scrivetemi qui o chiamatemi: rispondo io.\n\nBuon lavoro,\n${FIRMA.it}`,1)],
+  sequenze:[{id:'primo',nome:'Primo contatto',attiva:true,passi:[{tipo:'prima',giorni:0},{tipo:'promemoria',giorni:7},{tipo:'ultimo',giorni:14}]}],
+  invio:'manuale'};}
+function posta(){if(!PN.posta||!PN.posta.modelli)PN.posta=postaBase();return PN.posta;}
+const lingua=c=>c.lingua||(/spagn|españ|spain/i.test(c.paese||'')?'es':/franc|france/i.test(c.paese||'')?'fr':'it');
+function modello(tipo,lg){const M=posta().modelli;return M.find(m=>m.tipo===tipo&&m.lingua===lg)||M.find(m=>m.tipo===tipo&&m.lingua==='it')||null;}
+function compila(t,c){const r=ref(c);const nome=(r.nome||'').split(' ')[0]||c.nome||'';return String(t||'').replace(/\{\{compagnia\}\}/g,c.nome||'').replace(/\{\{nome\}\}/g,nome).replace(/\{\{link\}\}/g,LINK[lingua(c)]);}
+/* a che punto della sequenza è un contatto */
+const PASSO_TESTO={2:'Promemoria inviato',3:'Ultimo tentativo inviato'};
+function passoFatto(c,n){if(n===1)return c.inviata_il||null;const s=(c.storico||[]).find(x=>x.tipo==='mail'&&(x.passo===n||x.testo===PASSO_TESTO[n]));return s?s.t:null;}
+function prossimoPasso(c,sq){sq=sq||posta().sequenze[0];if(!sq||!sq.attiva||escluso(c))return null;const f=fase(c);if(!['da_contattare','inviata'].includes(f))return null;
+  for(let i=0;i<sq.passi.length;i++){const n=i+1,fatto=passoFatto(c,n);if(fatto)continue;
+    if(n===1){if(!mail(c)||c.stato_mail==='rimbalzata')return null;return {n,p:sq.passi[i],dal:oggi()};}
+    const prev=passoFatto(c,n-1);if(!prev)return null;const dal=(d=>{const x=new Date(String(prev).slice(0,10)+'T12:00:00');x.setDate(x.getDate()+(sq.passi[i].giorni-sq.passi[i-1].giorni));return x.toISOString().slice(0,10);})();
+    return {n,p:sq.passi[i],dal};}
+  return null;}
+function coda(){return attivi().map(c=>({c,x:prossimoPasso(c)})).filter(o=>o.x&&o.x.dal<=oggi());}
+function mailto(c,m){return `mailto:${encodeURIComponent(mail(c))}?subject=${encodeURIComponent(compila(m.oggetto,c))}&body=${encodeURIComponent(compila(m.corpo,c))}`;}
+
+/* ---------- pagina ---------- */
+function pnPosta(){if(!PN.C)return;const P=posta(),v=PN.pv2||'coda';
+  let h=`<div class="pn-bar"><div class="ve-vista" role="group">${[['coda','Da mandare'],['seq','Sequenze'],['mod','Modelli']].map(([k,l])=>`<button data-pm2="${k}" class="${v===k?'on':''}">${l}${k==='coda'?` <span class="pn-cnt">${coda().length}</span>`:''}</button>`).join('')}</div></div>`;
+  if(v==='coda'){const Q=coda(),sq=P.sequenze[0];const g={};Q.forEach(o=>(g[o.x.n]=g[o.x.n]||[]).push(o));
+    h+=`<div class="pn-avviso"><b>Invio: manuale.</b> Ogni riga apre la mail già scritta nella tua posta; dopo averla mandata premi «Segnata». Per mandarle tutte da qui con un clic va collegata la casella Aruba: lo accendi tu quando vuoi (<a href="#" data-pm2="seq">vedi Sequenze</a>).</div>`;
+    if(!Q.length)h+=`<div class="card empty"><h2>Niente da mandare oggi</h2><p class="muted small" style="margin:0">I promemoria partono ${sq.passi[1]?sq.passi[1].giorni:7} giorni dopo la prima mail per chi non ha risposto; l’ultimo tentativo dopo ${sq.passi[2]?sq.passi[2].giorni:14}. Chi risponde esce da solo dalla sequenza.</p></div>`;
+    Object.keys(g).sort().forEach(n=>{const L=g[n],tp=sq.passi[n-1].tipo;h+=`<section class="card pn-box"><div class="pn-bh"><b>Passo ${n} · ${TIPIM[tp]}</b><span class="pn-bhb"><span class="muted small">${L.length} contatti</span><button class="btn ghost" data-pqall="${n}">Segna tutti come inviati</button></span></div>
+      ${L.sort((a,b)=>a.x.dal.localeCompare(b.x.dal)).slice(0,(PN.cexp||{})[n]?9999:8).map(({c,x})=>{const m=modello(tp,lingua(c));return `<div class="pn-row pn-qrow" data-pc="${esc(c.id)}"><span class="pn-rn"><b>${esc(c.nome)}</b><span class="muted small">${esc(mail(c))} · ${LINGUE[lingua(c)]}${x.dal<oggi()?' · dovuta '+quando(x.dal):''}${m&&m.bozza?' · <span class="pill y">testo in bozza</span>':''}</span></span><span class="pn-rs">${m?`<button class="btn ghost" data-pprev="${esc(c.id)}|${esc(m.id)}">Anteprima</button><a class="btn" href="${esc(mailto(c,m))}" data-pinv="${esc(c.id)}|${n}">Apri nella posta</a>`:'<span class="muted small">manca il modello</span>'}<button class="btn ghost" data-pseg="${esc(c.id)}|${n}">Segnata</button></span></div>`;}).join('')}${L.length>8&&!(PN.cexp||{})[n]?`<button class="btn ghost pn-alt" data-pcexp="${n}">Mostra gli altri ${L.length-8}</button>`:''}</section>`;});}
+  else if(v==='seq'){const sq=P.sequenze[0];const A=attivi();
+    const st=n=>{const fatti=A.filter(c=>passoFatto(c,n));const risp=fatti.filter(c=>['risposto','contatto','demo','proposta','cliente'].includes(fase(c))||(fase(c)==='perso'));return {n:fatti.length,r:risp.length};};
+    h+=`<section class="card pn-box"><div class="pn-bh"><div><b>${esc(sq.nome)}</b><div class="muted small">Si ferma da sola quando il contatto risponde, compila il questionario, è segnato perso o tolto dalla pipeline.</div></div><label class="pn-sw"><input type="checkbox" id="sqAtt"${sq.attiva?' checked':''}> <span>${sq.attiva?'Attiva':'In pausa'}</span></label></div>
+    <div class="pn-seq">${sq.passi.map((p,i)=>{const s=st(i+1);return `${i?`<div class="pn-sq-gap"><span>${p.giorni-sq.passi[i-1].giorni} giorni dopo</span></div>`:''}<div class="pn-sq"><span class="pn-pn">${i+1}</span><div><b>${TIPIM[p.tipo]}</b><span class="muted small">giorno <input class="pn-gg" data-sqg="${i}" inputmode="numeric" value="${p.giorni}"${i?'':' disabled'}> · modelli: ${Object.keys(LINGUE).map(l=>{const m=modello(p.tipo,l);return m&&m.lingua===l?l.toUpperCase():`<s title="manca: si usa l’italiano">${l.toUpperCase()}</s>`;}).join(' ')}</span></div><div class="pn-sq-n"><b>${s.n}</b><span class="muted small">inviate · ${s.r} risposte</span></div></div>`;}).join('')}</div>
+    <div class="ve-btns" style="margin-top:10px"><button class="btn" id="sqSalva">Salva la sequenza</button></div></section>
+    <section class="card pn-box"><div class="pn-bh"><b>Invio automatico</b><span class="pill">Spento</span></div><p class="small" style="margin:0 4px 6px">Oggi il pannello prepara le mail e tu le mandi dalla tua posta. Per mandarle da qui con un clic (e far partire i promemoria da soli ogni mattina) servono due cose, che decidi tu:</p>
+    <ol class="small" style="margin:0 4px 4px 22px;padding:0;display:flex;flex-direction:column;gap:4px"><li>la password della casella matteo@tourneat.it, inserita da te nelle impostazioni segrete di Supabase (io non la vedo);</li><li>il tuo via: da lì in poi la sequenza manda in automatico, al massimo 30 mail al giorno per non finire nello spam.</li></ol></section>`;}
+  else{const lg=PN.plg||'';const M=P.modelli.filter(m=>!lg||m.lingua===lg);
+    h+=`<div class="pn-bar" style="margin-top:-4px"><select id="pnPlg"><option value="">Tutte le lingue</option>${Object.entries(LINGUE).map(([k,l])=>`<option value="${k}"${lg===k?' selected':''}>${l}</option>`).join('')}</select><button class="btn" data-pmod="nuovo">+ Nuovo modello</button></div>
+    <section class="card pn-box">${Object.keys(TIPIM).map(t=>{const X=M.filter(m=>m.tipo===t);return X.length?`<div class="pn-st2">${TIPIM[t]}</div>${X.map(m=>`<div class="pn-row" data-pmod="${esc(m.id)}" tabindex="0"><span class="pn-rn"><b>${esc(m.oggetto)}</b><span class="muted small">${esc(String(m.corpo).replace(/\s+/g,' ').slice(0,120))}…</span></span><span class="pn-rs"><span class="pill">${m.lingua.toUpperCase()}</span>${m.bozza?'<span class="pill y">Bozza</span>':''}</span></div>`).join('')}`:'';}).join('')}</section>`;}
+  $('pnPo').innerHTML=h;}
+function pnModEdit(id){pnToastVia();const P=posta();const m=id==='nuovo'?{id:'m'+Date.now().toString(36),tipo:'libero',lingua:'it',oggetto:'',corpo:'',bozza:true}:P.modelli.find(x=>x.id===id);if(!m)return;PN.medit=m.id;
+  const es=attivi().find(c=>lingua(c)===m.lingua&&ref(c).nome)||attivi().find(c=>lingua(c)===m.lingua)||{nome:'Compagnia Esempio',paese:'Italia'};
+  $('veOv').hidden=false;document.body.classList.add('ve-aperto');
+  $('veSh').innerHTML=`<div class="ve-hd"><h2>${id==='nuovo'?'Nuovo modello':'Modello'}</h2><button class="ve-x" data-pmx="chiudi" aria-label="Chiudi">×</button></div>
+  <div class="ve-f"><div class="ve-g2"><label class="f">Tipo<select id="mTipo">${Object.entries(TIPIM).map(([k,l])=>`<option value="${k}"${m.tipo===k?' selected':''}>${l}</option>`).join('')}</select></label><label class="f">Lingua<select id="mLg">${Object.entries(LINGUE).map(([k,l])=>`<option value="${k}"${m.lingua===k?' selected':''}>${l}</option>`).join('')}</select></label></div>
+  <label class="f">Oggetto<input id="mOgg" value="${esc(m.oggetto)}"></label>
+  <label class="f">Testo<textarea id="mCorpo" rows="12">${esc(m.corpo)}</textarea></label>
+  <div class="pn-campi"><span class="muted small">Inserisci:</span>${CAMPI.map(([k,l])=>`<button type="button" class="btn ghost" data-pcampo="${k}" title="${l}">{{${k}}}</button>`).join('')}</div>
+  <label class="pn-chk2"><input type="checkbox" id="mBoz"${m.bozza?' checked':''}> Bozza (da rileggere prima di usarlo)</label>
+  <div class="ve-s"><div class="ve-st">Anteprima · ${esc(es.nome)}</div><div class="pn-prev" id="mPrev"></div></div>
+  <div class="err" id="mErr"></div><div class="ve-btns"><button class="btn" data-pmx="salva">Salva</button><button class="btn ghost" data-pmx="chiudi">Annulla</button></div></div>`;
+  const prev=()=>{$('mPrev').innerHTML=`<b>${esc(compila($('mOgg').value,es))}</b><pre>${esc(compila($('mCorpo').value,es))}</pre>`;};prev();PN.mprev=prev;}
+function pnAnteprima(cid,mid){pnToastVia();const c=pnC(cid),m=posta().modelli.find(x=>x.id===mid);if(!c||!m)return;$('veOv').hidden=false;document.body.classList.add('ve-aperto');
+  $('veSh').innerHTML=`<div class="ve-hd"><div><span class="eyebrow">${esc(TIPIM[m.tipo])} · ${LINGUE[m.lingua]}</span><h2>${esc(c.nome)}</h2></div><button class="ve-x" data-pmx="chiudi" aria-label="Chiudi">×</button></div>
+  <div class="pn-prev"><span class="muted small">A: ${esc(mail(c))}</span><b>${esc(compila(m.oggetto,c))}</b><pre>${esc(compila(m.corpo,c))}</pre></div>
+  <div class="ve-btns"><a class="btn" href="${esc(mailto(c,m))}" data-pinv="${esc(c.id)}|${posta().sequenze[0].passi.findIndex(p=>p.tipo===m.tipo)+1}" data-plib="${esc(c.id)}|${esc(m.id)}">Apri nella posta</a><button class="btn ghost" data-pmx="${PN.dopoAnt?'torna':'chiudi'}">${PN.dopoAnt?'Torna alla scheda':'Chiudi'}</button></div>`;}
+async function pnSegnaPasso(id,n,silenzio){const c=pnC(id);if(!c)return false;n=+n;if(passoFatto(c,n))return false;
+  const tp=(posta().sequenze[0].passi[n-1]||{}).tipo;const ev={tipo:'mail',passo:n,testo:n===1?'Prima mail inviata':PASSO_TESTO[n]||TIPIM[tp]+' inviato'};
+  const x=n===1?{...c,...patchFase(c,'inviata'),inviata_il:new Date().toISOString()}:{...c};
+  try{await pnSalva(x,ev);}catch(e){toast('Non salvato: '+(e.message||e));return false;}if(!silenzio){toast('Segnata: '+c.nome);pnPosta();pnBadge();if(!$('veOv').hidden&&PN.id!=null&&String(PN.id)===String(id)){pnTutto();pnApri(c.id);}}return true;}
+document.addEventListener('click',async e=>{
+  const ce=e.target.closest('[data-pcexp]');if(ce){PN.cexp=PN.cexp||{};PN.cexp[ce.dataset.pcexp]=1;pnPosta();return;}
+  const t2=e.target.closest('[data-pm2]');if(t2){e.preventDefault();PN.pv2=t2.dataset.pm2;pnPosta();return;}
+  const pv=e.target.closest('[data-pprev]');if(pv){const [c,m]=pv.dataset.pprev.split('|');pnAnteprima(isNaN(c)?c:+c,m);return;}
+  const lb=e.target.closest('[data-plib]');if(lb){const [cid,mid]=lb.dataset.plib.split('|');const c=pnC(isNaN(cid)?cid:+cid),m=posta().modelli.find(x=>x.id===mid);const n=posta().sequenze[0].passi.findIndex(p=>p.tipo===m.tipo)+1;
+    if(c&&m&&!(n>0&&prossimoPasso(c)&&prossimoPasso(c).n===n)){setTimeout(async()=>{try{await pnSalva({...c},{tipo:'email',testo:TIPIM[m.tipo]+': «'+compila(m.oggetto,c)+'»'});toast('Registrata nello storico');}catch(_){}},400);}}
+  const iv=e.target.closest('[data-pinv]');if(iv){const [c,n]=iv.dataset.pinv.split('|');const b=document.querySelector(`[data-pseg="${c}|${n}"]`);if(b){b.classList.remove('ghost');b.textContent='Mandata? Segna';}return;}
+  const sg=e.target.closest('[data-pseg]');if(sg){const [c,n]=sg.dataset.pseg.split('|');sg.disabled=true;await pnSegnaPasso(isNaN(c)?c:+c,n);return;}
+  const qa=e.target.closest('[data-pqall]');if(qa){const n=+qa.dataset.pqall;if(!qa.dataset.ok){qa.dataset.ok=1;qa.textContent='Sicuro? Le hai mandate tutte?';return;}qa.disabled=true;let k=0;for(const {c,x} of coda()){if(x.n!==n)continue;if(await pnSegnaPasso(c.id,n,true))k++;}toast(`${k} segnate come inviate`);pnPosta();pnBadge();return;}
+  const md=e.target.closest('[data-pmod]');if(md){pnModEdit(md.dataset.pmod);return;}
+  const cp=e.target.closest('[data-pcampo]');if(cp){const ta=$('mCorpo'),v='{{'+cp.dataset.pcampo+'}}',a=ta.selectionStart||ta.value.length;ta.value=ta.value.slice(0,a)+v+ta.value.slice(ta.selectionEnd||a);ta.focus();ta.selectionStart=ta.selectionEnd=a+v.length;PN.mprev&&PN.mprev();return;}
+
+  const mx=e.target.closest('[data-pmx]');if(mx){const k=mx.dataset.pmx;if(k==='chiudi'){PN.dopoAnt=null;pnChiudi();return;}if(k==='torna'){const id=PN.dopoAnt;PN.dopoAnt=null;pnApri(id);return;}
+    if(k==='salva'){const P=JSON.parse(JSON.stringify(posta()));const m={id:PN.medit,tipo:$('mTipo').value,lingua:$('mLg').value,oggetto:$('mOgg').value.trim(),corpo:$('mCorpo').value,bozza:$('mBoz').checked};
+      if(!m.oggetto||!m.corpo.trim()){$('mErr').textContent='Servono oggetto e testo.';return;}const i=P.modelli.findIndex(x=>x.id===m.id);if(i>=0)P.modelli[i]=m;else P.modelli.push(m);
+      try{await pnPostaSalva(P);toast('Modello salvato');pnChiudi();pnPosta();}catch(er){$('mErr').textContent='Non salvato: '+(er.message||er);}}return;}
+  if(e.target.id==='sqSalva'){const P=JSON.parse(JSON.stringify(posta()));const sq=P.sequenze[0];document.querySelectorAll('[data-sqg]').forEach(i=>{const n=parseInt(i.value,10);if(n>=0)sq.passi[+i.dataset.sqg].giorni=n;});
+    if(sq.passi.some((p,i)=>i&&p.giorni<=sq.passi[i-1].giorni)){toast('I giorni devono crescere da un passo all’altro');return;}sq.attiva=$('sqAtt').checked;
+    try{await pnPostaSalva(P);toast('Sequenza salvata');pnPosta();}catch(er){toast('Non salvata: '+(er.message||er));}return;}
+});
+document.addEventListener('input',e=>{if(e.target.id==='mOgg'||e.target.id==='mCorpo')PN.mprev&&PN.mprev();});
+document.addEventListener('change',e=>{if(e.target.id==='pnMod'&&e.target.value){const id=PN.id;PN.dopoAnt=id;pnAnteprima(id,e.target.value);return;}if(e.target.id==='pnPlg'){PN.plg=e.target.value;pnPosta();}if(e.target.id==='sqAtt'){const s=e.target.nextElementSibling;if(s)s.textContent=e.target.checked?'Attiva':'In pausa';}});
+
+const PROPOSTE=['abb','contr','assist','imp'];
+function tab(t){const sz=PROPOSTE.includes(t)?'prop':t;document.querySelectorAll('[data-tab]').forEach(b=>b.classList.toggle('on',b.dataset.tab===t));document.querySelectorAll('.sez').forEach(x=>x.hidden=x.dataset.sez!==sz);
+  if(typeof pnChiudi==='function'&&!$('veOv').hidden)pnChiudi();
+  if(t==='arch'&&!ARCH)archivio();
+  if(t==='pipe')pnPipe();else if(t==='invii')pnInvii();else if(t==='quest')pnQuest();else if(t==='prod')pnProd();else if(t==='clienti')lista();else if(t==='att')pnAtt();else if(t==='rep')pnRep();else if(t==='mod')pnPosta();else if(sz==='prop')pnProposta(t);
+  try{history.replaceState(null,'','#'+t);}catch(_){}
+  window.scrollTo({top:0});}
+$('tabs').addEventListener('click',e=>{const b=e.target.closest('[data-tab]');if(b)tab(b.dataset.tab);});
+document.addEventListener('click',e=>{const v=e.target.closest('[data-vai]');if(v)tab(v.dataset.vai);});
+$('richL').addEventListener('click',async e=>{const ok=e.target.closest('[data-ric]'),no=e.target.closest('[data-rno]');const b=ok||no;if(!b)return;
+  if(no&&!b.classList.contains('conf')){b.classList.add('conf');b.textContent='Conferma: rifiuta';setTimeout(()=>{if(b.isConnected){b.classList.remove('conf');b.textContent='Rifiuta';}},5000);return;}
+  const id=Number(ok?b.dataset.ric:b.dataset.rno);const pz=document.querySelector(`[data-pz="${id}"]`);const prezzo=pz&&pz.value.trim()?Number(pz.value.replace(',','.')):null;
+  if(ok&&pz&&pz.value.trim()&&!(prezzo>=0)){toast('Prezzo non valido');return;}
+  b.disabled=true;const {error}=await SB.rpc('richiesta_decidi',{rid:id,concedi:!!ok,pprezzo:prezzo});
+  if(error){b.disabled=false;toast('Non riuscito: '+(error.message||error));return;}
+  toast(ok?'Concesso: il teatro è nella loro app':'Rifiutato');richieste();riepilogo();});
+$('propL').addEventListener('click',async e=>{const ok=e.target.closest('[data-ok]'),no=e.target.closest('[data-no]');const b=ok||no;if(!b)return;
+  if(no&&!b.classList.contains('conf')){b.classList.add('conf');b.textContent='Conferma: rifiuta';setTimeout(()=>{if(b.isConnected){b.classList.remove('conf');b.textContent='Rifiuta';}},5000);return;}
+  b.disabled=true;const {data,error}=await SB.rpc('proposta_decidi',{pid:Number(ok?b.dataset.ok:b.dataset.no),approva:!!ok});
+  if(error){b.disabled=false;toast('Non riuscito: '+(error.message||error));return;}
+  toast(ok?'Approvato: è nell’archivio comune e arriva ai clienti':'Rifiutato');proposte();riepilogo();});
+/* copia delle piante delle proposte da approvare: l'indirizzo della fonte sta solo nella configurazione riservata agli amministratori; senza, il pulsante non compare */
+let FONTE_PIANTE='';
+async function fontePiante(){try{const {data}=await SB.from('tn_config').select('valore').eq('chiave','origine').maybeSingle();FONTE_PIANTE=(data&&data.valore&&data.valore.piante)||'';}catch(_){FONTE_PIANTE='';}
+  $('pcBtn').hidden=!FONTE_PIANTE;if(FONTE_PIANTE)$('pcTxt').textContent='Copia le piante delle proposte da approvare nello spazio file di TourNeat, poi alleggeriscile. Si possono rilanciare: saltano quelle già fatte.';}
+/* alleggerisce le piante: stesso nome file, contenuto in WebP (molto più leggero, stessa nitidezza) */
+async function webp(blob){const bmp=await createImageBitmap(blob);const k=Math.min(1,2400/Math.max(bmp.width,bmp.height));
+  const c=document.createElement('canvas');c.width=Math.round(bmp.width*k);c.height=Math.round(bmp.height*k);const g=c.getContext('2d');g.fillStyle='#fff';g.fillRect(0,0,c.width,c.height);g.drawImage(bmp,0,0,c.width,c.height);
+  return await new Promise(x=>c.toBlob(x,'image/webp',0.8));}
+$('alBtn').onclick=async()=>{const b=$('alBtn'),t=$('pcTxt');b.disabled=true;$('pcBtn').disabled=true;
+  try{const {data:ids,error}=await SB.rpc('archivio_immagini');if(error)throw error;
+    let fatte=0,gia=0,ko=0,prima=0,dopo=0;const tot=(ids||[]).length;
+    for(const id of ids||[]){t.textContent=`Alleggerisco le piante: ${fatte+gia+ko} di ${tot}…`;
+      try{const r=await fetch(SBU+'/storage/v1/object/public/pub/'+encodeURIComponent(id)+'?t='+Date.now(),{cache:'no-store'});if(!r.ok)throw new Error(r.status);const bl=await r.blob();
+        if(bl.type==='image/webp'||bl.size<250*1024){gia++;continue;}
+        const w=await webp(bl);if(!w||w.type!=='image/webp'||w.size>bl.size*0.8){gia++;continue;}
+        const {error:e2}=await SB.storage.from('pub').update(id,w,{contentType:'image/webp',upsert:true,cacheControl:'31536000'});if(e2)throw e2;
+        fatte++;prima+=bl.size;dopo+=w.size;}catch(e){ko++;console.warn('pianta',id,e);}}
+    const mb=x=>(x/1048576).toLocaleString('it-IT',{maximumFractionDigits:1})+' MB';
+    t.textContent=`Fatto: ${fatte} alleggerite (${mb(prima)} → ${mb(dopo)}), ${gia} già leggere${ko?`, ${ko} non riuscite (riprova)`:''} su ${tot}.`;
+  }catch(e){t.textContent='Non riuscito: '+(e.message||e);}
+  b.disabled=false;$('pcBtn').disabled=false;};
+$('pcBtn').onclick=async()=>{const b=$('pcBtn'),t=$('pcTxt');if(!FONTE_PIANTE)return;b.disabled=true;
+  try{const {data:ids,error}=await SB.rpc('origine_immagini');if(error)throw error;
+    let ok=0,gia=0,ko=0;const tot=(ids||[]).length;
+    for(const id of ids||[]){t.textContent=`Copia in corso: ${ok+gia+ko} di ${tot}…`;
+      try{const h=await fetch(SBU+'/storage/v1/object/public/pub/'+encodeURIComponent(id),{method:'HEAD'});if(h.ok){gia++;continue;}
+        const r=await fetch(FONTE_PIANTE+encodeURIComponent(id));if(!r.ok)throw new Error(r.status);const bl=await r.blob();
+        const {error:e2}=await SB.storage.from('pub').upload(id,bl,{contentType:bl.type||'image/png',upsert:false});
+        if(e2&&!/exists|duplicate/i.test(e2.message||''))throw e2;ok++;}catch(e){ko++;console.warn('pianta',id,e);}}
+    t.textContent=`Fatto: ${ok} copiate, ${gia} già presenti${ko?`, ${ko} non riuscite (riprova)`:''} su ${tot}.`;
+  }catch(e){t.textContent='Non riuscito: '+(e.message||e);}
+  b.disabled=false;};
+$('lf').addEventListener('submit',async e=>{e.preventDefault();const m=$('lm').value.trim().toLowerCase(),pw=$('lp').value;
+  if(!m||!pw){$('lerr').textContent='Scrivi email e password.';return;}
+  const {error}=await SB.auth.signInWithPassword({email:m,password:pw});
+  if(error){$('lerr').textContent='Email o password non corrette.';return;}
+  $('login').hidden=true;avvio();});
+$('esci').onclick=async()=>{await SB.auth.signOut();location.reload();};
+avvio().catch(e=>{$('lista').innerHTML='<div class="card empty" style="grid-column:1/-1"><h2>Collegamento non riuscito</h2><p class="muted small" style="margin:0">'+esc(e&&e.message||'Controlla la connessione e riprova.')+'</p></div>';});
+</script>
+</body>
+</html>
